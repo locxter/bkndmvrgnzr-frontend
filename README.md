@@ -23,6 +23,21 @@ work properly:
 
 First install the needed packages via `npm install`. Then build the program via `npm run build` and run it via `npm run preview`.
 
+## Sitemap
+
+- [ ] Login/signup page: /
+- [ ] Welcome page: /welcome ROLE_USER
+- [ ] Settings page: /settings ROLE_USER
+- [ ] Search page: /search ROLE_USER
+- [ ] Personal library page: /library ROLE_USER
+- [ ] View book page: /book ROLE_USER
+- [ ] View movie page: /movie ROLE_USER
+- [ ] Add book page: /add-book ROLE_EDITOR
+- [ ] Add movie page: /add-movie ROLE_EDITOR
+- [ ] Edit book page: /edit-book ROLE_EDITOR
+- [ ] Edit movie page: /edit-movie ROLE_EDITOR
+- [ ] Manage users page: /users ROLE_ADMIN
+
 ## Data providers
 
 - [ ] [TMDB](https://www.themoviedb.org/documentation/api)
