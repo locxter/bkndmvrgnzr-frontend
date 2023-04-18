@@ -3,15 +3,19 @@ import type { RoleResponseDto } from './role-response-dto';
 export class RoleController {
     readonly MAPPING = '/api/role';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllRoles(): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -24,7 +28,9 @@ export class RoleController {
     async getRole(roleId: String): Promise<RoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + roleId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -37,7 +43,9 @@ export class RoleController {
     async getAllRolesOfUser(): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user', {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -50,7 +58,9 @@ export class RoleController {
     async getAllRolesOfSpecificUser(userId: string): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -63,7 +73,9 @@ export class RoleController {
     async addRoleToSpecificUser(userId: string, roleId: string): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId + '/role/' + roleId, {
             method: 'POST',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -76,7 +88,9 @@ export class RoleController {
     async removeRoleFromSpecificUser(userId: string, roleId: string): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId + '/role/' + roleId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

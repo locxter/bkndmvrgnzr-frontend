@@ -5,15 +5,19 @@ import type { MovieContributorUpdateDto } from './movie-contributor-update-dto';
 export class MovieContributorController {
     readonly MAPPING = '/api/movie-contributor';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllMovieContributors(): Promise<MovieContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -28,8 +32,8 @@ export class MovieContributorController {
     ): Promise<MovieContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieContributorCreateDto),
@@ -45,7 +49,9 @@ export class MovieContributorController {
     async getMovieContributor(movieContributorId: String): Promise<MovieContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieContributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -61,8 +67,8 @@ export class MovieContributorController {
     ): Promise<MovieContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieContributorId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieContributorUpdateDto),
@@ -78,7 +84,9 @@ export class MovieContributorController {
     async deleteMovieContributor(movieContributorId: string): Promise<MovieContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieContributorId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -91,7 +99,9 @@ export class MovieContributorController {
     async getAllMovieContributorsOfContributor(contributorId: string): Promise<MovieContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -104,7 +114,9 @@ export class MovieContributorController {
     async getAllMovieContributorsOfMovieRole(movieRoleId: string): Promise<MovieContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/movie-role/' + movieRoleId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

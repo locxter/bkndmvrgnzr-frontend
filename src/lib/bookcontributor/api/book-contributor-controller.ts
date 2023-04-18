@@ -5,15 +5,19 @@ import type { BookContributorUpdateDto } from './book-contributor-update-dto';
 export class BookContributorController {
     readonly MAPPING = '/api/book-contributor';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllBookContributors(): Promise<BookContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -28,8 +32,8 @@ export class BookContributorController {
     ): Promise<BookContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(bookContributorCreateDto),
@@ -45,7 +49,9 @@ export class BookContributorController {
     async getBookContributor(bookContributorId: String): Promise<BookContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -61,8 +67,8 @@ export class BookContributorController {
     ): Promise<BookContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(bookContributorUpdateDto),
@@ -78,7 +84,9 @@ export class BookContributorController {
     async deleteBookContributor(bookContributorId: string): Promise<BookContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -91,7 +99,9 @@ export class BookContributorController {
     async getAllBookContributorsOfContributor(contributorId: string): Promise<BookContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -104,7 +114,9 @@ export class BookContributorController {
     async getAllBookContributorsOfBookRole(bookRoleId: string): Promise<BookContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/book-role/' + bookRoleId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

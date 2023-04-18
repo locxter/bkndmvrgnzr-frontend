@@ -5,15 +5,19 @@ import type { MovieUpdateDto } from './movie-update-dto';
 export class MovieController {
     readonly MAPPING = '/api/movie';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllMovies(): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,8 +30,8 @@ export class MovieController {
     async createMovie(movieCreateDto: MovieCreateDto): Promise<MovieResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieCreateDto),
@@ -43,7 +47,9 @@ export class MovieController {
     async getMovie(isan: String): Promise<MovieResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + isan, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -56,8 +62,8 @@ export class MovieController {
     async updateMovie(isan: String, movieUpdateDto: MovieUpdateDto): Promise<MovieResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + isan, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieUpdateDto),
@@ -73,7 +79,9 @@ export class MovieController {
     async deleteMovie(isan: string): Promise<MovieResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + isan, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -86,7 +94,9 @@ export class MovieController {
     async getAllMoviesOfGenre(genreId: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/genre/' + genreId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -99,7 +109,9 @@ export class MovieController {
     async getAllMoviesOfMovieContributor(movieContributorId: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/movie-contributor/' + movieContributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -112,7 +124,9 @@ export class MovieController {
     async getAllMoviesOfContributor(contributorId: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -125,7 +139,9 @@ export class MovieController {
     async getAllMoviesOfSearchQuery(query: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -138,7 +154,9 @@ export class MovieController {
     async getAllMoviesOfUser(): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user', {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -151,7 +169,9 @@ export class MovieController {
     async addMovieToUser(isan: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + isan, {
             method: 'POST',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -164,7 +184,9 @@ export class MovieController {
     async removeMovieFromUser(isan: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + isan, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -177,7 +199,9 @@ export class MovieController {
     async getAllMoviesOfGenreFromUser(genreId: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/genre/' + genreId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -192,7 +216,9 @@ export class MovieController {
             this.serverAddress + this.MAPPING + '/user/movie-contributor/' + movieContributorId,
             {
                 method: 'GET',
-                credentials: 'include',
+                headers: {
+                    Authorization: 'Bearer ' + this.jwt,
+                },
             }
         );
         let responseText = await response.text();
@@ -206,7 +232,9 @@ export class MovieController {
     async getAllMoviesOfContributorFromUser(contributorId: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/contributor/' + contributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -219,7 +247,9 @@ export class MovieController {
     async getAllMoviesOfSearchQueryFromUser(query: string): Promise<MovieResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user/search/' + query, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

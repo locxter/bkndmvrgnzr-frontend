@@ -1,6 +1,6 @@
-import type { BookContributorResponseBriefDto } from '$lib/bookcontributor/api/BookContributorResponseBriefDto';
-import type { GenreResponseBriefDto } from '$lib/genre/api/GenreResponseBriefDto';
-import { PublishingHouseResponseBriefDto } from '$lib/publishinghouse/api/PublishingHouseResponseBriefDto';
+import type { BookContributorResponseBriefDto } from '$lib/bookcontributor/api/book-contributor-response-brief-dto';
+import type { GenreResponseBriefDto } from '$lib/genre/api/genre-response-brief-dto';
+import { PublishingHouseResponseBriefDto } from '$lib/publishinghouse/api/publishing-house-response-brief-dto';
 
 export class BookResponseDto {
     isbn: string = '';

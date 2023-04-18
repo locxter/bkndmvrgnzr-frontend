@@ -1,5 +1,5 @@
-import { ContributorResponseBriefDto } from '$lib/contributor/api/ContributorResponseBriefDto';
-import { MovieRoleResponseBriefDto } from '$lib/movierole/api/MovieRoleResponseBriefDto';
+import { ContributorResponseBriefDto } from '$lib/contributor/api/contributor-response-brief-dto';
+import { MovieRoleResponseBriefDto } from '$lib/movierole/api/movie-role-response-brief-dto';
 
 export class MovieContributorResponseBriefDto {
     id: string = '';

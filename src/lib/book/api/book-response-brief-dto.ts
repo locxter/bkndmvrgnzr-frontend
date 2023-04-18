@@ -1,4 +1,4 @@
-import { PublishingHouseResponseBriefDto } from '$lib/publishinghouse/api/PublishingHouseResponseBriefDto';
+import { PublishingHouseResponseBriefDto } from '$lib/publishinghouse/api/publishing-house-response-brief-dto';
 
 export class BookResponseBriefDto {
     isbn: string = '';

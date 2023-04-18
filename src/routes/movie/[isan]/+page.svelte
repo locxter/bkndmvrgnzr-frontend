@@ -1,11 +1,14 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import { page } from '$app/stores';
 
-    import type { PageData } from './$types';
+    let isan: string;
 
-    export let data: PageData;
+    page.subscribe((data) => {
+        isan = data.params.isan;
+    });
 </script>
 
 <Header>
@@ -13,11 +16,10 @@
 </Header>
 <main>
     <h2>Title</h2>
-    <h3>Subtitle</h3>
     <p>
-        ISBN:
+        ISAN:
         <br />
-        Some ISBN
+        {isan}
     </p>
     <p>
         Description:
@@ -30,9 +32,14 @@
         Some year
     </p>
     <p>
-        Pages:
+        Play time:
         <br />
-        Some page count
+        Some play time
+    </p>
+    <p>
+        Age restriction:
+        <br />
+        Some age restriction
     </p>
     <p>Contributors</p>
     <ul>

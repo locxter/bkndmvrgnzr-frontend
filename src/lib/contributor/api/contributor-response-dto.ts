@@ -1,5 +1,5 @@
-import type { BookContributorResponseBriefDto } from '$lib/bookcontributor/api/BookContributorResponseBriefDto';
-import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/MovieContributorResponseBriefDto';
+import type { BookContributorResponseBriefDto } from '$lib/bookcontributor/api/book-contributor-response-brief-dto';
+import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/movie-contributor-response-brief-dto';
 
 export class ContributorResponseDto {
     id: string = '';

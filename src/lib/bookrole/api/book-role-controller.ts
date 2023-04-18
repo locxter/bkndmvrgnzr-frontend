@@ -5,15 +5,19 @@ import type { BookRoleUpdateDto } from './book-role-update-dto';
 export class BookRoleController {
     readonly MAPPING = '/api/book-role';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllBookRoles(): Promise<BookRoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,8 +30,8 @@ export class BookRoleController {
     async createBookRole(bookRoleCreateDto: BookRoleCreateDto): Promise<BookRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(bookRoleCreateDto),
@@ -43,7 +47,9 @@ export class BookRoleController {
     async getBookRole(bookRoleId: String): Promise<BookRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookRoleId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -56,8 +62,8 @@ export class BookRoleController {
     async updateBookRole(bookRoleId: String, bookRoleUpdateDto: BookRoleUpdateDto): Promise<BookRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookRoleId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(bookRoleUpdateDto),
@@ -73,7 +79,9 @@ export class BookRoleController {
     async deleteBookRole(bookRoleId: string): Promise<BookRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookRoleId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

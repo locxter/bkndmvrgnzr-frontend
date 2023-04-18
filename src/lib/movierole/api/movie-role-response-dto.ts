@@ -1,4 +1,4 @@
-import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/MovieContributorResponseBriefDto';
+import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/movie-contributor-response-brief-dto';
 
 export class MovieRoleResponseDto {
     id: string = '';

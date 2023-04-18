@@ -5,15 +5,19 @@ import type { PublishingHouseUpdateDto } from './publishing-house-update-dto';
 export class PublishingHouseController {
     readonly MAPPING = '/api/publishing-house';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllPublishingHouses(): Promise<PublishingHouseResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -28,8 +32,8 @@ export class PublishingHouseController {
     ): Promise<PublishingHouseResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(publishingHouseCreateDto),
@@ -45,7 +49,9 @@ export class PublishingHouseController {
     async getPublishingHouse(publishingHouseId: String): Promise<PublishingHouseResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -61,8 +67,8 @@ export class PublishingHouseController {
     ): Promise<PublishingHouseResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(publishingHouseUpdateDto),
@@ -78,7 +84,9 @@ export class PublishingHouseController {
     async deletePublishingHouse(publishingHouseId: string): Promise<PublishingHouseResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

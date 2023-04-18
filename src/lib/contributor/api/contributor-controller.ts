@@ -5,15 +5,19 @@ import type { ContributorUpdateDto } from './contributor-update-dto';
 export class ContributorController {
     readonly MAPPING = '/api/contributor';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllContributors(): Promise<ContributorResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,8 +30,8 @@ export class ContributorController {
     async createContributor(contributorCreateDto: ContributorCreateDto): Promise<ContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(contributorCreateDto),
@@ -43,7 +47,9 @@ export class ContributorController {
     async getContributor(contributorId: String): Promise<ContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -59,8 +65,8 @@ export class ContributorController {
     ): Promise<ContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(contributorUpdateDto),
@@ -76,7 +82,9 @@ export class ContributorController {
     async deleteContributor(contributorId: string): Promise<ContributorResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

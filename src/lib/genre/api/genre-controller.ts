@@ -5,15 +5,19 @@ import type { GenreUpdateDto } from './genre-update-dto';
 export class GenreController {
     readonly MAPPING = '/api/genre';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllGenres(): Promise<GenreResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,8 +30,8 @@ export class GenreController {
     async createGenre(genreCreateDto: GenreCreateDto): Promise<GenreResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(genreCreateDto),
@@ -43,7 +47,9 @@ export class GenreController {
     async getGenre(genreId: String): Promise<GenreResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + genreId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -56,8 +62,8 @@ export class GenreController {
     async updateGenre(genreId: String, genreUpdateDto: GenreUpdateDto): Promise<GenreResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + genreId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(genreUpdateDto),
@@ -73,7 +79,9 @@ export class GenreController {
     async deleteGenre(genreId: string): Promise<GenreResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + genreId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

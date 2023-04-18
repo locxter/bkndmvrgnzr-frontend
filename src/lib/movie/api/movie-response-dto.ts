@@ -1,5 +1,5 @@
-import type { GenreResponseBriefDto } from '$lib/genre/api/GenreResponseBriefDto';
-import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/MovieContributorResponseBriefDto';
+import type { GenreResponseBriefDto } from '$lib/genre/api/genre-response-brief-dto';
+import type { MovieContributorResponseBriefDto } from '$lib/moviecontributor/api/movie-contributor-response-brief-dto';
 
 export class MovieResponseDto {
     isan: string = '';

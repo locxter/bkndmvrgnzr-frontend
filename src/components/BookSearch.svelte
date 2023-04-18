@@ -1,7 +1,4 @@
-<p>
-    <input id="query" type="text" placeholder="Query" />
-</p>
-
+<p><input id="query" type="text" placeholder="Query" /></p>
 <details>
     <summary>Detailed search</summary>
     <p>
@@ -25,5 +22,4 @@
         <input id="isbn" type="text" placeholder="Description" />
     </p>
 </details>
-
 <p><button>Search</button></p>

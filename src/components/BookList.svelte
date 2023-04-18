@@ -1,17 +1,14 @@
+<script lang="ts">
+    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import BookViewBrief from './BookViewBrief.svelte';
+
+    export let books: BookResponseDto[] = [];
+</script>
+
 <ul>
-    <li>
-        <a href="">Title - Subtitle (Year)</a>
-    </li>
-    <li>
-        <a href="">Title - Subtitle (Year)</a>
-    </li>
-    <li>
-        <a href="">Title - Subtitle (Year)</a>
-    </li>
-    <li>
-        <a href="">Title - Subtitle (Year)</a>
-    </li>
-    <li>
-        <a href="">Title - Subtitle (Year)</a>
-    </li>
+    {#each books as book}
+        <li><BookViewBrief {book} /></li>
+    {:else}
+        <li>No books...</li>
+    {/each}
 </ul>

@@ -5,15 +5,19 @@ import type { MovieRoleUpdateDto } from './movie-role-update-dto';
 export class MovieRoleController {
     readonly MAPPING = '/api/movie-role';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getAllMovieRoles(): Promise<MovieRoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,8 +30,8 @@ export class MovieRoleController {
     async createMovieRole(movieRoleCreateDto: MovieRoleCreateDto): Promise<MovieRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieRoleCreateDto),
@@ -43,7 +47,9 @@ export class MovieRoleController {
     async getMovieRole(movieRoleId: String): Promise<MovieRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -56,8 +62,8 @@ export class MovieRoleController {
     async updateMovieRole(movieRoleId: String, movieRoleUpdateDto: MovieRoleUpdateDto): Promise<MovieRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(movieRoleUpdateDto),
@@ -73,7 +79,9 @@ export class MovieRoleController {
     async deleteMovieRole(movieRoleId: string): Promise<MovieRoleResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

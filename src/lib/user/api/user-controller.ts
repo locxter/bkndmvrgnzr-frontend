@@ -5,15 +5,19 @@ import type { UserUpdateDto } from './user-update-dto';
 export class UserController {
     readonly MAPPING = '/api/user';
     serverAddress: string;
+    jwt: string;
 
-    constructor(serverAddress = '') {
+    constructor(serverAddress = '', jwt = '') {
         this.serverAddress = serverAddress;
+        this.jwt = jwt;
     }
 
     async getUser(): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -26,7 +30,9 @@ export class UserController {
     async getAllUsers(): Promise<UserResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/all', {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -39,7 +45,9 @@ export class UserController {
     async getSpecificUser(userId: string): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -52,10 +60,7 @@ export class UserController {
     async createUser(userCreateDto: UserCreateDto): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userCreateDto),
         });
         let responseText = await response.text();
@@ -69,8 +74,8 @@ export class UserController {
     async updateUser(userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userUpdateDto),
@@ -86,8 +91,8 @@ export class UserController {
     async updateSpecificUser(userId: string, userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
             method: 'PUT',
-            credentials: 'include',
             headers: {
+                Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userUpdateDto),
@@ -103,7 +108,9 @@ export class UserController {
     async deleteUser(): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {
@@ -116,7 +123,9 @@ export class UserController {
     async deleteSpecificUser(userId: string): Promise<UserResponseDto> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
             method: 'DELETE',
-            credentials: 'include',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
         });
         let responseText = await response.text();
         if (response.ok) {

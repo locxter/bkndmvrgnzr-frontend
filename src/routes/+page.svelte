@@ -5,33 +5,30 @@
     import { AuthController } from '$lib/auth/api/auth-controller';
     import { AuthLoginDto } from '$lib/auth/api/auth-login-dto';
     import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { UserController } from '$lib/user/api/user-controller';
     import { UserCreateDto } from '$lib/user/api/user-create-dto';
+    import { UserController } from '$lib/user/api/user-controller';
 
-    let username = 'user';
-    let password = 'password';
-    let serverAddress = 'http://localhost:8080';
-    let authController = new AuthController(serverAddress);
-    let userController = new UserController(serverAddress);
+    let username: string;
+    let password: string;
+    let serverAddress: string;
+    let authController: AuthController;
+    let userController: UserController;
+
+    // Subscribe to global stores
+    globalServerAddress.subscribe((data) => {
+        serverAddress = data;
+        authController = new AuthController(serverAddress);
+        userController = new UserController(serverAddress);
+    });
 
     function login() {
         let authLoginDto = new AuthLoginDto(username, password);
         authController
             .login(authLoginDto)
-            .then((jwt) => {
-                globalJwt.set(jwt);
+            .then((data) => {
+                globalJwt.set(data);
                 globalServerAddress.set(serverAddress);
-
-                userController
-                    .getUser()
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-                //goto("/welcome");
+                goto('/welcome');
             })
             .catch((error) => {
                 console.error(error);
@@ -39,30 +36,12 @@
             });
     }
 
-    function logout() {
-        authController
-            .logout()
-            .then(() => {
-                userController
-                    .getUser()
-                    .then((data) => {
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
     function signup() {
         let userCreateDto = new UserCreateDto(username, password);
         userController
             .createUser(userCreateDto)
-            .then((userResponseDto) => {
-                console.log(userResponseDto);
+            .then((data) => {
+                console.log(data);
                 login();
             })
             .catch((error) => {
@@ -73,7 +52,6 @@
 
 <svelte:head>
     <title>Home</title>
-    <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <Header />
@@ -96,7 +74,6 @@
     </p>
     <p>
         <button on:click={login}>Login</button>
-        <button on:click={logout}>Logout</button>
     </p>
     <p>New to bkndmvrgnzr? Create an account first:</p>
     <p>

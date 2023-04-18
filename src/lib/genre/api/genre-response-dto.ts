@@ -1,5 +1,5 @@
-import type { BookResponseBriefDto } from '$lib/book/api/BookResponseBriefDto';
-import type { MovieResponseBriefDto } from '$lib/movie/api/MovieResponseBriefDto';
+import type { BookResponseBriefDto } from '$lib/book/api/book-response-brief-dto';
+import type { MovieResponseBriefDto } from '$lib/movie/api/movie-response-brief-dto';
 
 export class GenreResponseDto {
     id: string = '';
