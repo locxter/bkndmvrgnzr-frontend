@@ -8,4 +8,8 @@
     });
 </script>
 
+<svelte:head>
+    <title>Edit movie | bkndmvrgnzr</title>
+</svelte:head>
+
 <p>TODO</p>

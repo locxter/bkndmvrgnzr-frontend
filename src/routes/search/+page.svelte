@@ -11,6 +11,10 @@
     export let data: PageData;
 </script>
 
+<svelte:head>
+    <title>Search | bkndmvrgnzr</title>
+</svelte:head>
+
 <Header>
     <Navigation />
 </Header>

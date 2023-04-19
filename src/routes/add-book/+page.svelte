@@ -4,6 +4,10 @@
     import Navigation from '../../components/Navigation.svelte';
 </script>
 
+<svelte:head>
+    <title>Add book | bkndmvrgnzr</title>
+</svelte:head>
+
 <Header>
     <Navigation />
 </Header>

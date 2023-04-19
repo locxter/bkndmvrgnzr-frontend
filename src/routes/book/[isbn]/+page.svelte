@@ -11,6 +11,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Book | bkndmvrgnzr</title>
+</svelte:head>
+
 <Header>
     <Navigation />
 </Header>

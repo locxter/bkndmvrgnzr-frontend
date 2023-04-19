@@ -7,6 +7,10 @@
     export let data: PageData;
 </script>
 
+<svelte:head>
+    <title>Settings | bkndmvrgnzr</title>
+</svelte:head>
+
 <Header>
     <Navigation />
 </Header>

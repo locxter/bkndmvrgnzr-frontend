@@ -12,6 +12,10 @@
     export let data: PageData;
 </script>
 
+<svelte:head>
+    <title>Library | bkndmvrgnzr</title>
+</svelte:head>
+
 <Header>
     <Navigation />
 </Header>

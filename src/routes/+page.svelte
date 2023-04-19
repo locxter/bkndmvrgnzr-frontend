@@ -51,7 +51,7 @@
 </script>
 
 <svelte:head>
-    <title>Home</title>
+    <title>Login / Signup | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header />

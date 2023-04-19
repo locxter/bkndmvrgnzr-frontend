@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-    <title>Welcome</title>
+    <title>Welcome | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
