@@ -10,26 +10,41 @@
     import { MovieController } from '$lib/movie/api/movie-controller';
     import { onMount } from 'svelte';
     import { globalJwt, globalServerAddress } from '$lib/stores';
+    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
+    import { UserController } from '$lib/user/api/user-controller';
 
     let serverAddress: string;
     let jwt: string;
+    let userController: UserController;
     let bookController: BookController;
     let movieController: MovieController;
+    let user: UserResponseDto;
     let books: BookResponseDto[] = [];
     let movies: MovieResponseDto[] = [];
+
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
+        userController = new UserController(serverAddress, jwt);
         bookController = new BookController(serverAddress, jwt);
         movieController = new MovieController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
         jwt = data;
+        userController = new UserController(serverAddress, jwt);
         bookController = new BookController(serverAddress, jwt);
         movieController = new MovieController(serverAddress, jwt);
     });
 
     onMount(() => {
+        userController
+            .getUser()
+            .then((data) => {
+                user = data;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         bookController
             .getAllBooks()
             .then((data) => {
@@ -57,12 +72,23 @@
     <Navigation />
 </Header>
 <main>
-    <h2>Welcome nobody</h2>
+    <h2>
+        Welcome
+        {#if user}
+            {#if user.firstName && user.lastName}
+                {user.lastName}, {user.firstName}
+            {:else}
+                {user.username}
+            {/if}
+        {:else}
+            nobody
+        {/if}
+    </h2>
     <h3>Books</h3>
     <BookList {books} />
-    <a href="">View more</a>
+    <a href="/book-library">View more</a>
     <h3>Movies</h3>
     <MovieList {movies} />
-    <a href="">View more</a>
+    <a href="/movie-library">View more</a>
 </main>
 <Footer />

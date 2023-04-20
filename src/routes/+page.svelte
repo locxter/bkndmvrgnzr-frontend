@@ -8,8 +8,8 @@
     import { UserCreateDto } from '$lib/user/api/user-create-dto';
     import { UserController } from '$lib/user/api/user-controller';
 
-    let username: string;
-    let password: string;
+    let username: string = 'admin';
+    let password: string = 'password';
     let serverAddress: string;
     let authController: AuthController;
     let userController: UserController;
@@ -22,31 +22,35 @@
     });
 
     function login() {
-        let authLoginDto = new AuthLoginDto(username, password);
-        authController
-            .login(authLoginDto)
-            .then((data) => {
-                globalJwt.set(data);
-                globalServerAddress.set(serverAddress);
-                goto('/welcome');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+        if (username && password) {
+            let authLoginDto = new AuthLoginDto(username, password);
+            authController
+                .login(authLoginDto)
+                .then((data) => {
+                    globalJwt.set(data);
+                    globalServerAddress.set(serverAddress);
+                    goto('/welcome');
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert(error);
+                });
+        }
     }
 
     function signup() {
-        let userCreateDto = new UserCreateDto(username, password);
-        userController
-            .createUser(userCreateDto)
-            .then((data) => {
-                console.log(data);
-                login();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (username && password) {
+            let userCreateDto = new UserCreateDto(username, password);
+            userController
+                .createUser(userCreateDto)
+                .then((data) => {
+                    console.log(data);
+                    login();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     }
 </script>
 

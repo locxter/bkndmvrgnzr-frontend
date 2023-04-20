@@ -3,11 +3,41 @@
     import Navigation from '../../../components/Navigation.svelte';
     import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
+    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import { BookController } from '$lib/book/api/book-controller';
+    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import BookView from '../../../components/BookView.svelte';
 
     let isbn: string;
+    let serverAddress: string;
+    let jwt: string;
+    let bookController: BookController;
+    let book: BookResponseDto;
 
     page.subscribe((data) => {
         isbn = data.params.isbn;
+    });
+
+    // Subscribe to global stores
+    globalServerAddress.subscribe((data) => {
+        serverAddress = data;
+        bookController = new BookController(serverAddress, jwt);
+    });
+    globalJwt.subscribe((data) => {
+        jwt = data;
+        bookController = new BookController(serverAddress, jwt);
+    });
+
+    onMount(() => {
+        bookController
+            .getBook(isbn)
+            .then((data) => {
+                book = data;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     });
 </script>
 
@@ -19,55 +49,13 @@
     <Navigation />
 </Header>
 <main>
-    <h2>Title</h2>
-    <h3>Subtitle</h3>
-    <p>
-        ISBN:
-        <br />
-        {isbn}
-    </p>
-    <p>
-        Description:
-        <br />
-        Some description
-    </p>
-    <p>
-        Year:
-        <br />
-        Some year
-    </p>
-    <p>
-        Pages:
-        <br />
-        Some page count
-    </p>
-    <p>Contributors</p>
-    <ul>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-    </ul>
+    {#if book}
+        <BookView {book} />
+        <p>
+            <a href="/edit-book/{book.isbn}">Edit book</a>
+        </p>
+    {:else}
+        <h2>Book not found</h2>
+    {/if}
 </main>
 <Footer />

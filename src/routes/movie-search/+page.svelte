@@ -6,7 +6,7 @@
     import BookList from '../../components/BookList.svelte';
     import MovieSearch from '../../components/MovieSearch.svelte';
     import MovieList from '../../components/MovieList.svelte';
-    import type { PageData } from './$types';
+    import type { PageData } from '../search/$types';
 
     export let data: PageData;
 </script>

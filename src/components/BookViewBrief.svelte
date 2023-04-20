@@ -4,4 +4,12 @@
     export let book: BookResponseDto = new BookResponseDto();
 </script>
 
-<a href="/book/{book.isbn}">{book.title} - {book.subtitle} ({book.year})</a>
+<a href="/book/{book.isbn}">
+    {book.title}
+    {#if book.subtitle}
+        - {book.subtitle}
+    {/if}
+    {#if book.year}
+        ({book.year})
+    {/if}
+</a>

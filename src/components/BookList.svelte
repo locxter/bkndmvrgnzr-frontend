@@ -9,6 +9,6 @@
     {#each books as book}
         <li><BookViewBrief {book} /></li>
     {:else}
-        <li>No books...</li>
+        <li>No books</li>
     {/each}
 </ul>

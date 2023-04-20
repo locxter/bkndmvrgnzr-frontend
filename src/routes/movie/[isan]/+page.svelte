@@ -3,11 +3,41 @@
     import Navigation from '../../../components/Navigation.svelte';
     import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
+    import { MovieController } from '$lib/movie/api/movie-controller';
+    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import { onMount } from 'svelte/types/runtime/internal/lifecycle';
+    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import MovieView from '../../../components/MovieView.svelte';
 
     let isan: string;
+    let serverAddress: string;
+    let jwt: string;
+    let movieController: MovieController;
+    let movie: MovieResponseDto;
 
     page.subscribe((data) => {
         isan = data.params.isan;
+    });
+
+    // Subscribe to global stores
+    globalServerAddress.subscribe((data) => {
+        serverAddress = data;
+        movieController = new MovieController(serverAddress, jwt);
+    });
+    globalJwt.subscribe((data) => {
+        jwt = data;
+        movieController = new MovieController(serverAddress, jwt);
+    });
+
+    onMount(() => {
+        movieController
+            .getMovie(isan)
+            .then((data) => {
+                movie = data;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     });
 </script>
 
@@ -19,59 +49,13 @@
     <Navigation />
 </Header>
 <main>
-    <h2>Title</h2>
-    <p>
-        ISAN:
-        <br />
-        {isan}
-    </p>
-    <p>
-        Description:
-        <br />
-        Some description
-    </p>
-    <p>
-        Year:
-        <br />
-        Some year
-    </p>
-    <p>
-        Play time:
-        <br />
-        Some play time
-    </p>
-    <p>
-        Age restriction:
-        <br />
-        Some age restriction
-    </p>
-    <p>Contributors</p>
-    <ul>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-        <li>
-            <a href="">Role</a>
-            :
-            <a href="">Last name, first name</a>
-        </li>
-    </ul>
+    {#if movie}
+        <MovieView {movie} />
+        <p>
+            <a href="/edit-movie/{movie.isan}">Edit movie</a>
+        </p>
+    {:else}
+        <h2>Movie not found</h2>
+    {/if}
 </main>
 <Footer />
