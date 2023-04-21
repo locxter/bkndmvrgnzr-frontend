@@ -1,5 +1,10 @@
-import type { PageLoad } from './$types';
+import { get } from 'svelte/store';
+import { globalJwt } from '$lib/stores';
+import { redirect } from '@sveltejs/kit';
 
-export const load = (async () => {
-    return {};
-}) satisfies PageLoad;
+export function load() {
+    if (!get(globalJwt)) {
+        throw redirect(307, '/');
+    }
+}
+
