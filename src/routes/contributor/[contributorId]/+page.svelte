@@ -7,7 +7,6 @@
     import { onMount } from 'svelte';
     import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
-    import BookViewBrief from '../../../components/BookViewBrief.svelte';
 
     let contributorId: string;
     let serverAddress: string;

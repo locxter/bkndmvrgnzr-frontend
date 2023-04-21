@@ -1,5 +1,62 @@
 <script lang="ts">
-    import type { PageData } from './$types';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import { page } from '$app/stores';
+    import BookRoleView from '$lib/bookrole/component/BookRoleView.svelte';
+    import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
+    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import { onMount } from 'svelte';
 
-    export let data: PageData;
+    let bookRoleId: string;
+    let serverAddress: string;
+    let jwt: string;
+    let bookRoleController: BookRoleController;
+    let bookRole: BookRoleResponseDto;
+
+    page.subscribe((data) => {
+        bookRoleId = data.params.bookRoleId;
+    });
+
+    // Subscribe to global stores
+    globalServerAddress.subscribe((data) => {
+        serverAddress = data;
+
+        bookRoleController = new BookRoleController(serverAddress, jwt);
+    });
+    globalJwt.subscribe((data) => {
+        jwt = data;
+        bookRoleController = new BookRoleController(serverAddress, jwt);
+    });
+
+    onMount(() => {
+        bookRoleController
+            .getBookRole(bookRoleId)
+            .then((data) => {
+                bookRole = data;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    });
 </script>
+
+<svelte:head>
+    <title>Book role | bkndmvrgnzr</title>
+</svelte:head>
+
+<Header>
+    <Navigation />
+</Header>
+<main>
+    {#if bookRole}
+        <BookRoleView {bookRole} />
+        <p>
+            <a href="/book-role/edit/{bookRole.id}">Edit book role</a>
+        </p>
+    {:else}
+        <h2>Book role not found</h2>
+    {/if}
+</main>
+<Footer />

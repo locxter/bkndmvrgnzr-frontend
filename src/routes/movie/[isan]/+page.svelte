@@ -7,7 +7,7 @@
     import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
     import { onMount } from 'svelte/types/runtime/internal/lifecycle';
     import { globalServerAddress, globalJwt } from '$lib/stores';
-    import MovieView from '../../../components/MovieView.svelte';
+    import MovieView from '$lib/movie/component/MovieView.svelte';
 
     let isan: string;
     let serverAddress: string;
