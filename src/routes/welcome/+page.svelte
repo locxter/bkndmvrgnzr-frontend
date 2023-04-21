@@ -1,9 +1,9 @@
 <script lang="ts">
-    import BookList from '../../components/BookList.svelte';
+    import BookList from '../../lib/book/component/BookList.svelte';
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
     import Footer from '../../components/Footer.svelte';
-    import MovieList from '../../components/MovieList.svelte';
+    import MovieList from '../../lib/movie/component/MovieList.svelte';
     import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
     import { BookController } from '$lib/book/api/book-controller';
@@ -86,9 +86,9 @@
     </h2>
     <h3>Books</h3>
     <BookList {books} />
-    <a href="/book-library">View more</a>
+    <a href="/book">View more</a>
     <h3>Movies</h3>
     <MovieList {movies} />
-    <a href="/movie-library">View more</a>
+    <a href="/movie">View more</a>
 </main>
 <Footer />

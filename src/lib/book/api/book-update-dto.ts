@@ -1,5 +1,4 @@
 export class BookUpdateDto {
-    isbn: string = '';
     title: string = '';
     subtitle: string = '';
     description: string = '';
@@ -10,7 +9,6 @@ export class BookUpdateDto {
     bookContributorIds: string[] = [];
 
     constructor(
-        isbn = '',
         title = '',
         subtitle = '',
         description = '',
@@ -20,7 +18,6 @@ export class BookUpdateDto {
         genreIds: string[] = [],
         bookContributorIds: string[] = []
     ) {
-        this.isbn = isbn;
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;

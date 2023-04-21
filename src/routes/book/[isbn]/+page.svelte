@@ -7,7 +7,7 @@
     import { BookController } from '$lib/book/api/book-controller';
     import { globalServerAddress, globalJwt } from '$lib/stores';
     import { onMount } from 'svelte';
-    import BookView from '../../../components/BookView.svelte';
+    import BookView from '$lib/book/component/BookView.svelte';
 
     let isbn: string;
     let serverAddress: string;
@@ -52,7 +52,7 @@
     {#if book}
         <BookView {book} />
         <p>
-            <a href="/edit-book/{book.isbn}">Edit book</a>
+            <a href="/book/edit/{book.isbn}">Edit book</a>
         </p>
     {:else}
         <h2>Book not found</h2>
