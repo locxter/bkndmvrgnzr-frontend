@@ -22,7 +22,6 @@
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
-
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
@@ -43,7 +42,11 @@
 </script>
 
 <svelte:head>
-    <title>Book role | bkndmvrgnzr</title>
+    {#if bookRole}
+        <title>{bookRole.name} | bkndmvrgnzr</title>
+    {:else}
+        <title>Book role not found | bkndmvrgnzr</title>
+    {/if}
 </svelte:head>
 
 <Header>
@@ -53,7 +56,14 @@
     {#if bookRole}
         <BookRoleView {bookRole} />
         <p>
-            <a href="/book-role/edit/{bookRole.id}">Edit book role</a>
+            <a href="/book-role/update/{bookRole.id}">
+                <button>Update book role</button>
+            </a>
+        </p>
+        <p>
+            <a href="/book-role">
+                <button>Return</button>
+            </a>
         </p>
     {:else}
         <h2>Book role not found</h2>

@@ -5,18 +5,20 @@
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
-    import BookRoleAdd from '$lib/bookrole/component/BookRoleAdd.svelte';
+    import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
     import type { BookRoleUpdateDto } from '$lib/bookrole/api/book-role-update-dto';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
-    import BookRoleEdit from '$lib/bookrole/component/BookRoleEdit.svelte';
+    import BookRoleUpdate from '$lib/bookrole/component/BookRoleUpdate.svelte';
     import { goto } from '$app/navigation';
+    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
 
     let bookRoleId: string;
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRole: BookRoleUpdateDto;
+    let bookRole: BookRoleResponseDto;
+    let bookRoleUpdate: BookRoleUpdateDto;
 
     page.subscribe((data) => {
         bookRoleId = data.params.bookRoleId;
@@ -25,7 +27,6 @@
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
-
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
@@ -38,6 +39,7 @@
             .getBookRole(bookRoleId)
             .then((data) => {
                 bookRole = data;
+                bookRoleUpdate = bookRole as BookRoleUpdateDto;
             })
             .catch((error) => {
                 console.error(error);
@@ -46,11 +48,11 @@
 
     function updateBookRole() {
         bookRoleController
-            .updateBookRole(bookRoleId, bookRole)
+            .updateBookRole(bookRole.id, bookRoleUpdate)
             .then((data) => {
-                console.log(data);
+                bookRole = data;
                 alert('Book role successfully updated');
-                goto('/book-role/' + bookRoleId);
+                goto('/book-role/' + bookRole.id);
             })
             .catch((error) => {
                 console.error(error);
@@ -59,7 +61,7 @@
 
     function deleteBookRole() {
         bookRoleController
-            .deleteBookRole(bookRoleId)
+            .deleteBookRole(bookRole.id)
             .then((data) => {
                 console.log(data);
                 alert('Book role successfully deleted');
@@ -72,20 +74,29 @@
 </script>
 
 <svelte:head>
-    <title>Book role | bkndmvrgnzr</title>
+    <title>Update book role | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>Edit book role</h2>
-    <BookRoleEdit {bookRole} />
-    <p>
-        <button on:click={updateBookRole}>Update book role</button>
-    </p>
-    <p>
-        <button on:click={deleteBookRole}>Delete book role</button>
-    </p>
+    {#if bookRole}
+        <h2>Update book role</h2>
+        <BookRoleUpdate bind:bookRoleUpdate />
+        <p>
+            <button on:click={updateBookRole}>Update book role</button>
+        </p>
+        <p>
+            <button on:click={deleteBookRole}>Delete book role</button>
+        </p>
+        <p>
+            <a href="/book-role/{bookRole.id}">
+                <button>Return</button>
+            </a>
+        </p>
+    {:else}
+        <h2>Book role not found</h2>
+    {/if}
 </main>
 <Footer />

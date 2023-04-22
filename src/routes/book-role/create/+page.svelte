@@ -4,20 +4,18 @@
     import Footer from '../../../components/Footer.svelte';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import { globalServerAddress, globalJwt } from '$lib/stores';
-    import { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
-    import BookRoleAdd from '$lib/bookrole/component/BookRoleAdd.svelte';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import type { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
+    import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
     import { goto } from '$app/navigation';
 
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRole: BookRoleCreateDto = new BookRoleCreateDto();
+    let bookRoleCreate: BookRoleCreateDto;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
-
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
@@ -27,7 +25,7 @@
 
     function createBookRole() {
         bookRoleController
-            .createBookRole(bookRole)
+            .createBookRole(bookRoleCreate)
             .then((data) => {
                 console.log(data);
                 alert('Book role successfully added');
@@ -40,17 +38,22 @@
 </script>
 
 <svelte:head>
-    <title>Book role | bkndmvrgnzr</title>
+    <title>Create book role | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>Add book role</h2>
-    <BookRoleAdd {bookRole} />
+    <h2>Create book role</h2>
+    <BookRoleCreate bind:bookRoleCreate />
     <p>
         <button on:click={createBookRole}>Create book role</button>
+    </p>
+    <p>
+        <a href="/book-role">
+            <button>Return</button>
+        </a>
     </p>
 </main>
 <Footer />

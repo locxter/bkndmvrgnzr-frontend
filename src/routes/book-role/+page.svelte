@@ -7,16 +7,16 @@
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
+    import BookRoleSearch from '$lib/bookrole/component/BookRoleSearch.svelte';
 
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRoles: BookRoleResponseDto[] = [];
+    let bookRoles: BookRoleResponseDto[];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
-
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
@@ -37,18 +37,19 @@
 </script>
 
 <svelte:head>
-    <title>Book roles | bkndmvrgnzr</title>
+    <title>Book role | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>Book roles</h2>
+    <h2>Book role</h2>
+    <BookRoleSearch {bookRoleController} bind:bookRoles />
     <BookRoleList {bookRoles} />
     <p>
-        <a href="/book-role/add">
-            <button>Add book role</button>
+        <a href="/book-role/create">
+            <button>Create book role</button>
         </a>
     </p>
 </main>

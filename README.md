@@ -34,57 +34,57 @@ First install the needed packages via `npm install`. Then build the program via 
 
 - [ ] Book search: /book ROLE_USER
 - [ ] Book library: /book/library ROLE_USER
-- [ ] Add a book: /book/add ROLE_EDITOR
-- [ ] View a book: /book/[isbn] ROLE_USER
-- [ ] Edit a book: /book/edit/[isbn] ROLE_EDITOR
+- [ ] Create a book: /book/create ROLE_EDITOR
+- [ ] Get a book: /book/[isbn] ROLE_USER
+- [ ] Update a book: /book/update/[isbn] ROLE_EDITOR
 
 ### Book role
 
 - [ ] Book role search: /book-role ROLE_USER
-- [ ] Add a book role: /book-role/add ROLE_EDITOR
-- [ ] View a book role: /book-role/[bookRoleId] ROLE_USER
-- [ ] Edit a book role: /book-role/edit/[bookRoleId] ROLE_EDITOR
+- [ ] Create a book role: /book-role/create ROLE_EDITOR
+- [ ] Get a book role: /book-role/[bookRoleId] ROLE_USER
+- [ ] Update a book role: /book-role/update/[bookRoleId] ROLE_EDITOR
 
 ### Contributor
 
 - [ ] Contributor search: /contributor ROLE_USER
-- [ ] Add a contributor: /contributor/add ROLE_EDITOR
-- [ ] View a contributor: /contributor/[contributorId] ROLE_USER
-- [ ] Edit a contributor: /contributor/edit/[contributorId] ROLE_EDITOR
+- [ ] Create a contributor: /contributor/create ROLE_EDITOR
+- [ ] Get a contributor: /contributor/[contributorId] ROLE_USER
+- [ ] Update a contributor: /contributor/update/[contributorId] ROLE_EDITOR
 
 ### Genre
 
 - [ ] Genre search: /genre ROLE_USER
-- [ ] Add a genre: /genre/add ROLE_EDITOR
-- [ ] View a genre: /genre/[genreId] ROLE_USER
-- [ ] Edit a genre: /genre/edit/[genreId] ROLE_EDITOR
+- [ ] Create a genre: /genre/create ROLE_EDITOR
+- [ ] Get a genre: /genre/[genreId] ROLE_USER
+- [ ] Update a genre: /genre/update/[genreId] ROLE_EDITOR
 
 ### Movie
 
 - [ ] Movie search: /movie ROLE_USER
 - [ ] Movie library: /movie/library ROLE_USER
-- [ ] Add a movie: /movie/add ROLE_EDITOR
-- [ ] View a movie: /movie/[isan] ROLE_USER
-- [ ] Edit a movie: /movie/edit/[isan] ROLE_EDITOR
+- [ ] Create a movie: /movie/create ROLE_EDITOR
+- [ ] Get a movie: /movie/[isan] ROLE_USER
+- [ ] Update a movie: /movie/update/[isan] ROLE_EDITOR
 
 ### Movie role
 
 - [ ] Movie role search: /movie-role ROLE_USER
-- [ ] Add a movie role: /movie-role/add ROLE_EDITOR
-- [ ] View a movie role: /movie-role/[movieRoleId] ROLE_USER
-- [ ] Edit a movie role: /movie-role/edit/[movieRoleId] ROLE_EDITOR
+- [ ] Create a movie role: /movie-role/create ROLE_EDITOR
+- [ ] Get a movie role: /movie-role/[movieRoleId] ROLE_USER
+- [ ] Update a movie role: /movie-role/update/[movieRoleId] ROLE_EDITOR
 
 ### Publishing house
 
 - [ ] Publishing house search: /publishing-house ROLE_USER
-- [ ] Add a publishing house: /publishing-house/add ROLE_EDITOR
-- [ ] View a publishing house: /publishing-house/[publishingHouseId] ROLE_USER
-- [ ] Edit a publishing house: /publishing-house/edit/[publishingHouseId] ROLE_EDITOR
+- [ ] Create a publishing house: /publishing-house/create ROLE_EDITOR
+- [ ] Get a publishing house: /publishing-house/[publishingHouseId] ROLE_USER
+- [ ] Update a publishing house: /publishing-house/update/[publishingHouseId] ROLE_EDITOR
 
 ### User
 
-- [ ] View user: /user ROLE_USER
-- [ ] Edit user: /user/edit ROLE_USER
+- [ ] Get user: /user ROLE_USER
+- [ ] Update user: /user/update ROLE_USER
 - [ ] User search: /user/search ROLE_ADMIN
-- [ ] View a specific user: /user/[userId] ROLE_ADMIN
-- [ ] Edit a specific user: /user/edit/[userId] ROLE_ADMIN
+- [ ] Get a specific user: /user/[userId] ROLE_ADMIN
+- [ ] Update a specific user: /user/update/[userId] ROLE_ADMIN
