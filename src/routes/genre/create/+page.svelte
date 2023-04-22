@@ -27,7 +27,7 @@
         genreController
             .createGenre(genreCreate)
             .then((data) => {
-                alert('Genre successfully added');
+                alert('Genre successfully created');
                 goto('/genre/' + data.id);
             })
             .catch((error) => {

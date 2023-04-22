@@ -43,7 +43,11 @@
 </script>
 
 <svelte:head>
-    <title>Movie | bkndmvrgnzr</title>
+    {#if movie}
+        <title>{movie.title} | bkndmvrgnzr</title>
+    {:else}
+        <title>Movie not found | bkndmvrgnzr</title>
+    {/if}
 </svelte:head>
 
 <Header>
@@ -53,7 +57,14 @@
     {#if movie}
         <MovieView {movie} />
         <p>
-            <a href="/edit-movie/{movie.isan}">Edit movie</a>
+            <a href="/movie/update/{movie.isan}">
+                <button>Update movie</button>
+            </a>
+        </p>
+        <p>
+            <a href="/movie">
+                <button>Return</button>
+            </a>
         </p>
     {:else}
         <h2>Movie not found</h2>

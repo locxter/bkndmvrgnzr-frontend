@@ -11,10 +11,12 @@
 <nav>
     <a href="/welcome">Welcome</a>
     <a href="/book">Book</a>
+    <a href="/book/library">Book library</a>
     <a href="/book-role">Book role</a>
     <a href="/contributor">Contributor</a>
     <a href="/genre">Genre</a>
     <a href="/movie">Movie</a>
+    <a href="/movie/library">Movie library</a>
     <a href="/movie-role">Movie role</a>
     <a href="/publishing-house">Publishing house</a>
     <a href="/user">User</a>

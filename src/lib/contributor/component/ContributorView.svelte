@@ -29,7 +29,7 @@
     {#each contributor.bookContributors as bookContributor}
         <li>
             <a href="">
-                {bookContributor.bookRole.name}: FIND BOOK
+                {bookContributor.bookRole.name}: TODO
             </a>
         </li>
     {:else}
@@ -41,7 +41,7 @@
     {#each contributor.movieContributors as movieContributor}
         <li>
             <a href="">
-                {movieContributor.movieRole.name}: FIND MOVIE
+                {movieContributor.movieRole.name}: TODO
             </a>
         </li>
     {:else}

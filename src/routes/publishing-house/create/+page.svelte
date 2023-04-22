@@ -27,7 +27,7 @@
         publishingHouseController
             .createPublishingHouse(publishingHouseCreate)
             .then((data) => {
-                alert('Publishing house successfully added');
+                alert('Publishing house successfully created');
                 goto('/publishing-house/' + data.id);
             })
             .catch((error) => {

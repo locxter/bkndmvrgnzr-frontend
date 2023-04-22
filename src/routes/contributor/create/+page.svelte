@@ -27,7 +27,7 @@
         contributorController
             .createContributor(contributorCreate)
             .then((data) => {
-                alert('Contributor successfully added');
+                alert('Contributor successfully created');
                 goto('/contributor/' + data.id);
             })
             .catch((error) => {

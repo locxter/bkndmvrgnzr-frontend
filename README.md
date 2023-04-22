@@ -32,10 +32,10 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### Book
 
-- [ ] Book search: /book ROLE_USER
-- [ ] Book library: /book/library ROLE_USER
+- [x] Book search: /book ROLE_USER
+- [x] Book library: /book/library ROLE_USER
 - [ ] Create a book: /book/create ROLE_EDITOR
-- [ ] Get a book: /book/[isbn] ROLE_USER
+- [x] Get a book: /book/[isbn] ROLE_USER
 - [ ] Update a book: /book/update/[isbn] ROLE_EDITOR
 
 ### Book role
@@ -61,10 +61,10 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### Movie
 
-- [ ] Movie search: /movie ROLE_USER
-- [ ] Movie library: /movie/library ROLE_USER
+- [x] Movie search: /movie ROLE_USER
+- [x] Movie library: /movie/library ROLE_USER
 - [ ] Create a movie: /movie/create ROLE_EDITOR
-- [ ] Get a movie: /movie/[isan] ROLE_USER
+- [x] Get a movie: /movie/[isan] ROLE_USER
 - [ ] Update a movie: /movie/update/[isan] ROLE_EDITOR
 
 ### Movie role
