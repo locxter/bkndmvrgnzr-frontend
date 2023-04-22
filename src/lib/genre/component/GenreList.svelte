@@ -7,7 +7,10 @@
 
 <ul>
     {#each genres as genre}
-        <li><GenreViewBrief {genre} /></li>
+        <li>
+            <slot {genre} />
+            <GenreViewBrief {genre} />
+        </li>
     {:else}
         <li>No genres</li>
     {/each}

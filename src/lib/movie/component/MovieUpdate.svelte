@@ -5,6 +5,11 @@
 </script>
 
 <p>
+    Title:
+    <br />
+    <input type="text" placeholder="Title" bind:value={movieUpdate.title} />
+</p>
+<p>
     Description:
     <br />
     <input type="text" placeholder="Description" bind:value={movieUpdate.description} />

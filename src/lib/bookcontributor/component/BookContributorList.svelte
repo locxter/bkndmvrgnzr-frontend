@@ -7,7 +7,10 @@
 
 <ul>
     {#each bookContributors as bookContributor}
-        <li><BookContributorViewBrief {bookContributor} /></li>
+        <li>
+            <slot {bookContributor} />
+            <BookContributorViewBrief {bookContributor} />
+        </li>
     {:else}
         <li>No contributors</li>
     {/each}

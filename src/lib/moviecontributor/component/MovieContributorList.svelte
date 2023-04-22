@@ -7,7 +7,10 @@
 
 <ul>
     {#each movieContributors as movieContributor}
-        <li><MovieContributorViewBrief {movieContributor} /></li>
+        <li>
+            <slot {movieContributor} />
+            <MovieContributorViewBrief {movieContributor} />
+        </li>
     {:else}
         <li>No contributors</li>
     {/each}

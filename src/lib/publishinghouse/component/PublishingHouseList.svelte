@@ -7,7 +7,10 @@
 
 <ul>
     {#each publishingHouses as publishingHouse}
-        <li><PublishingHouseViewBrief {publishingHouse} /></li>
+        <li>
+            <slot {publishingHouse} />
+            <PublishingHouseViewBrief {publishingHouse} />
+        </li>
     {:else}
         <li>No publishing houses</li>
     {/each}
