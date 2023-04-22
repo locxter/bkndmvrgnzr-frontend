@@ -13,7 +13,6 @@
                 .getAllMoviesOfSearchQueryFromUser(query.trim())
                 .then((data) => {
                     movies = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllMoviesOfUser()
                 .then((data) => {
                     movies = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

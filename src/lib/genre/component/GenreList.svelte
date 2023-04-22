@@ -9,6 +9,6 @@
     {#each genres as genre}
         <li><GenreViewBrief {genre} /></li>
     {:else}
-        <li>No book roles</li>
+        <li>No genres</li>
     {/each}
 </ul>

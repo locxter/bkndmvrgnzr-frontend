@@ -48,12 +48,12 @@
             userController
                 .createUser(userCreate)
                 .then((data) => {
-                    console.log(data);
                     authLogin = userCreate as AuthLoginDto;
                     login();
                 })
                 .catch((error) => {
                     console.error(error);
+                    alert(error);
                 });
         }
     }

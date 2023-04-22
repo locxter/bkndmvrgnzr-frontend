@@ -13,7 +13,6 @@
                 .getAllBookRolesOfSearchQuery(query.trim())
                 .then((data) => {
                     bookRoles = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllBookRoles()
                 .then((data) => {
                     bookRoles = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

@@ -13,7 +13,6 @@
                 .getAllBooksOfSearchQueryFromUser(query.trim())
                 .then((data) => {
                     books = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllBooksOfUser()
                 .then((data) => {
                     books = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

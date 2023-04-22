@@ -32,6 +32,7 @@
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     });
 </script>

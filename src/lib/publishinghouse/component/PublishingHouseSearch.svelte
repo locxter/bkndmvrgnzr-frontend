@@ -13,7 +13,6 @@
                 .getAllPublishingHousesOfSearchQuery(query.trim())
                 .then((data) => {
                     publishingHouses = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllPublishingHouses()
                 .then((data) => {
                     publishingHouses = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

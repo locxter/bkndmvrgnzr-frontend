@@ -13,7 +13,6 @@
                 .getAllMovieRolesOfSearchQuery(query.trim())
                 .then((data) => {
                     movieRoles = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllMovieRoles()
                 .then((data) => {
                     movieRoles = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

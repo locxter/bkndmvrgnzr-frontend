@@ -9,6 +9,6 @@
     {#each publishingHouses as publishingHouse}
         <li><PublishingHouseViewBrief {publishingHouse} /></li>
     {:else}
-        <li>No book roles</li>
+        <li>No publishing houses</li>
     {/each}
 </ul>

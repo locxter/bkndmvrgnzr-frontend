@@ -13,7 +13,6 @@
                 .getAllGenresOfSearchQuery(query.trim())
                 .then((data) => {
                     genres = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllGenres()
                 .then((data) => {
                     genres = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

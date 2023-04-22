@@ -13,7 +13,6 @@
                 .getAllContributorsOfSearchQuery(query.trim())
                 .then((data) => {
                     contributors = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllContributors()
                 .then((data) => {
                     contributors = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

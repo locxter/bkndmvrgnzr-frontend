@@ -45,6 +45,6 @@
             </a>
         </li>
     {:else}
-        <li>No books</li>
+        <li>No movies</li>
     {/each}
 </ul>

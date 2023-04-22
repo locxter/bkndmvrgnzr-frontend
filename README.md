@@ -47,17 +47,17 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### Contributor
 
-- [ ] Contributor search: /contributor ROLE_USER
-- [ ] Create a contributor: /contributor/create ROLE_EDITOR
+- [x] Contributor search: /contributor ROLE_USER
+- [x] Create a contributor: /contributor/create ROLE_EDITOR
 - [ ] Get a contributor: /contributor/[contributorId] ROLE_USER
-- [ ] Update a contributor: /contributor/update/[contributorId] ROLE_EDITOR
+- [x] Update a contributor: /contributor/update/[contributorId] ROLE_EDITOR
 
 ### Genre
 
-- [ ] Genre search: /genre ROLE_USER
-- [ ] Create a genre: /genre/create ROLE_EDITOR
-- [ ] Get a genre: /genre/[genreId] ROLE_USER
-- [ ] Update a genre: /genre/update/[genreId] ROLE_EDITOR
+- [x] Genre search: /genre ROLE_USER
+- [x] Create a genre: /genre/create ROLE_EDITOR
+- [x] Get a genre: /genre/[genreId] ROLE_USER
+- [x] Update a genre: /genre/update/[genreId] ROLE_EDITOR
 
 ### Movie
 
@@ -69,17 +69,17 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### Movie role
 
-- [ ] Movie role search: /movie-role ROLE_USER
-- [ ] Create a movie role: /movie-role/create ROLE_EDITOR
-- [ ] Get a movie role: /movie-role/[movieRoleId] ROLE_USER
-- [ ] Update a movie role: /movie-role/update/[movieRoleId] ROLE_EDITOR
+- [x] Movie role search: /movie-role ROLE_USER
+- [x] Create a movie role: /movie-role/create ROLE_EDITOR
+- [x] Get a movie role: /movie-role/[movieRoleId] ROLE_USER
+- [x] Update a movie role: /movie-role/update/[movieRoleId] ROLE_EDITOR
 
 ### Publishing house
 
-- [ ] Publishing house search: /publishing-house ROLE_USER
-- [ ] Create a publishing house: /publishing-house/create ROLE_EDITOR
-- [ ] Get a publishing house: /publishing-house/[publishingHouseId] ROLE_USER
-- [ ] Update a publishing house: /publishing-house/update/[publishingHouseId] ROLE_EDITOR
+- [x] Publishing house search: /publishing-house ROLE_USER
+- [x] Create a publishing house: /publishing-house/create ROLE_EDITOR
+- [x] Get a publishing house: /publishing-house/[publishingHouseId] ROLE_USER
+- [x] Update a publishing house: /publishing-house/update/[publishingHouseId] ROLE_EDITOR
 
 ### User
 

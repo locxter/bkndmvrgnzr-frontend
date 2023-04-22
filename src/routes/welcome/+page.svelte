@@ -44,22 +44,25 @@
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
         bookController
-            .getAllBooks()
+            .getAllBooksOfUser()
             .then((data) => {
                 books = data;
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
         movieController
-            .getAllMovies()
+            .getAllMoviesOfUser()
             .then((data) => {
                 movies = data;
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     });
 </script>

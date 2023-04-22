@@ -9,6 +9,6 @@
     {#each contributors as contributor}
         <li><ContributorViewBrief {contributor} /></li>
     {:else}
-        <li>No book roles</li>
+        <li>No contributors</li>
     {/each}
 </ul>

@@ -13,7 +13,6 @@
                 .getAllUsersOfSearchQuery(query.trim())
                 .then((data) => {
                     users = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -24,7 +23,6 @@
                 .getAllUsers()
                 .then((data) => {
                     users = data;
-                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error);

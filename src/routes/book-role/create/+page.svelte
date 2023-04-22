@@ -27,12 +27,12 @@
         bookRoleController
             .createBookRole(bookRoleCreate)
             .then((data) => {
-                console.log(data);
-                alert('Book role successfully added');
+                alert('Book role successfully created');
                 goto('/book-role/' + data.id);
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     }
 </script>

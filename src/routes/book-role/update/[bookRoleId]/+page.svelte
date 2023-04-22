@@ -4,8 +4,6 @@
     import Footer from '../../../../components/Footer.svelte';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import { globalServerAddress, globalJwt } from '$lib/stores';
-    import type { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
-    import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
     import type { BookRoleUpdateDto } from '$lib/bookrole/api/book-role-update-dto';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
@@ -43,6 +41,7 @@
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     });
 
@@ -56,6 +55,7 @@
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     }
 
@@ -63,12 +63,12 @@
         bookRoleController
             .deleteBookRole(bookRole.id)
             .then((data) => {
-                console.log(data);
                 alert('Book role successfully deleted');
                 goto('/book-role');
             })
             .catch((error) => {
                 console.error(error);
+                alert(error);
             });
     }
 </script>
