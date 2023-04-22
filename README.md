@@ -49,7 +49,7 @@ First install the needed packages via `npm install`. Then build the program via 
 
 - [x] Contributor search: /contributor ROLE_USER
 - [x] Create a contributor: /contributor/create ROLE_EDITOR
-- [ ] Get a contributor: /contributor/[contributorId] ROLE_USER
+- [x] Get a contributor: /contributor/[contributorId] ROLE_USER
 - [x] Update a contributor: /contributor/update/[contributorId] ROLE_EDITOR
 
 ### Genre

@@ -1,11 +1,16 @@
 <script lang="ts">
+    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import BookRoleViewBrief from '$lib/bookrole/component/BookRoleViewBrief.svelte';
+    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
+    import ContributorViewBrief from '$lib/contributor/component/ContributorViewBrief.svelte';
     import { BookContributorResponseDto } from '../api/book-contributor-response-dto';
 
     export let bookContributor: BookContributorResponseDto = new BookContributorResponseDto();
+
+    let bookRole = bookContributor.bookRole as BookRoleResponseDto;
+    let contributor = bookContributor.contributor as ContributorResponseDto;
 </script>
 
-<a href="/book-role/{bookContributor.bookRole.id}">{bookContributor.bookRole.name}</a>
+<BookRoleViewBrief {bookRole} />
 :
-<a href="/contributor/{bookContributor.contributor.id}">
-    {bookContributor.contributor.lastName}, {bookContributor.contributor.firstName}
-</a>
+<ContributorViewBrief {contributor} />

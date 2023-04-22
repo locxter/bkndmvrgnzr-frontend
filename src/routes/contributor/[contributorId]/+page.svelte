@@ -8,11 +8,15 @@
     import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
     import { globalServerAddress, globalJwt } from '$lib/stores';
     import { onMount } from 'svelte';
+    import { BookController } from '$lib/book/api/book-controller';
+    import { MovieController } from '$lib/movie/api/movie-controller';
 
     let contributorId: string;
     let serverAddress: string;
     let jwt: string;
     let contributorController: ContributorController;
+    let bookController: BookController;
+    let movieController: MovieController;
     let contributor: ContributorResponseDto;
 
     page.subscribe((data) => {
@@ -23,10 +27,14 @@
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
         contributorController = new ContributorController(serverAddress, jwt);
+        bookController = new BookController(serverAddress, jwt);
+        movieController = new MovieController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
         jwt = data;
         contributorController = new ContributorController(serverAddress, jwt);
+        bookController = new BookController(serverAddress, jwt);
+        movieController = new MovieController(serverAddress, jwt);
     });
 
     onMount(() => {
@@ -55,7 +63,7 @@
 </Header>
 <main>
     {#if contributor}
-        <ContributorView {contributor} />
+        <ContributorView {contributor} {bookController} {movieController} />
         <p>
             <a href="/contributor/update/{contributor.id}">
                 <button>Update contributor</button>
