@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type { BookController } from '../api/book-controller';
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { ContributorController } from '../api/contributor-controller';
+    import type { ContributorResponseDto } from '../api/contributor-response-dto';
 
-    export let bookController: BookController;
-    export let books: BookResponseDto[] = [];
+    export let contributorController: ContributorController;
+    export let contributors: ContributorResponseDto[] = [];
 
     let query: string;
 
     function search() {
         if (query && query.trim()) {
-            bookController
-                .getAllBooksOfSearchQuery(query.trim())
+            contributorController
+                .getAllContributorsOfSearchQuery(query.trim())
                 .then((data) => {
-                    books = data;
+                    contributors = data;
                     console.log(data);
                 })
                 .catch((error) => {
@@ -20,10 +20,10 @@
                     alert(error);
                 });
         } else {
-            bookController
-                .getAllBooks()
+            contributorController
+                .getAllContributors()
                 .then((data) => {
-                    books = data;
+                    contributors = data;
                     console.log(data);
                 })
                 .catch((error) => {

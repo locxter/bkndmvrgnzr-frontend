@@ -1,7 +1,15 @@
 <script lang="ts">
+    import type { BookContributorResponseDto } from '$lib/bookcontributor/api/book-contributor-response-dto';
+    import BookContributorList from '$lib/bookcontributor/component/BookContributorList.svelte';
+    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
+    import GenreList from '$lib/genre/component/GenreList.svelte';
+    import PublishingHouseViewBrief from '$lib/publishinghouse/component/PublishingHouseViewBrief.svelte';
     import { BookResponseDto } from '../api/book-response-dto';
 
     export let book: BookResponseDto = new BookResponseDto();
+
+    let genres = book.genres as GenreResponseDto[];
+    let bookContributors = book.bookContributors as BookContributorResponseDto[];
 </script>
 
 <h2>{book.title}</h2>
@@ -31,29 +39,9 @@
 <p>
     Publishing house:
     <br />
-    {book.publishingHouse.name}
-    {#if book.publishingHouse.city && book.publishingHouse.country}
-        ({book.publishingHouse.city}, {book.publishingHouse.country})
-    {/if}
+    <PublishingHouseViewBrief publishingHouse={book.publishingHouse} />
 </p>
 <p>Genres:</p>
-<ul>
-    {#each book.genres as genre}
-        <li>{genre.name}</li>
-    {:else}
-        <li>No genres</li>
-    {/each}
-</ul>
+<GenreList {genres} />
 <p>Contributors:</p>
-<ul>
-    {#each book.bookContributors as bookContributor}
-        <li>
-            <a href="/contributor/{bookContributor.contributor.id}">
-                {bookContributor.bookRole.name}: {bookContributor.contributor.lastName}, {bookContributor.contributor
-                    .firstName}
-            </a>
-        </li>
-    {:else}
-        <li>No contributors</li>
-    {/each}
-</ul>
+<BookContributorList {bookContributors} />

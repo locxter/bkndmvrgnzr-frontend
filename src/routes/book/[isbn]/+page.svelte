@@ -42,7 +42,11 @@
 </script>
 
 <svelte:head>
-    <title>Book | bkndmvrgnzr</title>
+    {#if book}
+        <title>{book.title} | bkndmvrgnzr</title>
+    {:else}
+        <title>Book not found | bkndmvrgnzr</title>
+    {/if}
 </svelte:head>
 
 <Header>
@@ -52,7 +56,14 @@
     {#if book}
         <BookView {book} />
         <p>
-            <a href="/book/edit/{book.isbn}">Edit book</a>
+            <a href="/book/update/{book.isbn}">
+                <button>Update book</button>
+            </a>
+        </p>
+        <p>
+            <a href="/book">
+                <button>Return</button>
+            </a>
         </p>
     {:else}
         <h2>Book not found</h2>

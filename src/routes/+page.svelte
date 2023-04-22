@@ -5,14 +5,16 @@
     import { AuthController } from '$lib/auth/api/auth-controller';
     import { AuthLoginDto } from '$lib/auth/api/auth-login-dto';
     import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { UserCreateDto } from '$lib/user/api/user-create-dto';
+    import type { UserCreateDto } from '$lib/user/api/user-create-dto';
     import { UserController } from '$lib/user/api/user-controller';
+    import AuthLogin from '$lib/auth/component/AuthLogin.svelte';
+    import UserCreate from '$lib/user/component/UserCreate.svelte';
 
-    let username: string = 'admin';
-    let password: string = 'password';
     let serverAddress: string;
     let authController: AuthController;
     let userController: UserController;
+    let authLogin: AuthLoginDto = new AuthLoginDto('admin', 'password');
+    let userCreate: UserCreateDto;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -22,10 +24,11 @@
     });
 
     function login() {
-        if (username && password) {
-            let authLoginDto = new AuthLoginDto(username, password);
+        if (authLogin.username && authLogin.username.trim() && authLogin.password && authLogin.password.trim()) {
+            authLogin.username = authLogin.username.trim();
+            authLogin.password = authLogin.password.trim();
             authController
-                .login(authLoginDto)
+                .login(authLogin)
                 .then((data) => {
                     globalJwt.set(data);
                     globalServerAddress.set(serverAddress);
@@ -39,12 +42,14 @@
     }
 
     function signup() {
-        if (username && password) {
-            let userCreateDto = new UserCreateDto(username, password);
+        if (userCreate.username && userCreate.username.trim() && userCreate.password && userCreate.password.trim()) {
+            userCreate.username = userCreate.username.trim();
+            userCreate.password = userCreate.password.trim();
             userController
-                .createUser(userCreateDto)
+                .createUser(userCreate)
                 .then((data) => {
                     console.log(data);
+                    authLogin = userCreate as AuthLoginDto;
                     login();
                 })
                 .catch((error) => {
@@ -61,27 +66,24 @@
 <Header />
 <main>
     <h2>Login / Signup</h2>
-    <p>
-        <label for="username">Username:</label>
-        <br />
-        <input id="username" type="text" placeholder="Username" bind:value={username} />
-    </p>
-    <p>
-        <label for="password">Password:</label>
-        <br />
-        <input id="password" type="password" placeholder="Password" bind:value={password} />
-    </p>
-    <p>
-        <label for="server-address">Server address:</label>
-        <br />
-        <input id="server-address" type="text" placeholder="Server address" bind:value={serverAddress} />
-    </p>
+    <AuthLogin bind:authLogin />
     <p>
         <button on:click={login}>Login</button>
     </p>
-    <p>New to bkndmvrgnzr? Create an account first:</p>
-    <p>
-        <button on:click={signup}>Signup</button>
-    </p>
+    <details>
+        <summary>New to bkndmvrgnzr? Create an account first</summary>
+        <UserCreate bind:userCreate />
+        <p>
+            <button on:click={signup}>Signup</button>
+        </p>
+    </details>
+    <details>
+        <summary>Advanced options</summary>
+        <p>
+            <label for="server-address">Server address:</label>
+            <br />
+            <input id="server-address" type="text" placeholder="Server address" bind:value={serverAddress} />
+        </p>
+    </details>
 </main>
 <Footer />

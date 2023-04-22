@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type { BookController } from '../api/book-controller';
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { UserController } from '../api/user-controller';
+    import type { UserResponseDto } from '../api/user-response-dto';
 
-    export let bookController: BookController;
-    export let books: BookResponseDto[] = [];
+    export let userController: UserController;
+    export let users: UserResponseDto[] = [];
 
     let query: string;
 
     function search() {
         if (query && query.trim()) {
-            bookController
-                .getAllBooksOfSearchQuery(query.trim())
+            userController
+                .getAllUsersOfSearchQuery(query.trim())
                 .then((data) => {
-                    books = data;
+                    users = data;
                     console.log(data);
                 })
                 .catch((error) => {
@@ -20,10 +20,10 @@
                     alert(error);
                 });
         } else {
-            bookController
-                .getAllBooks()
+            userController
+                .getAllUsers()
                 .then((data) => {
-                    books = data;
+                    users = data;
                     console.log(data);
                 })
                 .catch((error) => {

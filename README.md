@@ -40,10 +40,10 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### Book role
 
-- [ ] Book role search: /book-role ROLE_USER
-- [ ] Create a book role: /book-role/create ROLE_EDITOR
-- [ ] Get a book role: /book-role/[bookRoleId] ROLE_USER
-- [ ] Update a book role: /book-role/update/[bookRoleId] ROLE_EDITOR
+- [x] Book role search: /book-role ROLE_USER
+- [x] Create a book role: /book-role/create ROLE_EDITOR
+- [x] Get a book role: /book-role/[bookRoleId] ROLE_USER
+- [x] Update a book role: /book-role/update/[bookRoleId] ROLE_EDITOR
 
 ### Contributor
 

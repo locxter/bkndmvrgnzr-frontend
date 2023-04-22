@@ -1,7 +1,14 @@
 <script lang="ts">
+    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
+    import GenreList from '$lib/genre/component/GenreList.svelte';
+    import type { MovieContributorResponseDto } from '$lib/moviecontributor/api/movie-contributor-response-dto';
+    import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
     import { MovieResponseDto } from '../api/movie-response-dto';
 
     export let movie: MovieResponseDto = new MovieResponseDto();
+
+    let genres = movie.genres as GenreResponseDto[];
+    let movieContributors = movie.movieContributors as MovieContributorResponseDto[];
 </script>
 
 <h2>{movie.title}</h2>
@@ -31,23 +38,6 @@
     {movie.ageRestriction}
 </p>
 <p>Genres:</p>
-<ul>
-    {#each movie.genres as genre}
-        <li>{genre.name}</li>
-    {:else}
-        <li>No genres</li>
-    {/each}
-</ul>
+<GenreList {genres} />
 <p>Contributors</p>
-<ul>
-    {#each movie.movieContributors as movieContributor}
-        <li>
-            <a href="/contributor/{movieContributor.contributor.id}">
-                {movieContributor.movieRole.name}: {movieContributor.contributor.lastName}, {movieContributor
-                    .contributor.firstName}
-            </a>
-        </li>
-    {:else}
-        <li>No contributors</li>
-    {/each}
-</ul>
+<MovieContributorList {movieContributors} />

@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type { BookController } from '../api/book-controller';
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { MovieController } from '../api/movie-controller';
+    import type { MovieResponseDto } from '../api/movie-response-dto';
 
-    export let bookController: BookController;
-    export let books: BookResponseDto[] = [];
+    export let movieController: MovieController;
+    export let movies: MovieResponseDto[] = [];
 
     let query: string;
 
     function search() {
         if (query && query.trim()) {
-            bookController
-                .getAllBooksOfSearchQuery(query.trim())
+            movieController
+                .getAllMoviesOfSearchQueryFromUser(query.trim())
                 .then((data) => {
-                    books = data;
+                    movies = data;
                     console.log(data);
                 })
                 .catch((error) => {
@@ -20,10 +20,10 @@
                     alert(error);
                 });
         } else {
-            bookController
-                .getAllBooks()
+            movieController
+                .getAllMoviesOfUser()
                 .then((data) => {
-                    books = data;
+                    movies = data;
                     console.log(data);
                 })
                 .catch((error) => {

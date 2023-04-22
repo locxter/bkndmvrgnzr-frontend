@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type { BookController } from '../api/book-controller';
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { PublishingHouseController } from '../api/publishing-house-controller';
+    import type { PublishingHouseResponseDto } from '../api/publishing-house-response-dto';
 
-    export let bookController: BookController;
-    export let books: BookResponseDto[] = [];
+    export let publishingHouseController: PublishingHouseController;
+    export let publishingHouses: PublishingHouseResponseDto[] = [];
 
     let query: string;
 
     function search() {
         if (query && query.trim()) {
-            bookController
-                .getAllBooksOfSearchQuery(query.trim())
+            publishingHouseController
+                .getAllPublishingHousesOfSearchQuery(query.trim())
                 .then((data) => {
-                    books = data;
+                    publishingHouses = data;
                     console.log(data);
                 })
                 .catch((error) => {
@@ -20,10 +20,10 @@
                     alert(error);
                 });
         } else {
-            bookController
-                .getAllBooks()
+            publishingHouseController
+                .getAllPublishingHouses()
                 .then((data) => {
-                    books = data;
+                    publishingHouses = data;
                     console.log(data);
                 })
                 .catch((error) => {

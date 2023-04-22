@@ -1,38 +1,33 @@
 <script lang="ts">
-    import { BookResponseDto } from '../api/book-response-dto';
+    import { BookUpdateDto } from '../api/book-update-dto';
 
-    export let book: BookResponseDto = new BookResponseDto();
+    export let bookUpdate: BookUpdateDto = new BookUpdateDto();
 </script>
 
 <p>
     Title:
     <br />
-    <input type="text" placeholder="Title" bind:value={book.title} />
+    <input type="text" placeholder="Title" bind:value={bookUpdate.title} />
 </p>
 <p>
     Subtitle:
     <br />
-    <input type="text" placeholder="Subtitle" bind:value={book.subtitle} />
-</p>
-<p>
-    ISBN:
-    <br />
-    {book.isbn}
+    <input type="text" placeholder="Subtitle" bind:value={bookUpdate.subtitle} />
 </p>
 <p>
     Description:
     <br />
-    <input type="text" placeholder="Description" bind:value={book.description} />
+    <input type="text" placeholder="Description" bind:value={bookUpdate.description} />
 </p>
 <p>
     Year:
     <br />
-    <input type="number" min="0" placeholder="Year" bind:value={book.year} />
+    <input type="number" min="0" placeholder="Year" bind:value={bookUpdate.year} />
 </p>
 <p>
     Pages:
     <br />
-    <input type="number" min="0" placeholder="Pages" bind:value={book.pages} />
+    <input type="number" min="0" placeholder="Pages" bind:value={bookUpdate.pages} />
 </p>
 <p>
     Publishing house:
