@@ -95,4 +95,19 @@ export class PublishingHouseController {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
+
+    async getAllPublishingHousesOfSearchQuery(query: string): Promise<PublishingHouseResponseDto[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
+        });
+        let responseText = await response.text();
+        if (response.ok) {
+            return JSON.parse(responseText);
+        } else {
+            throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
+        }
+    }
 }
