@@ -23,49 +23,40 @@
     let genres: GenreResponseDto[];
     let bookContributors: BookContributorResponseDto[];
 
-    onMount(() => {
-        publishingHouseController
-            .getAllPublishingHouses()
-            .then((data) => {
-                publishingHouses = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
-        genreController
-            .getAllGenres()
-            .then((data) => {
-                genres = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
-        bookContributorController
-            .getAllBookContributors()
-            .then((data) => {
-                bookContributors = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            publishingHouses = await publishingHouseController.getAllPublishingHouses();
+            genres = await genreController.getAllGenres();
+            bookContributors = await bookContributorController.getAllBookContributors();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function selectPublishingHouse(publishingHouse: PublishingHouseResponseDto) {
-        bookCreate.publishingHouseId = publishingHouse.id;
-    }
-
-    function selectGenre(genre: GenreResponseDto) {
-        if (!bookCreate.genreIds.includes(genre.id)) {
-            bookCreate.genreIds[bookCreate.genreIds.length] = genre.id;
+    function togglePublishingHouse(publishingHouse: PublishingHouseResponseDto) {
+        if (bookCreate.publishingHouseId === publishingHouse.id) {
+            bookCreate.publishingHouseId = '';
+        } else {
+            bookCreate.publishingHouseId = publishingHouse.id;
         }
     }
 
-    function selectBookContributor(bookContributor: BookContributorResponseDto) {
-        if (!bookCreate.bookContributorIds.includes(bookContributor.id)) {
-            bookCreate.bookContributorIds[bookCreate.bookContributorIds.length] = bookContributor.id;
+    function toggleGenre(genre: GenreResponseDto) {
+        if (bookCreate.genreIds.includes(genre.id)) {
+            bookCreate.genreIds.splice(bookCreate.genreIds.indexOf(genre.id), 1);
+            bookCreate.genreIds = bookCreate.genreIds;
+        } else {
+            bookCreate.genreIds = [...bookCreate.genreIds, genre.id];
+        }
+    }
+
+    function toggleBookContributor(bookContributor: BookContributorResponseDto) {
+        if (bookCreate.bookContributorIds.includes(bookContributor.id)) {
+            bookCreate.bookContributorIds.splice(bookCreate.bookContributorIds.indexOf(bookContributor.id), 1);
+            bookCreate.bookContributorIds = bookCreate.bookContributorIds;
+        } else {
+            bookCreate.bookContributorIds = [...bookCreate.bookContributorIds, bookContributor.id];
         }
     }
 </script>
@@ -103,7 +94,13 @@
 <p>Publishing house:</p>
 <PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
-    <button on:click={() => selectPublishingHouse(publishingHouse)}>Select</button>
+    <button on:click={() => togglePublishingHouse(publishingHouse)}>
+        {#if bookCreate.publishingHouseId === publishingHouse.id}
+            Deselect
+        {:else}
+            Select
+        {/if}
+    </button>
 </PublishingHouseList>
 {#if bookCreate.publishingHouseId}
     <p>Publishing house selected</p>
@@ -113,12 +110,24 @@
 <p>Genres:</p>
 <GenreSearch bind:genres {genreController} />
 <GenreList {genres} let:genre>
-    <button on:click={() => selectGenre(genre)}>Select</button>
+    <button on:click={() => toggleGenre(genre)}>
+        {#if bookCreate.genreIds.includes(genre.id)}
+            Deselect
+        {:else}
+            Select
+        {/if}
+    </button>
 </GenreList>
 <p>{bookCreate.genreIds.length} genres selected</p>
 <p>Contributors:</p>
 <BookContributorSearch bind:bookContributors {bookContributorController} />
 <BookContributorList {bookContributors} let:bookContributor>
-    <button on:click={() => selectBookContributor(bookContributor)}>Select</button>
+    <button on:click={() => toggleBookContributor(bookContributor)}>
+        {#if bookCreate.bookContributorIds.includes(bookContributor.id)}
+            Deselect
+        {:else}
+            Select
+        {/if}
+    </button>
 </BookContributorList>
 <p>{bookCreate.bookContributorIds.length} contributors selected</p>

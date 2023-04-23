@@ -17,36 +17,31 @@
     let genres: GenreResponseDto[];
     let movieContributors: MovieContributorResponseDto[];
 
-    onMount(() => {
-        genreController
-            .getAllGenres()
-            .then((data) => {
-                genres = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
-        movieContributorController
-            .getAllMovieContributors()
-            .then((data) => {
-                movieContributors = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            genres = await genreController.getAllGenres();
+            movieContributors = await movieContributorController.getAllMovieContributors();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function selectGenre(genre: GenreResponseDto) {
-        if (!movieCreate.genreIds.includes(genre.id)) {
-            movieCreate.genreIds[movieCreate.genreIds.length] = genre.id;
+    function toggleGenre(genre: GenreResponseDto) {
+        if (movieCreate.genreIds.includes(genre.id)) {
+            movieCreate.genreIds.splice(movieCreate.genreIds.indexOf(genre.id), 1);
+            movieCreate.genreIds = movieCreate.genreIds;
+        } else {
+            movieCreate.genreIds = [...movieCreate.genreIds, genre.id];
         }
     }
 
-    function selectMovieContributor(movieContributor: MovieContributorResponseDto) {
-        if (!movieCreate.movieContributorIds.includes(movieContributor.id)) {
-            movieCreate.movieContributorIds[movieCreate.movieContributorIds.length] = movieContributor.id;
+    function toggleMovieContributor(movieContributor: MovieContributorResponseDto) {
+        if (movieCreate.movieContributorIds.includes(movieContributor.id)) {
+            movieCreate.movieContributorIds.splice(movieCreate.movieContributorIds.indexOf(movieContributor.id), 1);
+            movieCreate.movieContributorIds = movieCreate.movieContributorIds;
+        } else {
+            movieCreate.movieContributorIds = [...movieCreate.movieContributorIds, movieContributor.id];
         }
     }
 </script>
@@ -82,14 +77,27 @@
     <input type="number" min="0" placeholder="Age restriction" bind:value={movieCreate.ageRestriction} />
 </p>
 <p>Genres:</p>
+<p>Genres:</p>
 <GenreSearch bind:genres {genreController} />
 <GenreList {genres} let:genre>
-    <button on:click={() => selectGenre(genre)}>Select</button>
+    <button on:click={() => toggleGenre(genre)}>
+        {#if movieCreate.genreIds.includes(genre.id)}
+            Deselect
+        {:else}
+            Select
+        {/if}
+    </button>
 </GenreList>
 <p>{movieCreate.genreIds.length} genres selected</p>
 <p>Contributors:</p>
 <MovieContributorSearch bind:movieContributors {movieContributorController} />
 <MovieContributorList {movieContributors} let:movieContributor>
-    <button on:click={() => selectMovieContributor(movieContributor)}>Select</button>
+    <button on:click={() => toggleMovieContributor(movieContributor)}>
+        {#if movieCreate.movieContributorIds.includes(movieContributor.id)}
+            Deselect
+        {:else}
+            Select
+        {/if}
+    </button>
 </MovieContributorList>
 <p>{movieCreate.movieContributorIds.length} contributors selected</p>

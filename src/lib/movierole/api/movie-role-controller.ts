@@ -91,6 +91,21 @@ export class MovieRoleController {
         }
     }
 
+    async getAllMovieRolesOfContributor(contributorId: string): Promise<MovieRoleResponseDto[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
+        });
+        let responseText = await response.text();
+        if (response.ok) {
+            return JSON.parse(responseText);
+        } else {
+            throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
+        }
+    }
+
     async getAllMovieRolesOfSearchQuery(query: string): Promise<MovieRoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',

@@ -1,20 +1,13 @@
 <script lang="ts">
+    import type { MovieContributorResponseDto } from '$lib/moviecontributor/api/movie-contributor-response-dto';
+    import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
     import { MovieRoleResponseDto } from '../api/movie-role-response-dto';
 
     export let movieRole: MovieRoleResponseDto = new MovieRoleResponseDto();
+
+    let movieContributors = movieRole.movieContributors as MovieContributorResponseDto[];
 </script>
 
 <h2>{movieRole.name}</h2>
 <p>Contributors:</p>
-<ul>
-    {#each movieRole.movieContributors as movieContributor}
-        <li>
-            <a href="/contributor/{movieContributor.contributor.id}">
-                {movieContributor.movieRole.name}: {movieContributor.contributor.lastName}, {movieContributor
-                    .contributor.firstName}
-            </a>
-        </li>
-    {:else}
-        <li>No contributors</li>
-    {/each}
-</ul>
+<MovieContributorList {movieContributors} />

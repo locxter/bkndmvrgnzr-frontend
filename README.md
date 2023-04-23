@@ -36,7 +36,7 @@ First install the needed packages via `npm install`. Then build the program via 
 - [x] Book library: /book/library ROLE_USER
 - [x] Create a book: /book/create ROLE_EDITOR
 - [x] Get a book: /book/[isbn] ROLE_USER
-- [ ] Update a book: /book/update/[isbn] ROLE_EDITOR
+- [x] Update a book: /book/update/[isbn] ROLE_EDITOR
 
 ### Book role
 
@@ -65,7 +65,7 @@ First install the needed packages via `npm install`. Then build the program via 
 - [x] Movie library: /movie/library ROLE_USER
 - [x] Create a movie: /movie/create ROLE_EDITOR
 - [x] Get a movie: /movie/[isan] ROLE_USER
-- [ ] Update a movie: /movie/update/[isan] ROLE_EDITOR
+- [x] Update a movie: /movie/update/[isan] ROLE_EDITOR
 
 ### Movie role
 

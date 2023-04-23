@@ -11,42 +11,50 @@
     import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieViewBrief from '$lib/movie/component/MovieViewBrief.svelte';
     import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
+    import BookRoleView from '$lib/bookrole/component/BookRoleView.svelte';
+    import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
+    import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
 
     export let contributor: ContributorResponseDto = new ContributorResponseDto();
     export let bookController: BookController;
     export let movieController: MovieController;
 
+    let bookRoles: BookRoleResponseDto[] = [];
+    let movieRoles: MovieRoleResponseDto[] = [];
     let bookRolesBooks: { bookRole: BookRoleResponseDto; books: BookResponseDto[] }[] = [];
     let movieRolesMovies: { movieRole: MovieRoleResponseDto; movies: MovieResponseDto[] }[] = [];
 
-    onMount(() => {
-        for (let bookContributor of contributor.bookContributors) {
-            bookController
-                .getAllBooksOfBookContributor(bookContributor.id)
-                .then((data) => {
-                    bookRolesBooks[bookRolesBooks.length] = {
-                        bookRole: bookContributor.bookRole as BookRoleResponseDto,
-                        books: data,
-                    };
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        }
-        for (let movieContributor of contributor.movieContributors) {
-            movieController
-                .getAllMoviesOfMovieContributor(movieContributor.id)
-                .then((data) => {
-                    movieRolesMovies[movieRolesMovies.length] = {
-                        movieRole: movieContributor.movieRole as MovieRoleResponseDto,
-                        movies: data,
-                    };
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    onMount(async () => {
+        try {
+            for (let bookContributor of contributor.bookContributors) {
+                bookRoles = [...bookRoles, bookContributor.bookRole as BookRoleResponseDto];
+                let data = await bookController.getAllBooksOfBookContributor(bookContributor.id);
+                if (data.length) {
+                    bookRolesBooks = [
+                        ...bookRolesBooks,
+                        {
+                            bookRole: bookContributor.bookRole as BookRoleResponseDto,
+                            books: data,
+                        },
+                    ];
+                }
+            }
+            for (let movieContributor of contributor.movieContributors) {
+                movieRoles = [...movieRoles, movieContributor.movieRole as MovieRoleResponseDto];
+                let data = await movieController.getAllMoviesOfMovieContributor(movieContributor.id);
+                if (data.length) {
+                    movieRolesMovies = [
+                        ...movieRolesMovies,
+                        {
+                            movieRole: movieContributor.movieRole as MovieRoleResponseDto,
+                            movies: data,
+                        },
+                    ];
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     });
 </script>
@@ -67,6 +75,10 @@
     <br />
     {contributor.birthDay}
 </p>
+<p>Book roles:</p>
+<BookRoleList {bookRoles} />
+<p>Movie roles:</p>
+<MovieRoleList {movieRoles} />
 <p>Books:</p>
 <ul>
     {#each bookRolesBooks as bookRoleBooks}

@@ -7,7 +7,10 @@
 
 <ul>
     {#each movieRoles as movieRole}
-        <li><MovieRoleViewBrief {movieRole} /></li>
+        <li>
+            <slot {movieRole} />
+            <MovieRoleViewBrief {movieRole} />
+        </li>
     {:else}
         <li>No movie roles</li>
     {/each}
