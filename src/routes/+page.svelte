@@ -23,38 +23,39 @@
         userController = new UserController(serverAddress);
     });
 
-    function login() {
-        if (authLogin.username && authLogin.username.trim() && authLogin.password && authLogin.password.trim()) {
-            authLogin.username = authLogin.username.trim();
-            authLogin.password = authLogin.password.trim();
-            authController
-                .login(authLogin)
-                .then((data) => {
-                    globalJwt.set(data);
-                    globalServerAddress.set(serverAddress);
-                    goto('/welcome');
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function login() {
+        try {
+            if (authLogin.username && authLogin.username.trim() && authLogin.password && authLogin.password.trim()) {
+                authLogin.username = authLogin.username.trim();
+                authLogin.password = authLogin.password.trim();
+                let data = await authController.login(authLogin);
+                globalJwt.set(data);
+                globalServerAddress.set(serverAddress);
+                goto('/welcome');
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 
-    function signup() {
-        if (userCreate.username && userCreate.username.trim() && userCreate.password && userCreate.password.trim()) {
-            userCreate.username = userCreate.username.trim();
-            userCreate.password = userCreate.password.trim();
-            userController
-                .createUser(userCreate)
-                .then((data) => {
-                    authLogin = userCreate as AuthLoginDto;
-                    login();
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function signup() {
+        try {
+            if (
+                userCreate.username &&
+                userCreate.username.trim() &&
+                userCreate.password &&
+                userCreate.password.trim()
+            ) {
+                userCreate.username = userCreate.username.trim();
+                userCreate.password = userCreate.password.trim();
+                await userController.createUser(userCreate);
+                authLogin = userCreate as AuthLoginDto;
+                login();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            publishingHouseController
-                .getAllPublishingHousesOfSearchQuery(query.trim())
-                .then((data) => {
-                    publishingHouses = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            publishingHouseController
-                .getAllPublishingHouses()
-                .then((data) => {
-                    publishingHouses = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                publishingHouses = await publishingHouseController.getAllPublishingHousesOfSearchQuery(query.trim());
+            } else {
+                publishingHouses = await publishingHouseController.getAllPublishingHouses();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

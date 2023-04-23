@@ -32,44 +32,36 @@
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        bookRoleController
-            .getBookRole(bookRoleId)
-            .then((data) => {
-                bookRole = data;
-                bookRoleUpdate = bookRole as BookRoleUpdateDto;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            bookRole = await bookRoleController.getBookRole(bookRoleId);
+            bookRoleUpdate = bookRole as BookRoleUpdateDto;
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function updateBookRole() {
-        bookRoleController
-            .updateBookRole(bookRole.id, bookRoleUpdate)
-            .then((data) => {
-                bookRole = data;
-                alert('Book role successfully updated');
-                goto('/book-role/' + bookRole.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function updateBookRole() {
+        try {
+            bookRole = await bookRoleController.updateBookRole(bookRole.id, bookRoleUpdate);
+            alert('Book role successfully updated');
+            goto('/book-role/' + bookRole.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
-    function deleteBookRole() {
-        bookRoleController
-            .deleteBookRole(bookRole.id)
-            .then((data) => {
-                alert('Book role successfully deleted');
-                goto('/book-role');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function deleteBookRole() {
+        try {
+            await bookRoleController.deleteBookRole(bookRole.id);
+            alert('Book role successfully deleted');
+            goto('/book-role');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

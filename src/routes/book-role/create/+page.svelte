@@ -23,17 +23,15 @@
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
 
-    function createBookRole() {
-        bookRoleController
-            .createBookRole(bookRoleCreate)
-            .then((data) => {
-                alert('Book role successfully created');
-                goto('/book-role/' + data.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createBookRole() {
+        try {
+            let data = await bookRoleController.createBookRole(bookRoleCreate);
+            alert('Book role successfully created');
+            goto('/book-role/' + data.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

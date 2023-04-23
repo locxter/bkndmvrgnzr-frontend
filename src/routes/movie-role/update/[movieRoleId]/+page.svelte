@@ -32,44 +32,36 @@
         movieRoleController = new MovieRoleController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        movieRoleController
-            .getMovieRole(movieRoleId)
-            .then((data) => {
-                movieRole = data;
-                movieRoleUpdate = movieRole as MovieRoleUpdateDto;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            movieRole = await movieRoleController.getMovieRole(movieRoleId);
+            movieRoleUpdate = movieRole as MovieRoleUpdateDto;
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function updateMovieRole() {
-        movieRoleController
-            .updateMovieRole(movieRole.id, movieRoleUpdate)
-            .then((data) => {
-                movieRole = data;
-                alert('Movie role successfully updated');
-                goto('/movie-role/' + movieRole.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function updateMovieRole() {
+        try {
+            movieRole = await movieRoleController.updateMovieRole(movieRole.id, movieRoleUpdate);
+            alert('Movie role successfully updated');
+            goto('/movie-role/' + movieRole.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
-    function deleteMovieRole() {
-        movieRoleController
-            .deleteMovieRole(movieRole.id)
-            .then((data) => {
-                alert('Movie role successfully deleted');
-                goto('/movie-role');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function deleteMovieRole() {
+        try {
+            await movieRoleController.deleteMovieRole(movieRole.id);
+            alert('Movie role successfully deleted');
+            goto('/movie-role');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

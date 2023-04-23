@@ -24,16 +24,13 @@
         bookController = new BookController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        bookController
-            .getAllBooksOfUser()
-            .then((data) => {
-                books = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            books = await bookController.getAllBooksOfUser();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

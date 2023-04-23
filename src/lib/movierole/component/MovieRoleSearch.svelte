@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            movieRoleController
-                .getAllMovieRolesOfSearchQuery(query.trim())
-                .then((data) => {
-                    movieRoles = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            movieRoleController
-                .getAllMovieRoles()
-                .then((data) => {
-                    movieRoles = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                movieRoles = await movieRoleController.getAllMovieRolesOfSearchQuery(query.trim());
+            } else {
+                movieRoles = await movieRoleController.getAllMovieRoles();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

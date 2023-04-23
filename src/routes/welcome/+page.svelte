@@ -36,34 +36,15 @@
         movieController = new MovieController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        userController
-            .getUser()
-            .then((data) => {
-                user = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
-        bookController
-            .getAllBooksOfUser()
-            .then((data) => {
-                books = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
-        movieController
-            .getAllMoviesOfUser()
-            .then((data) => {
-                movies = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            user = await userController.getUser();
+            books = await bookController.getAllBooksOfUser();
+            movies = await movieController.getAllMoviesOfUser();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

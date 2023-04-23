@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            bookRoleController
-                .getAllBookRolesOfSearchQuery(query.trim())
-                .then((data) => {
-                    bookRoles = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            bookRoleController
-                .getAllBookRoles()
-                .then((data) => {
-                    bookRoles = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                bookRoles = await bookRoleController.getAllBookRolesOfSearchQuery(query.trim());
+            } else {
+                bookRoles = await bookRoleController.getAllBookRoles();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

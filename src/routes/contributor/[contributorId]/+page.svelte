@@ -37,16 +37,13 @@
         movieController = new MovieController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        contributorController
-            .getContributor(contributorId)
-            .then((data) => {
-                contributor = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            contributor = await contributorController.getContributor(contributorId);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

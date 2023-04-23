@@ -23,17 +23,15 @@
         publishingHouseController = new PublishingHouseController(serverAddress, jwt);
     });
 
-    function createPublishingHouse() {
-        publishingHouseController
-            .createPublishingHouse(publishingHouseCreate)
-            .then((data) => {
-                alert('Publishing house successfully created');
-                goto('/publishing-house/' + data.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createPublishingHouse() {
+        try {
+            let data = await publishingHouseController.createPublishingHouse(publishingHouseCreate);
+            alert('Publishing house successfully created');
+            goto('/publishing-house/' + data.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

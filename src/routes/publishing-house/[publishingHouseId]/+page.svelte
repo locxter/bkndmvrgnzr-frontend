@@ -29,16 +29,13 @@
         publishingHouseController = new PublishingHouseController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        publishingHouseController
-            .getPublishingHouse(publishingHouseId)
-            .then((data) => {
-                publishingHouse = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            publishingHouse = await publishingHouseController.getPublishingHouse(publishingHouseId);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

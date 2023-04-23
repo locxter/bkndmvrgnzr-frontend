@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            movieController
-                .getAllMoviesOfSearchQueryFromUser(query.trim())
-                .then((data) => {
-                    movies = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            movieController
-                .getAllMoviesOfUser()
-                .then((data) => {
-                    movies = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                movies = await movieController.getAllMoviesOfSearchQueryFromUser(query.trim());
+            } else {
+                movies = await movieController.getAllMoviesOfUser();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

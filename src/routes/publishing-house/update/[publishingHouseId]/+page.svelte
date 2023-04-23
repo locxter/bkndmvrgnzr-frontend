@@ -32,44 +32,39 @@
         publishingHouseController = new PublishingHouseController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        publishingHouseController
-            .getPublishingHouse(publishingHouseId)
-            .then((data) => {
-                publishingHouse = data;
-                publishingHouseUpdate = publishingHouse as PublishingHouseUpdateDto;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            publishingHouse = await publishingHouseController.getPublishingHouse(publishingHouseId);
+            publishingHouseUpdate = publishingHouse as PublishingHouseUpdateDto;
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function updatePublishingHouse() {
-        publishingHouseController
-            .updatePublishingHouse(publishingHouse.id, publishingHouseUpdate)
-            .then((data) => {
-                publishingHouse = data;
-                alert('Publishing house successfully updated');
-                goto('/publishing-house/' + publishingHouse.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function updatePublishingHouse() {
+        try {
+            publishingHouse = await publishingHouseController.updatePublishingHouse(
+                publishingHouse.id,
+                publishingHouseUpdate
+            );
+            alert('Publishing house successfully updated');
+            goto('/publishing-house/' + publishingHouse.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
-    function deletePublishingHouse() {
-        publishingHouseController
-            .deletePublishingHouse(publishingHouse.id)
-            .then((data) => {
-                alert('Publishing house successfully deleted');
-                goto('/publishing-house');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function deletePublishingHouse() {
+        try {
+            await publishingHouseController.deletePublishingHouse(publishingHouse.id);
+            alert('Publishing house successfully deleted');
+            goto('/publishing-house');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

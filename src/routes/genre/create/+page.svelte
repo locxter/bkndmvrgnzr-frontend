@@ -23,17 +23,15 @@
         genreController = new GenreController(serverAddress, jwt);
     });
 
-    function createGenre() {
-        genreController
-            .createGenre(genreCreate)
-            .then((data) => {
-                alert('Genre successfully created');
-                goto('/genre/' + data.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createGenre() {
+        try {
+            let data = await genreController.createGenre(genreCreate);
+            alert('Genre successfully created');
+            goto('/genre/' + data.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            movieContributorController
-                .getAllMovieContributorsOfSearchQuery(query.trim())
-                .then((data) => {
-                    movieContributors = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            movieContributorController
-                .getAllMovieContributors()
-                .then((data) => {
-                    movieContributors = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                movieContributors = await movieContributorController.getAllMovieContributorsOfSearchQuery(query.trim());
+            } else {
+                movieContributors = await movieContributorController.getAllMovieContributors();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

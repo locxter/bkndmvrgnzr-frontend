@@ -35,17 +35,15 @@
         bookContributorController = new BookContributorController(serverAddress, jwt);
     });
 
-    function createBook() {
-        bookController
-            .createBook(bookCreate)
-            .then((data) => {
-                alert('Book successfully created');
-                goto('/book/' + data.isbn);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createBook() {
+        try {
+            let data = await bookController.createBook(bookCreate);
+            alert('Book successfully created');
+            goto('/book/' + data.isbn);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

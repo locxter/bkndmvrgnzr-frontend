@@ -31,17 +31,15 @@
         movieContributorController = new MovieContributorController(serverAddress, jwt);
     });
 
-    function createMovie() {
-        movieController
-            .createMovie(movieCreate)
-            .then((data) => {
-                alert('Movie successfully created');
-                goto('/movie/' + data.isan);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createMovie() {
+        try {
+            let data = await movieController.createMovie(movieCreate);
+            alert('Movie successfully created');
+            goto('/movie/' + data.isan);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

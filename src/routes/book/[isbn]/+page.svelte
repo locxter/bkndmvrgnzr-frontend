@@ -29,16 +29,13 @@
         bookController = new BookController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        bookController
-            .getBook(isbn)
-            .then((data) => {
-                book = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            book = await bookController.getBook(isbn);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

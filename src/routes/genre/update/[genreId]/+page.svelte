@@ -32,44 +32,36 @@
         genreController = new GenreController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        genreController
-            .getGenre(genreId)
-            .then((data) => {
-                genre = data;
-                genreUpdate = genre as GenreUpdateDto;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            genre = await genreController.getGenre(genreId);
+            genreUpdate = genre as GenreUpdateDto;
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 
-    function updateGenre() {
-        genreController
-            .updateGenre(genre.id, genreUpdate)
-            .then((data) => {
-                genre = data;
-                alert('Genre successfully updated');
-                goto('/genre/' + genre.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function updateGenre() {
+        try {
+            genre = await genreController.updateGenre(genre.id, genreUpdate);
+            alert('Genre successfully updated');
+            goto('/genre/' + genre.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
-    function deleteGenre() {
-        genreController
-            .deleteGenre(genre.id)
-            .then((data) => {
-                alert('Genre successfully deleted');
-                goto('/genre');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function deleteGenre() {
+        try {
+            await genreController.deleteGenre(genre.id);
+            alert('Genre successfully deleted');
+            goto('/genre');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

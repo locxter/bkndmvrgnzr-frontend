@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            bookController
-                .getAllBooksOfSearchQuery(query.trim())
-                .then((data) => {
-                    books = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            bookController
-                .getAllBooks()
-                .then((data) => {
-                    books = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                books = await bookController.getAllBooksOfSearchQuery(query.trim());
+            } else {
+                books = await bookController.getAllBooks();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

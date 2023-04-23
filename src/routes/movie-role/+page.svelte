@@ -24,16 +24,13 @@
         movieRoleController = new MovieRoleController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        movieRoleController
-            .getAllMovieRoles()
-            .then((data) => {
-                movieRoles = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            movieRoles = await movieRoleController.getAllMovieRoles();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

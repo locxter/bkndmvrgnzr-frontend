@@ -29,16 +29,13 @@
         bookRoleController = new BookRoleController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        bookRoleController
-            .getBookRole(bookRoleId)
-            .then((data) => {
-                bookRole = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            bookRole = await bookRoleController.getBookRole(bookRoleId);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

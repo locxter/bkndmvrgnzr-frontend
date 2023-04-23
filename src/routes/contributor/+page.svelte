@@ -24,16 +24,13 @@
         contributorController = new ContributorController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        contributorController
-            .getAllContributors()
-            .then((data) => {
-                contributors = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            contributors = await contributorController.getAllContributors();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

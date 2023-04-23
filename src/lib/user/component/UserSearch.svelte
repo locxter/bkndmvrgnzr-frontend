@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            userController
-                .getAllUsersOfSearchQuery(query.trim())
-                .then((data) => {
-                    users = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            userController
-                .getAllUsers()
-                .then((data) => {
-                    users = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                users = await userController.getAllUsersOfSearchQuery(query.trim());
+            } else {
+                users = await userController.getAllUsers();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

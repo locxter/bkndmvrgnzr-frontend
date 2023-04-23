@@ -29,16 +29,13 @@
         movieRoleController = new MovieRoleController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        movieRoleController
-            .getMovieRole(movieRoleId)
-            .then((data) => {
-                movieRole = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            movieRole = await movieRoleController.getMovieRole(movieRoleId);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            genreController
-                .getAllGenresOfSearchQuery(query.trim())
-                .then((data) => {
-                    genres = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            genreController
-                .getAllGenres()
-                .then((data) => {
-                    genres = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                genres = await genreController.getAllGenresOfSearchQuery(query.trim());
+            } else {
+                genres = await genreController.getAllGenres();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

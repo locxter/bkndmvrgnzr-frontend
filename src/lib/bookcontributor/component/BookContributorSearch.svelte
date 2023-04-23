@@ -7,27 +7,16 @@
 
     let query: string;
 
-    function search() {
-        if (query && query.trim()) {
-            bookContributorController
-                .getAllBookContributorsOfSearchQuery(query.trim())
-                .then((data) => {
-                    bookContributors = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
-        } else {
-            bookContributorController
-                .getAllBookContributors()
-                .then((data) => {
-                    bookContributors = data;
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert(error);
-                });
+    async function search() {
+        try {
+            if (query && query.trim()) {
+                bookContributors = await bookContributorController.getAllBookContributorsOfSearchQuery(query.trim());
+            } else {
+                bookContributors = await bookContributorController.getAllBookContributors();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(error);
         }
     }
 </script>

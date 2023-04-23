@@ -24,16 +24,13 @@
         movieController = new MovieController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        movieController
-            .getAllMoviesOfUser()
-            .then((data) => {
-                movies = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            movies = await movieController.getAllMoviesOfUser();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

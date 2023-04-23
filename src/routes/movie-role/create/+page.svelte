@@ -23,17 +23,15 @@
         movieRoleController = new MovieRoleController(serverAddress, jwt);
     });
 
-    function createMovieRole() {
-        movieRoleController
-            .createMovieRole(movieRoleCreate)
-            .then((data) => {
-                alert('Movie role successfully created');
-                goto('/movie-role/' + data.id);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    async function createMovieRole() {
+        try {
+            let data = await movieRoleController.createMovieRole(movieRoleCreate);
+            alert('Movie role successfully created');
+            goto('/movie-role/' + data.id);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 </script>
 

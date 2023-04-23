@@ -29,16 +29,13 @@
         movieController = new MovieController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        movieController
-            .getMovie(isan)
-            .then((data) => {
-                movie = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            movie = await movieController.getMovie(isan);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 

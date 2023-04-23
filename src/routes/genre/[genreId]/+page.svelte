@@ -29,16 +29,13 @@
         genreController = new GenreController(serverAddress, jwt);
     });
 
-    onMount(() => {
-        genreController
-            .getGenre(genreId)
-            .then((data) => {
-                genre = data;
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error);
-            });
+    onMount(async () => {
+        try {
+            genre = await genreController.getGenre(genreId);
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     });
 </script>
 
