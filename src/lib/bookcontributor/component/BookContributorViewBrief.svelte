@@ -7,8 +7,8 @@
 
     export let bookContributor: BookContributorResponseDto = new BookContributorResponseDto();
 
-    let bookRole = bookContributor.bookRole as BookRoleResponseDto;
-    let contributor = bookContributor.contributor as ContributorResponseDto;
+    $: bookRole = bookContributor.bookRole as BookRoleResponseDto;
+    $: contributor = bookContributor.contributor as ContributorResponseDto;
 </script>
 
 <BookRoleViewBrief {bookRole} />

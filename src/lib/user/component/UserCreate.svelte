@@ -23,5 +23,5 @@
 <p>
     <label for="last-name">Last name:</label>
     <br />
-    <input id="last-name" type="password" placeholder="Last name" bind:value={userCreate.lastName} />
+    <input id="last-name" type="text" placeholder="Last name" bind:value={userCreate.lastName} />
 </p>

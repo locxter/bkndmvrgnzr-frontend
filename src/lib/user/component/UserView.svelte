@@ -8,8 +8,8 @@
 
     export let user: UserResponseDto = new UserResponseDto();
 
-    let books = user.books as BookResponseDto[];
-    let movies = user.movies as MovieResponseDto[];
+    $: books = user.books as BookResponseDto[];
+    $: movies = user.movies as MovieResponseDto[];
 </script>
 
 <h2>{user.username}</h2>

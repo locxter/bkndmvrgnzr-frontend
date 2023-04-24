@@ -9,9 +9,9 @@
 
     export let book: BookResponseDto = new BookResponseDto();
 
-    let publishingHouse = book.publishingHouse as PublishingHouseResponseDto;
-    let genres = book.genres as GenreResponseDto[];
-    let bookContributors = book.bookContributors as BookContributorResponseDto[];
+    $: publishingHouse = book.publishingHouse as PublishingHouseResponseDto;
+    $: genres = book.genres as GenreResponseDto[];
+    $: bookContributors = book.bookContributors as BookContributorResponseDto[];
 </script>
 
 <h2>{book.title}</h2>

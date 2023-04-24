@@ -5,7 +5,7 @@
 
     export let movieRole: MovieRoleResponseDto = new MovieRoleResponseDto();
 
-    let movieContributors = movieRole.movieContributors as MovieContributorResponseDto[];
+    $: movieContributors = movieRole.movieContributors as MovieContributorResponseDto[];
 </script>
 
 <h2>{movieRole.name}</h2>

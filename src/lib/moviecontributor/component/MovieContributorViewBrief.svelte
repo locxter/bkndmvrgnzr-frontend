@@ -7,8 +7,8 @@
 
     export let movieContributor: MovieContributorResponseDto = new MovieContributorResponseDto();
 
-    let movieRole = movieContributor.movieRole as MovieRoleResponseDto;
-    let contributor = movieContributor.contributor as ContributorResponseDto;
+    $: movieRole = movieContributor.movieRole as MovieRoleResponseDto;
+    $: contributor = movieContributor.contributor as ContributorResponseDto;
 </script>
 
 <MovieRoleViewBrief {movieRole} />

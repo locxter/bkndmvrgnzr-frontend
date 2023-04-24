@@ -5,7 +5,7 @@
 
     export let bookRole: BookRoleResponseDto = new BookRoleResponseDto();
 
-    let bookContributors = bookRole.bookContributors as BookContributorResponseDto[];
+    $: bookContributors = bookRole.bookContributors as BookContributorResponseDto[];
 </script>
 
 <h2>{bookRole.name}</h2>

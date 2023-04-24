@@ -24,8 +24,14 @@
     let bookRolesBooks: { bookRole: BookRoleResponseDto; books: BookResponseDto[] }[] = [];
     let movieRolesMovies: { movieRole: MovieRoleResponseDto; movies: MovieResponseDto[] }[] = [];
 
-    onMount(async () => {
+    $: loadIndirectData(contributor);
+
+    async function loadIndirectData(contributor: ContributorResponseDto) {
         try {
+            bookRoles = [];
+            movieRoles = [];
+            bookRolesBooks = [];
+            movieRolesMovies = [];
             for (let bookContributor of contributor.bookContributors) {
                 bookRoles = [...bookRoles, bookContributor.bookRole as BookRoleResponseDto];
                 let data = await bookController.getAllBooksOfBookContributor(bookContributor.id);
@@ -56,7 +62,7 @@
             console.error(error);
             alert(error);
         }
-    });
+    }
 </script>
 
 <h2>{contributor.lastName}, {contributor.firstName}</h2>

@@ -7,8 +7,8 @@
 
     export let genre: GenreResponseDto = new GenreResponseDto();
 
-    let books = genre.books as BookResponseDto[];
-    let movies = genre.movies as MovieResponseDto[];
+    $: books = genre.books as BookResponseDto[];
+    $: movies = genre.movies as MovieResponseDto[];
 </script>
 
 <h2>{genre.name}</h2>
