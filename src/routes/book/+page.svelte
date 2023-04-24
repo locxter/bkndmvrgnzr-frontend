@@ -13,6 +13,8 @@
     let jwt: string;
     let bookController: BookController;
     let books: BookResponseDto[];
+    let libraryBooks: BookResponseDto[] = [];
+    let libraryUpdateBooks: BookResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,11 +29,43 @@
     onMount(async () => {
         try {
             books = await bookController.getAllBooks();
+            libraryUpdateBooks = await bookController.getAllBooksOfUser();
+            libraryBooks = [...libraryUpdateBooks];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
+
+    function toggleLibraryBook(libraryBook: BookResponseDto) {
+        if (libraryUpdateBooks.map((it) => it.isbn).includes(libraryBook.isbn)) {
+            libraryUpdateBooks.splice(libraryUpdateBooks.map((it) => it.isbn).indexOf(libraryBook.isbn), 1);
+            libraryUpdateBooks = libraryUpdateBooks;
+        } else {
+            libraryUpdateBooks = [...libraryUpdateBooks, libraryBook];
+        }
+    }
+
+    async function updateLibrary() {
+        try {
+            // Remove unselected library books
+            for (let libraryBook of libraryBooks) {
+                if (!libraryUpdateBooks.map((it) => it.isbn).includes(libraryBook.isbn)) {
+                    await bookController.removeBookFromUser(libraryBook.isbn);
+                }
+            }
+            // Add new library books
+            for (let libraryUpdateBook of libraryUpdateBooks) {
+                if (!libraryBooks.map((it) => it.isbn).includes(libraryUpdateBook.isbn)) {
+                    await bookController.addBookToUser(libraryUpdateBook.isbn);
+                }
+            }
+            alert('Library successfully updated');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
 </script>
 
 <svelte:head>
@@ -44,7 +78,19 @@
 <main>
     <h2>Book</h2>
     <BookSearch {bookController} bind:books />
-    <BookList {books} />
+    <BookList {books} let:book>
+        <button on:click={() => toggleLibraryBook(book)}>
+            {#if libraryUpdateBooks.map((it) => it.isbn).includes(book.isbn)}
+                Deselect
+            {:else}
+                Select
+            {/if}
+        </button>
+    </BookList>
+    <p>{libraryUpdateBooks.length} books in library</p>
+    <p>
+        <button on:click={updateLibrary}>Update library</button>
+    </p>
     <p>
         <a href="/book/create">
             <button>Create book</button>

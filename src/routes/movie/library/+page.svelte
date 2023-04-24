@@ -13,6 +13,7 @@
     let jwt: string;
     let movieController: MovieController;
     let movies: MovieResponseDto[];
+    let updateMovies: MovieResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -26,24 +27,62 @@
 
     onMount(async () => {
         try {
-            movies = await movieController.getAllMoviesOfUser();
+            updateMovies = await movieController.getAllMoviesOfUser();
+            movies = [...updateMovies];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
+
+    function toggleMovie(movie: MovieResponseDto) {
+        if (updateMovies.map((it) => it.isan).includes(movie.isan)) {
+            updateMovies.splice(updateMovies.map((it) => it.isan).indexOf(movie.isan), 1);
+            updateMovies = updateMovies;
+        } else {
+            updateMovies = [...updateMovies, movie];
+        }
+    }
+
+    async function update() {
+        try {
+            // Remove unselected movies
+            for (let movie of movies) {
+                if (!updateMovies.map((it) => it.isan).includes(movie.isan)) {
+                    await movieController.removeMovieFromUser(movie.isan);
+                }
+            }
+            movies = [...updateMovies];
+            alert('Library successfully updated');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
 </script>
 
 <svelte:head>
-    <title>Movie | bkndmvrgnzr</title>
+    <title>Movie library | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>Movie</h2>
+    <h2>Movie library</h2>
     <MovieLibrarySearch {movieController} bind:movies />
-    <MovieList {movies} />
+    <MovieList {movies} let:movie>
+        <button on:click={() => toggleMovie(movie)}>
+            {#if updateMovies.map((it) => it.isan).includes(movie.isan)}
+                Deselect
+            {:else}
+                Select
+            {/if}
+        </button>
+    </MovieList>
+    <p>{updateMovies.length} movies in library</p>
+    <p>
+        <button on:click={update}>Update library</button>
+    </p>
 </main>
 <Footer />

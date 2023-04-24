@@ -39,8 +39,8 @@
     onMount(async () => {
         try {
             user = await userController.getUser();
-            books = await bookController.getAllBooksOfUser();
-            movies = await movieController.getAllMoviesOfUser();
+            books = (await bookController.getAllBooksOfUser()).slice(0, 10);
+            movies = (await movieController.getAllMoviesOfUser()).slice(0, 10);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -70,9 +70,9 @@
     </h2>
     <h3>Books</h3>
     <BookList {books} />
-    <a href="/book">View more</a>
+    <a href="/book/library">View more</a>
     <h3>Movies</h3>
     <MovieList {movies} />
-    <a href="/movie">View more</a>
+    <a href="/movie/library">View more</a>
 </main>
 <Footer />

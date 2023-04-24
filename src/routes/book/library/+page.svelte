@@ -12,7 +12,8 @@
     let serverAddress: string;
     let jwt: string;
     let bookController: BookController;
-    let books: BookResponseDto[];
+    let books: BookResponseDto[] = [];
+    let updateBooks: BookResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -26,24 +27,62 @@
 
     onMount(async () => {
         try {
-            books = await bookController.getAllBooksOfUser();
+            updateBooks = await bookController.getAllBooksOfUser();
+            books = [...updateBooks];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
+
+    function toggleBook(book: BookResponseDto) {
+        if (updateBooks.map((it) => it.isbn).includes(book.isbn)) {
+            updateBooks.splice(updateBooks.map((it) => it.isbn).indexOf(book.isbn), 1);
+            updateBooks = updateBooks;
+        } else {
+            updateBooks = [...updateBooks, book];
+        }
+    }
+
+    async function update() {
+        try {
+            // Remove unselected books
+            for (let book of books) {
+                if (!updateBooks.map((it) => it.isbn).includes(book.isbn)) {
+                    await bookController.removeBookFromUser(book.isbn);
+                }
+            }
+            books = [...updateBooks];
+            alert('Library successfully updated');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
 </script>
 
 <svelte:head>
-    <title>Book | bkndmvrgnzr</title>
+    <title>Book library | bkndmvrgnzr</title>
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>Book</h2>
+    <h2>Book library</h2>
     <BookLibrarySearch {bookController} bind:books />
-    <BookList {books} />
+    <BookList {books} let:book>
+        <button on:click={() => toggleBook(book)}>
+            {#if updateBooks.map((it) => it.isbn).includes(book.isbn)}
+                Deselect
+            {:else}
+                Select
+            {/if}
+        </button>
+    </BookList>
+    <p>{updateBooks.length} books in library</p>
+    <p>
+        <button on:click={update}>Update library</button>
+    </p>
 </main>
 <Footer />

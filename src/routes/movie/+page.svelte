@@ -13,6 +13,8 @@
     let jwt: string;
     let movieController: MovieController;
     let movies: MovieResponseDto[];
+    let libraryMovies: MovieResponseDto[] = [];
+    let libraryUpdateMovies: MovieResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,11 +29,43 @@
     onMount(async () => {
         try {
             movies = await movieController.getAllMovies();
+            libraryUpdateMovies = await movieController.getAllMoviesOfUser();
+            libraryMovies = [...libraryUpdateMovies];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
+
+    function toggleLibraryMovie(libraryMovie: MovieResponseDto) {
+        if (libraryUpdateMovies.map((it) => it.isan).includes(libraryMovie.isan)) {
+            libraryUpdateMovies.splice(libraryUpdateMovies.map((it) => it.isan).indexOf(libraryMovie.isan), 1);
+            libraryUpdateMovies = libraryUpdateMovies;
+        } else {
+            libraryUpdateMovies = [...libraryUpdateMovies, libraryMovie];
+        }
+    }
+
+    async function updateLibrary() {
+        try {
+            // Remove unselected library movies
+            for (let libraryMovie of libraryMovies) {
+                if (!libraryUpdateMovies.map((it) => it.isan).includes(libraryMovie.isan)) {
+                    await movieController.removeMovieFromUser(libraryMovie.isan);
+                }
+            }
+            // Add new library movies
+            for (let libraryUpdateMovie of libraryUpdateMovies) {
+                if (!libraryMovies.map((it) => it.isan).includes(libraryUpdateMovie.isan)) {
+                    await movieController.addMovieToUser(libraryUpdateMovie.isan);
+                }
+            }
+            alert('Library successfully updated');
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
 </script>
 
 <svelte:head>
@@ -44,7 +78,19 @@
 <main>
     <h2>Movie</h2>
     <MovieSearch {movieController} bind:movies />
-    <MovieList {movies} />
+    <MovieList {movies} let:movie>
+        <button on:click={() => toggleLibraryMovie(movie)}>
+            {#if libraryUpdateMovies.map((it) => it.isan).includes(movie.isan)}
+                Deselect
+            {:else}
+                Select
+            {/if}
+        </button>
+    </MovieList>
+    <p>{libraryUpdateMovies.length} movies in library</p>
+    <p>
+        <button on:click={updateLibrary}>Update library</button>
+    </p>
     <p>
         <a href="/movie/create">
             <button>Create movie</button>

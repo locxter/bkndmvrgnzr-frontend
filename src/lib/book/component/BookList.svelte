@@ -7,7 +7,10 @@
 
 <ul>
     {#each books as book}
-        <li><BookViewBrief {book} /></li>
+        <li>
+            <slot {book} />
+            <BookViewBrief {book} />
+        </li>
     {:else}
         <li>No books</li>
     {/each}

@@ -7,7 +7,10 @@
 
 <ul>
     {#each movies as movie}
-        <li><MovieViewBrief {movie} /></li>
+        <li>
+            <slot {movie} />
+            <MovieViewBrief {movie} />
+        </li>
     {:else}
         <li>No movies</li>
     {/each}

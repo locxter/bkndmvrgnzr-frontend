@@ -73,6 +73,7 @@
     async function updateContributor() {
         try {
             contributor = await contributorController.updateContributor(contributor.id, contributorUpdate);
+            // Delete unselected book roles
             for (let contributorBookRole of contributorBookRoles) {
                 if (!contributorUpdateBookRoles.map((it) => it.id).includes(contributorBookRole.id)) {
                     await bookContributorController.deleteBookContributor(
@@ -82,6 +83,7 @@
                     );
                 }
             }
+            // Create new book roles
             for (let contributorUpdateBookRole of contributorUpdateBookRoles) {
                 if (!contributorBookRoles.map((it) => it.id).includes(contributorUpdateBookRole.id)) {
                     let bookContributorCreate = new BookContributorCreateDto(
@@ -91,6 +93,7 @@
                     await bookContributorController.createBookContributor(bookContributorCreate);
                 }
             }
+            // Delete unselected movie roles
             for (let contributorMovieRole of contributorMovieRoles) {
                 if (!contributorUpdateMovieRoles.map((it) => it.id).includes(contributorMovieRole.id)) {
                     await movieContributorController.deleteMovieContributor(
@@ -100,6 +103,7 @@
                     );
                 }
             }
+            // Create new movie roles
             for (let contributorUpdateMovieRole of contributorUpdateMovieRoles) {
                 if (!contributorMovieRoles.map((it) => it.id).includes(contributorUpdateMovieRole.id)) {
                     let movieContributorCreate = new MovieContributorCreateDto(
