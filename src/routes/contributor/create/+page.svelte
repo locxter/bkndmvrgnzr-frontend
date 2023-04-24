@@ -24,8 +24,8 @@
     let bookContributorController: BookContributorController;
     let movieContributorController: MovieContributorController;
     let contributorCreate: ContributorCreateDto;
-    let contributorBookRoles: BookRoleResponseDto[];
-    let contributorMovieRoles: MovieRoleResponseDto[];
+    let contributorBookRoles: BookRoleResponseDto[] = [];
+    let contributorMovieRoles: MovieRoleResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

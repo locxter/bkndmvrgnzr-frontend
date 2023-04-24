@@ -28,11 +28,11 @@
     let bookContributorController: BookContributorController;
     let movieContributorController: MovieContributorController;
     let contributor: ContributorResponseDto;
-    let contributorBookRoles: BookRoleResponseDto[];
-    let contributorMovieRoles: MovieRoleResponseDto[];
+    let contributorBookRoles: BookRoleResponseDto[] = [];
+    let contributorMovieRoles: MovieRoleResponseDto[] = [];
     let contributorUpdate: ContributorUpdateDto;
-    let contributorUpdateBookRoles: BookRoleResponseDto[];
-    let contributorUpdateMovieRoles: MovieRoleResponseDto[];
+    let contributorUpdateBookRoles: BookRoleResponseDto[] = [];
+    let contributorUpdateMovieRoles: MovieRoleResponseDto[] = [];
 
     page.subscribe((data) => {
         contributorId = data.params.contributorId;

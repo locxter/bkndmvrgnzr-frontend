@@ -19,9 +19,9 @@
     export let genreController: GenreController;
     export let bookContributorController: BookContributorController;
 
-    let publishingHouses: PublishingHouseResponseDto[];
-    let genres: GenreResponseDto[];
-    let bookContributors: BookContributorResponseDto[];
+    let publishingHouses: PublishingHouseResponseDto[] = [];
+    let genres: GenreResponseDto[] = [];
+    let bookContributors: BookContributorResponseDto[] = [];
 
     onMount(async () => {
         try {

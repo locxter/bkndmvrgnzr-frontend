@@ -12,7 +12,7 @@
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRoles: BookRoleResponseDto[];
+    let bookRoles: BookRoleResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

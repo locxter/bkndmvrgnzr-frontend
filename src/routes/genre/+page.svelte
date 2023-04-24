@@ -12,7 +12,7 @@
     let serverAddress: string;
     let jwt: string;
     let genreController: GenreController;
-    let genres: GenreResponseDto[];
+    let genres: GenreResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

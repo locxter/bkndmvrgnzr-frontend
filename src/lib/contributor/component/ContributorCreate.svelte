@@ -16,8 +16,8 @@
     export let bookRoleController: BookRoleController;
     export let movieRoleController: MovieRoleController;
 
-    let bookRoles: BookRoleResponseDto[];
-    let movieRoles: MovieRoleResponseDto[];
+    let bookRoles: BookRoleResponseDto[] = [];
+    let movieRoles: MovieRoleResponseDto[] = [];
 
     onMount(async () => {
         try {

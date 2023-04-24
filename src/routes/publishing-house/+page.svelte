@@ -12,7 +12,7 @@
     let serverAddress: string;
     let jwt: string;
     let publishingHouseController: PublishingHouseController;
-    let publishingHouses: PublishingHouseResponseDto[];
+    let publishingHouses: PublishingHouseResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

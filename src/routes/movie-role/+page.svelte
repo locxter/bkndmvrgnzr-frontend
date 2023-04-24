@@ -12,7 +12,7 @@
     let serverAddress: string;
     let jwt: string;
     let movieRoleController: MovieRoleController;
-    let movieRoles: MovieRoleResponseDto[];
+    let movieRoles: MovieRoleResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

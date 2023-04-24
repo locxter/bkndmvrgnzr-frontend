@@ -12,7 +12,7 @@
     let serverAddress: string;
     let jwt: string;
     let contributorController: ContributorController;
-    let contributors: ContributorResponseDto[];
+    let contributors: ContributorResponseDto[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

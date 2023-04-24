@@ -14,8 +14,8 @@
     export let genreController: GenreController;
     export let movieContributorController: MovieContributorController;
 
-    let genres: GenreResponseDto[];
-    let movieContributors: MovieContributorResponseDto[];
+    let genres: GenreResponseDto[] = [];
+    let movieContributors: MovieContributorResponseDto[] = [];
 
     onMount(async () => {
         try {
