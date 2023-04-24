@@ -82,6 +82,7 @@
         <p>
             <button on:click={updatePublishingHouse}>Update publishing house</button>
         </p>
+        <p>You can only delete a publishing house, if no books are published by it.</p>
         <p>
             <button on:click={deletePublishingHouse}>Delete publishing house</button>
         </p>
