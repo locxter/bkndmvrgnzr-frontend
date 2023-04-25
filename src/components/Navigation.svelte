@@ -20,5 +20,6 @@
     <a href="/movie-role">Movie role</a>
     <a href="/publishing-house">Publishing house</a>
     <a href="/user">User</a>
+    <a href="/user/search">User search</a>
     <button on:click={logout}>Logout</button>
 </nav>

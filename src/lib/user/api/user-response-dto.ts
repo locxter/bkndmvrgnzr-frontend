@@ -1,11 +1,10 @@
-import type { BookResponseBriefDto } from "$lib/book/api/book-response-brief-dto";
-import type { MovieResponseBriefDto } from "$lib/movie/api/movie-response-brief-dto";
-import type { RoleResponseDto } from "$lib/role/api/role-response-dto";
+import type { BookResponseBriefDto } from '$lib/book/api/book-response-brief-dto';
+import type { MovieResponseBriefDto } from '$lib/movie/api/movie-response-brief-dto';
+import type { RoleResponseDto } from '$lib/role/api/role-response-dto';
 
 export class UserResponseDto {
     id: string = '';
     username: string = '';
-    password: string = '';
     firstName: string = '';
     lastName: string = '';
     roles: RoleResponseDto[] = [];
@@ -15,7 +14,6 @@ export class UserResponseDto {
     constructor(
         id = '',
         username = '',
-        password = '',
         firstName = '',
         lastName = '',
         roles: RoleResponseDto[] = [],
@@ -24,7 +22,6 @@ export class UserResponseDto {
     ) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;

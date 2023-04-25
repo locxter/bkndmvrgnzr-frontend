@@ -8,11 +8,18 @@
     import { onMount } from 'svelte';
     import UserList from '$lib/user/component/UserList.svelte';
     import UserSearch from '$lib/user/component/UserSearch.svelte';
+    import UserView from '$lib/user/component/UserView.svelte';
+    import { page } from '$app/stores';
 
+    let userId: string;
     let serverAddress: string;
     let jwt: string;
     let userController: UserController;
-    let users: UserResponseDto[] = [];
+    let user: UserResponseDto;
+
+    page.subscribe((data) => {
+        userId = data.params.userId;
+    });
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -26,7 +33,7 @@
 
     onMount(async () => {
         try {
-            users = await userController.getAllUsers();
+            user = await userController.getSpecificUser(userId);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -35,15 +42,31 @@
 </script>
 
 <svelte:head>
-    <title>User search | bkndmvrgnzr</title>
+    {#if user}
+        <title>{user.username} | bkndmvrgnzr</title>
+    {:else}
+        <title>User not found | bkndmvrgnzr</title>
+    {/if}
 </svelte:head>
 
 <Header>
     <Navigation />
 </Header>
 <main>
-    <h2>User search</h2>
-    <UserSearch {userController} bind:users />
-    <UserList {users} />
+    {#if user}
+        <UserView {user} />
+        <p>
+            <a href="/user/update/{user.id}">
+                <button>Update user</button>
+            </a>
+        </p>
+        <p>
+            <a href="/user/search">
+                <button>Return</button>
+            </a>
+        </p>
+    {:else}
+        <h2>User not found</h2>
+    {/if}
 </main>
 <Footer />

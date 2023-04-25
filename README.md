@@ -83,8 +83,8 @@ First install the needed packages via `npm install`. Then build the program via 
 
 ### User
 
-- [ ] Get user: /user ROLE_USER
-- [ ] Update user: /user/update ROLE_USER
-- [ ] User search: /user/search ROLE_ADMIN
-- [ ] Get a specific user: /user/[userId] ROLE_ADMIN
-- [ ] Update a specific user: /user/update/[userId] ROLE_ADMIN
+- [x] Get user: /user ROLE_USER
+- [x] Update user: /user/update ROLE_USER
+- [x] User search: /user/search ROLE_ADMIN
+- [x] Get a specific user: /user/[userId] ROLE_ADMIN
+- [x] Update a specific user: /user/update/[userId] ROLE_ADMIN
