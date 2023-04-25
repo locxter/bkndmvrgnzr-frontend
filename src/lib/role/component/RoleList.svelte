@@ -7,7 +7,10 @@
 
 <ul>
     {#each roles as role}
-        <li><RoleView {role} /></li>
+        <li>
+            <slot {role} />
+            <RoleView {role} />
+        </li>
     {:else}
         <li>No roles</li>
     {/each}

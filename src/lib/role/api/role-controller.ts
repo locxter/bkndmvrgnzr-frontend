@@ -40,6 +40,21 @@ export class RoleController {
         }
     }
 
+    async getAllRolesOfSearchQuery(query: string): Promise<RoleResponseDto[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + this.jwt,
+            },
+        });
+        let responseText = await response.text();
+        if (response.ok) {
+            return JSON.parse(responseText);
+        } else {
+            throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
+        }
+    }
+
     async getAllRolesOfUser(): Promise<RoleResponseDto[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user', {
             method: 'GET',

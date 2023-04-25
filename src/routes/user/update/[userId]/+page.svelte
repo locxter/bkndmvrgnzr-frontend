@@ -18,13 +18,19 @@
     import UserDeleteAdmin from '$lib/user/component/UserDeleteAdmin.svelte';
     import type { UserDeleteAdminDto } from '$lib/user/api/user-delete-admin-dto';
     import PasswordUpdateAdmin from '$lib/user/component/PasswordUpdateAdmin.svelte';
+    import type { RoleResponseDto } from '$lib/role/api/role-response-dto';
+    import { RoleController } from '$lib/role/api/role-controller';
+    import UserRoleUpdate from '$lib/user/component/UserRoleUpdate.svelte';
 
     let userId: string;
     let serverAddress: string;
     let jwt: string;
     let userController: UserController;
+    let roleController: RoleController;
     let user: UserResponseDto;
+    let userRoles: RoleResponseDto[] = [];
     let userUpdate: UserUpdateDto;
+    let userUpdateRoles: RoleResponseDto[] = [];
     let passwordUpdateAdmin: PasswordUpdateAdminDto;
     let userDeleteAdmin: UserDeleteAdminDto;
 
@@ -36,16 +42,20 @@
     globalServerAddress.subscribe((data) => {
         serverAddress = data;
         userController = new UserController(serverAddress, jwt);
+        roleController = new RoleController(serverAddress, jwt);
     });
     globalJwt.subscribe((data) => {
         jwt = data;
         userController = new UserController(serverAddress, jwt);
+        roleController = new RoleController(serverAddress, jwt);
     });
 
     onMount(async () => {
         try {
             user = await userController.getSpecificUser(userId);
             userUpdate = user as UserUpdateDto;
+            userUpdateRoles = await roleController.getAllRolesOfSpecificUser(user.id);
+            userRoles = [...userUpdateRoles];
         } catch (error) {
             console.error(error);
             alert(error);
@@ -55,8 +65,20 @@
     async function updateUser() {
         try {
             user = await userController.updateSpecificUser(user.id, userUpdate);
+            // Remove unselected roles
+            for (let userRole of userRoles) {
+                if (!userUpdateRoles.map((it) => it.id).includes(userRole.id)) {
+                    await roleController.removeRoleFromSpecificUser(user.id, userRole.id);
+                }
+            }
+            // Add new roles
+            for (let userUpdateRole of userUpdateRoles) {
+                if (!userRoles.map((it) => it.id).includes(userUpdateRole.id)) {
+                    await roleController.addRoleToSpecificUser(user.id, userUpdateRole.id);
+                }
+            }
             alert('User successfully updated');
-            goto('/user');
+            goto('/user/' + user.id);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -97,6 +119,7 @@
     {#if user}
         <h2>Update user</h2>
         <UserUpdate bind:userUpdate />
+        <UserRoleUpdate bind:userUpdateRoles {roleController} />
         <p>
             <button on:click={updateUser}>Update user</button>
         </p>
