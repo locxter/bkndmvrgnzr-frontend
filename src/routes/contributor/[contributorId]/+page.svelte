@@ -1,19 +1,21 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
-    import ContributorView from '$lib/contributor/component/ContributorView.svelte';
+    import { BookController } from '$lib/book/api/book-controller';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
     import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import { onMount } from 'svelte';
-    import { BookController } from '$lib/book/api/book-controller';
+    import ContributorView from '$lib/contributor/component/ContributorView.svelte';
     import { MovieController } from '$lib/movie/api/movie-controller';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let contributorId: string;
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let contributorController: ContributorController;
     let bookController: BookController;
     let movieController: MovieController;
@@ -35,6 +37,9 @@
         contributorController = new ContributorController(serverAddress, jwt);
         bookController = new BookController(serverAddress, jwt);
         movieController = new MovieController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -61,11 +66,13 @@
 <main>
     {#if contributor}
         <ContributorView {contributor} {bookController} {movieController} />
-        <p>
-            <a href="/contributor/update/{contributor.id}">
-                <button>Update contributor</button>
-            </a>
-        </p>
+        {#if roles.includes(ERole.ROLE_EDITOR)}
+            <p>
+                <a href="/contributor/update/{contributor.id}">
+                    <button>Update contributor</button>
+                </a>
+            </p>
+        {/if}
         <p>
             <a href="/contributor">
                 <button>Return</button>

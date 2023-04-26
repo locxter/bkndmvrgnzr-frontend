@@ -1,18 +1,21 @@
 <script lang="ts">
-    import Header from '../components/Header.svelte';
-    import Footer from '../components/Footer.svelte';
     import { goto } from '$app/navigation';
     import { AuthController } from '$lib/auth/api/auth-controller';
     import { AuthLoginDto } from '$lib/auth/api/auth-login-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import type { UserCreateDto } from '$lib/user/api/user-create-dto';
-    import { UserController } from '$lib/user/api/user-controller';
     import AuthLogin from '$lib/auth/component/AuthLogin.svelte';
+    import { RoleController } from '$lib/role/api/role-controller';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { UserController } from '$lib/user/api/user-controller';
+    import type { UserCreateDto } from '$lib/user/api/user-create-dto';
     import UserCreate from '$lib/user/component/UserCreate.svelte';
+    import Footer from '../components/Footer.svelte';
+    import Header from '../components/Header.svelte';
 
     let serverAddress: string;
     let authController: AuthController;
     let userController: UserController;
+    let roleController: RoleController;
     let authLogin: AuthLoginDto = new AuthLoginDto('admin', 'password');
     let userCreate: UserCreateDto;
 
@@ -31,6 +34,9 @@
                 let data = await authController.login(authLogin);
                 globalJwt.set(data);
                 globalServerAddress.set(serverAddress);
+                roleController = new RoleController(serverAddress, data);
+                let roles = await roleController.getAllRolesOfUser();
+                globalRoles.set(roles.map((it) => ERole[it.type as keyof typeof ERole]));
                 goto('/welcome');
             }
         } catch (error) {

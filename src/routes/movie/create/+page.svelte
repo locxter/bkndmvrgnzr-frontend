@@ -1,14 +1,14 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
+    import { GenreController } from '$lib/genre/api/genre-controller';
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { MovieCreateDto } from '$lib/movie/api/movie-create-dto';
     import MovieCreate from '$lib/movie/component/MovieCreate.svelte';
-    import { goto } from '$app/navigation';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
-    import { GenreController } from '$lib/genre/api/genre-controller';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

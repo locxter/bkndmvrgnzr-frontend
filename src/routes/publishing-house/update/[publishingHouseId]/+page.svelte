@@ -1,15 +1,15 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
+    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
+    import type { PublishingHouseUpdateDto } from '$lib/publishinghouse/api/publishing-house-update-dto';
+    import PublishingHouseUpdate from '$lib/publishinghouse/component/PublishingHouseUpdate.svelte';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../../components/Footer.svelte';
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
-    import Footer from '../../../../components/Footer.svelte';
-    import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import type { PublishingHouseUpdateDto } from '$lib/publishinghouse/api/publishing-house-update-dto';
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import PublishingHouseUpdate from '$lib/publishinghouse/component/PublishingHouseUpdate.svelte';
-    import { goto } from '$app/navigation';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
 
     let publishingHouseId: string;
     let serverAddress: string;

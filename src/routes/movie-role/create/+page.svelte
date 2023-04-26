@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { MovieRoleCreateDto } from '$lib/movierole/api/movie-role-create-dto';
     import MovieRoleCreate from '$lib/movierole/component/MovieRoleCreate.svelte';
-    import { goto } from '$app/navigation';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

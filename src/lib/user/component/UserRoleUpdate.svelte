@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import RoleSearch from '$lib/role/component/RoleSearch.svelte';
-    import RoleList from '$lib/role/component/RoleList.svelte';
     import type { RoleController } from '$lib/role/api/role-controller';
     import type { RoleResponseDto } from '$lib/role/api/role-response-dto';
+    import RoleList from '$lib/role/component/RoleList.svelte';
+    import RoleSearch from '$lib/role/component/RoleSearch.svelte';
+    import { onMount } from 'svelte';
 
     export let userUpdateRoles: RoleResponseDto[] = [];
     export let roleController: RoleController;

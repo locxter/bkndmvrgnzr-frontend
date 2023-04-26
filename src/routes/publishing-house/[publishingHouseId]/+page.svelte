@@ -1,17 +1,19 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
-    import PublishingHouseView from '$lib/publishinghouse/component/PublishingHouseView.svelte';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
     import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import PublishingHouseView from '$lib/publishinghouse/component/PublishingHouseView.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let publishingHouseId: string;
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let publishingHouseController: PublishingHouseController;
     let publishingHouse: PublishingHouseResponseDto;
 
@@ -27,6 +29,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         publishingHouseController = new PublishingHouseController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -53,11 +58,13 @@
 <main>
     {#if publishingHouse}
         <PublishingHouseView {publishingHouse} />
-        <p>
-            <a href="/publishing-house/update/{publishingHouse.id}">
-                <button>Update publishing house</button>
-            </a>
-        </p>
+        {#if roles.includes(ERole.ROLE_EDITOR)}
+            <p>
+                <a href="/publishing-house/update/{publishingHouse.id}">
+                    <button>Update publishing house</button>
+                </a>
+            </p>
+        {/if}
         <p>
             <a href="/publishing-house">
                 <button>Return</button>

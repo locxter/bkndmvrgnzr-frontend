@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { BookController } from '$lib/book/api/book-controller';
     import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import BookLibrarySearch from '$lib/book/component/BookLibrarySearch.svelte';
+    import BookList from '$lib/book/component/BookList.svelte';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
-    import BookList from '$lib/book/component/BookList.svelte';
-    import BookLibrarySearch from '$lib/book/component/BookLibrarySearch.svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

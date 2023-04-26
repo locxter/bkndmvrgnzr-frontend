@@ -1,15 +1,15 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { GenreController } from '$lib/genre/api/genre-controller';
+    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
+    import type { GenreUpdateDto } from '$lib/genre/api/genre-update-dto';
+    import GenreUpdate from '$lib/genre/component/GenreUpdate.svelte';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../../components/Footer.svelte';
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
-    import Footer from '../../../../components/Footer.svelte';
-    import { GenreController } from '$lib/genre/api/genre-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import type { GenreUpdateDto } from '$lib/genre/api/genre-update-dto';
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import GenreUpdate from '$lib/genre/component/GenreUpdate.svelte';
-    import { goto } from '$app/navigation';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
 
     let genreId: string;
     let serverAddress: string;

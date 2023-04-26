@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
-    import { UserController } from '$lib/user/api/user-controller';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
+    import { goto } from '$app/navigation';
     import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
+    import type { PasswordUpdateDto } from '$lib/user/api/password-update-dto';
+    import { UserController } from '$lib/user/api/user-controller';
+    import type { UserDeleteDto } from '$lib/user/api/user-delete-dto';
+    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
     import type { UserUpdateDto } from '$lib/user/api/user-update-dto';
-    import UserUpdate from '$lib/user/component/UserUpdate.svelte';
     import PasswordUpdate from '$lib/user/component/PasswordUpdate.svelte';
     import UserDelete from '$lib/user/component/UserDelete.svelte';
-    import { goto } from '$app/navigation';
-    import type { PasswordUpdateDto } from '$lib/user/api/password-update-dto';
-    import type { UserDeleteDto } from '$lib/user/api/user-delete-dto';
+    import UserUpdate from '$lib/user/component/UserUpdate.svelte';
+    import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

@@ -1,16 +1,18 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
     import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
     import BookRoleSearch from '$lib/bookrole/component/BookRoleSearch.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
+    import Header from '../../components/Header.svelte';
+    import Navigation from '../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let bookRoleController: BookRoleController;
     let bookRoles: BookRoleResponseDto[] = [];
 
@@ -22,6 +24,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         bookRoleController = new BookRoleController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -45,10 +50,12 @@
     <h2>Book role</h2>
     <BookRoleSearch {bookRoleController} bind:bookRoles />
     <BookRoleList {bookRoles} />
-    <p>
-        <a href="/book-role/create">
-            <button>Create book role</button>
-        </a>
-    </p>
+    {#if roles.includes(ERole.ROLE_EDITOR)}
+        <p>
+            <a href="/book-role/create">
+                <button>Create book role</button>
+            </a>
+        </p>
+    {/if}
 </main>
 <Footer />

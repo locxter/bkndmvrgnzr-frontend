@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
     import { GenreController } from '$lib/genre/api/genre-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { GenreCreateDto } from '$lib/genre/api/genre-create-dto';
     import GenreCreate from '$lib/genre/component/GenreCreate.svelte';
-    import { goto } from '$app/navigation';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

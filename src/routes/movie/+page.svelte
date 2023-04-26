@@ -1,16 +1,18 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
     import { MovieController } from '$lib/movie/api/movie-controller';
     import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
     import MovieList from '$lib/movie/component/MovieList.svelte';
     import MovieSearch from '$lib/movie/component/MovieSearch.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
+    import Header from '../../components/Header.svelte';
+    import Navigation from '../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let movieController: MovieController;
     let movies: MovieResponseDto[] = [];
     let libraryMovies: MovieResponseDto[] = [];
@@ -24,6 +26,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         movieController = new MovieController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -91,10 +96,12 @@
     <p>
         <button on:click={updateLibrary}>Update library</button>
     </p>
-    <p>
-        <a href="/movie/create">
-            <button>Create movie</button>
-        </a>
-    </p>
+    {#if roles.includes(ERole.ROLE_EDITOR)}
+        <p>
+            <a href="/movie/create">
+                <button>Create movie</button>
+            </a>
+        </p>
+    {/if}
 </main>
 <Footer />

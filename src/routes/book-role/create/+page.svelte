@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
     import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
-    import { goto } from '$app/navigation';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

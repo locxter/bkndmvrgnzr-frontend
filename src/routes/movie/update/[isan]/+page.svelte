@@ -1,17 +1,17 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { GenreController } from '$lib/genre/api/genre-controller';
+    import { MovieController } from '$lib/movie/api/movie-controller';
+    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import { MovieUpdateDto } from '$lib/movie/api/movie-update-dto';
+    import MovieUpdate from '$lib/movie/component/MovieUpdate.svelte';
+    import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../../components/Footer.svelte';
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
-    import Footer from '../../../../components/Footer.svelte';
-    import { MovieController } from '$lib/movie/api/movie-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import { MovieUpdateDto } from '$lib/movie/api/movie-update-dto';
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import MovieUpdate from '$lib/movie/component/MovieUpdate.svelte';
-    import { goto } from '$app/navigation';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { GenreController } from '$lib/genre/api/genre-controller';
-    import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
 
     let isan: string;
     let serverAddress: string;

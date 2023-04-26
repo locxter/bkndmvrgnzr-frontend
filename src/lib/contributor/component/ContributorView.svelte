@@ -3,17 +3,15 @@
     import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookViewBrief from '$lib/book/component/BookViewBrief.svelte';
     import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
     import BookRoleViewBrief from '$lib/bookrole/component/BookRoleViewBrief.svelte';
     import type { MovieController } from '$lib/movie/api/movie-controller';
     import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { onMount } from 'svelte';
-    import { ContributorResponseDto } from '../api/contributor-response-dto';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieViewBrief from '$lib/movie/component/MovieViewBrief.svelte';
-    import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
-    import BookRoleView from '$lib/bookrole/component/BookRoleView.svelte';
-    import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
+    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
+    import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
+    import { ContributorResponseDto } from '../api/contributor-response-dto';
 
     export let contributor: ContributorResponseDto = new ContributorResponseDto();
     export let bookController: BookController;

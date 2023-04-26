@@ -1,16 +1,18 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
     import { BookController } from '$lib/book/api/book-controller';
     import type { BookResponseDto } from '$lib/book/api/book-response-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
     import BookList from '$lib/book/component/BookList.svelte';
     import BookSearch from '$lib/book/component/BookSearch.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
+    import Header from '../../components/Header.svelte';
+    import Navigation from '../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let bookController: BookController;
     let books: BookResponseDto[];
     let libraryBooks: BookResponseDto[] = [];
@@ -24,6 +26,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         bookController = new BookController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -91,10 +96,12 @@
     <p>
         <button on:click={updateLibrary}>Update library</button>
     </p>
-    <p>
-        <a href="/book/create">
-            <button>Create book</button>
-        </a>
-    </p>
+    {#if roles.includes(ERole.ROLE_EDITOR)}
+        <p>
+            <a href="/book/create">
+                <button>Create book</button>
+            </a>
+        </p>
+    {/if}
 </main>
 <Footer />

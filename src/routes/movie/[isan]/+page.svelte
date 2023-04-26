@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
     import { MovieController } from '$lib/movie/api/movie-controller';
     import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { onMount } from 'svelte';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import MovieView from '$lib/movie/component/MovieView.svelte';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let isan: string;
     let serverAddress: string;

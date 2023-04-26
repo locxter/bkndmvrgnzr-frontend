@@ -1,15 +1,15 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
+    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
+    import type { MovieRoleUpdateDto } from '$lib/movierole/api/movie-role-update-dto';
+    import MovieRoleUpdate from '$lib/movierole/component/MovieRoleUpdate.svelte';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../../components/Footer.svelte';
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
-    import Footer from '../../../../components/Footer.svelte';
-    import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import type { MovieRoleUpdateDto } from '$lib/movierole/api/movie-role-update-dto';
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import MovieRoleUpdate from '$lib/movierole/component/MovieRoleUpdate.svelte';
-    import { goto } from '$app/navigation';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
 
     let movieRoleId: string;
     let serverAddress: string;

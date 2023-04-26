@@ -1,16 +1,18 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
     import GenreList from '$lib/genre/component/GenreList.svelte';
     import GenreSearch from '$lib/genre/component/GenreSearch.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
+    import Header from '../../components/Header.svelte';
+    import Navigation from '../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let genreController: GenreController;
     let genres: GenreResponseDto[] = [];
 
@@ -22,6 +24,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         genreController = new GenreController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -45,10 +50,12 @@
     <h2>Genre</h2>
     <GenreSearch {genreController} bind:genres />
     <GenreList {genres} />
-    <p>
-        <a href="/genre/create">
-            <button>Create genre</button>
-        </a>
-    </p>
+    {#if roles.includes(ERole.ROLE_EDITOR)}
+        <p>
+            <a href="/genre/create">
+                <button>Create genre</button>
+            </a>
+        </p>
+    {/if}
 </main>
 <Footer />

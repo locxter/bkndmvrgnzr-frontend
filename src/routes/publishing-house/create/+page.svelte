@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { PublishingHouseCreateDto } from '$lib/publishinghouse/api/publishing-house-create-dto';
     import PublishingHouseCreate from '$lib/publishinghouse/component/PublishingHouseCreate.svelte';
-    import { goto } from '$app/navigation';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

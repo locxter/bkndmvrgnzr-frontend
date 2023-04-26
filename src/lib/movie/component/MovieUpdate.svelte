@@ -1,14 +1,14 @@
 <script lang="ts">
     import type { GenreController } from '$lib/genre/api/genre-controller';
     import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
+    import GenreList from '$lib/genre/component/GenreList.svelte';
     import GenreSearch from '$lib/genre/component/GenreSearch.svelte';
     import type { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
     import type { MovieContributorResponseDto } from '$lib/moviecontributor/api/movie-contributor-response-dto';
+    import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
+    import MovieContributorSearch from '$lib/moviecontributor/component/MovieContributorSearch.svelte';
     import { onMount } from 'svelte';
     import { MovieUpdateDto } from '../api/movie-update-dto';
-    import GenreList from '$lib/genre/component/GenreList.svelte';
-    import MovieContributorSearch from '$lib/moviecontributor/component/MovieContributorSearch.svelte';
-    import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
 
     export let movieUpdate: MovieUpdateDto = new MovieUpdateDto();
     export let genreController: GenreController;

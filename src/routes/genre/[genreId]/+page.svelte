@@ -1,17 +1,19 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
-    import GenreView from '$lib/genre/component/GenreView.svelte';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import GenreView from '$lib/genre/component/GenreView.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let genreId: string;
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let genreController: GenreController;
     let genre: GenreResponseDto;
 
@@ -27,6 +29,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         genreController = new GenreController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -53,11 +58,13 @@
 <main>
     {#if genre}
         <GenreView {genre} />
-        <p>
-            <a href="/genre/update/{genre.id}">
-                <button>Update genre</button>
-            </a>
-        </p>
+        {#if roles.includes(ERole.ROLE_EDITOR)}
+            <p>
+                <a href="/genre/update/{genre.id}">
+                    <button>Update genre</button>
+                </a>
+            </p>
+        {/if}
         <p>
             <a href="/genre">
                 <button>Return</button>

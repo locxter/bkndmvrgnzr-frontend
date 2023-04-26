@@ -1,15 +1,15 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
+    import { goto } from '$app/navigation';
     import { BookController } from '$lib/book/api/book-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
     import type { BookCreateDto } from '$lib/book/api/book-create-dto';
     import BookCreate from '$lib/book/component/BookCreate.svelte';
-    import { goto } from '$app/navigation';
-    import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import { GenreController } from '$lib/genre/api/genre-controller';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
+    import { GenreController } from '$lib/genre/api/genre-controller';
+    import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;

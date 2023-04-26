@@ -1,17 +1,19 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
-    import BookRoleView from '$lib/bookrole/component/BookRoleView.svelte';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import BookRoleView from '$lib/bookrole/component/BookRoleView.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let bookRoleId: string;
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let bookRoleController: BookRoleController;
     let bookRole: BookRoleResponseDto;
 
@@ -27,6 +29,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         bookRoleController = new BookRoleController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -53,11 +58,14 @@
 <main>
     {#if bookRole}
         <BookRoleView {bookRole} />
-        <p>
-            <a href="/book-role/update/{bookRole.id}">
-                <button>Update book role</button>
-            </a>
-        </p>
+        {#if roles.includes(ERole.ROLE_EDITOR)}
+            <p>
+                <a href="/book-role/update/{bookRole.id}">
+                    <button>Update book role</button>
+                </a>
+            </p>
+        {/if}
+
         <p>
             <a href="/book-role">
                 <button>Return</button>

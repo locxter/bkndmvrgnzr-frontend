@@ -1,16 +1,18 @@
 <script lang="ts">
-    import Header from '../../components/Header.svelte';
-    import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
     import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import { onMount } from 'svelte';
     import ContributorList from '$lib/contributor/component/ContributorList.svelte';
     import ContributorSearch from '$lib/contributor/component/ContributorSearch.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
+    import Header from '../../components/Header.svelte';
+    import Navigation from '../../components/Navigation.svelte';
 
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let contributorController: ContributorController;
     let contributors: ContributorResponseDto[] = [];
 
@@ -22,6 +24,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         contributorController = new ContributorController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -45,10 +50,12 @@
     <h2>Contributor</h2>
     <ContributorSearch {contributorController} bind:contributors />
     <ContributorList {contributors} />
-    <p>
-        <a href="/contributor/create">
-            <button>Create contributor</button>
-        </a>
-    </p>
+    {#if roles.includes(ERole.ROLE_EDITOR)}
+        <p>
+            <a href="/contributor/create">
+                <button>Create contributor</button>
+            </a>
+        </p>
+    {/if}
 </main>
 <Footer />

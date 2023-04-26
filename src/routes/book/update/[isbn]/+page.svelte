@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Header from '../../../../components/Header.svelte';
-    import Navigation from '../../../../components/Navigation.svelte';
-    import Footer from '../../../../components/Footer.svelte';
-    import { BookController } from '$lib/book/api/book-controller';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
-    import { BookUpdateDto } from '$lib/book/api/book-update-dto';
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import BookUpdate from '$lib/book/component/BookUpdate.svelte';
     import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { BookController } from '$lib/book/api/book-controller';
     import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import { BookUpdateDto } from '$lib/book/api/book-update-dto';
+    import BookUpdate from '$lib/book/component/BookUpdate.svelte';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { onMount } from 'svelte';
+    import Footer from '../../../../components/Footer.svelte';
+    import Header from '../../../../components/Header.svelte';
+    import Navigation from '../../../../components/Navigation.svelte';
 
     let isbn: string;
     let serverAddress: string;

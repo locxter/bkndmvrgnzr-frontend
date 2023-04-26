@@ -1,17 +1,17 @@
 <script lang="ts">
-    import BookList from '../../lib/book/component/BookList.svelte';
+    import { BookController } from '$lib/book/api/book-controller';
+    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import { MovieController } from '$lib/movie/api/movie-controller';
+    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import { globalJwt, globalServerAddress } from '$lib/stores';
+    import { UserController } from '$lib/user/api/user-controller';
+    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
+    import { onMount } from 'svelte';
+    import Footer from '../../components/Footer.svelte';
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
-    import Footer from '../../components/Footer.svelte';
+    import BookList from '../../lib/book/component/BookList.svelte';
     import MovieList from '../../lib/movie/component/MovieList.svelte';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { BookController } from '$lib/book/api/book-controller';
-    import { MovieController } from '$lib/movie/api/movie-controller';
-    import { onMount } from 'svelte';
-    import { globalJwt, globalServerAddress } from '$lib/stores';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
-    import { UserController } from '$lib/user/api/user-controller';
 
     let serverAddress: string;
     let jwt: string;

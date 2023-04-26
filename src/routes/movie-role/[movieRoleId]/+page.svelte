@@ -1,17 +1,19 @@
 <script lang="ts">
-    import Header from '../../../components/Header.svelte';
-    import Navigation from '../../../components/Navigation.svelte';
-    import Footer from '../../../components/Footer.svelte';
     import { page } from '$app/stores';
-    import MovieRoleView from '$lib/movierole/component/MovieRoleView.svelte';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
     import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
-    import { globalServerAddress, globalJwt } from '$lib/stores';
+    import MovieRoleView from '$lib/movierole/component/MovieRoleView.svelte';
+    import { ERole } from '$lib/role/db/erole';
+    import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
+    import Footer from '../../../components/Footer.svelte';
+    import Header from '../../../components/Header.svelte';
+    import Navigation from '../../../components/Navigation.svelte';
 
     let movieRoleId: string;
     let serverAddress: string;
     let jwt: string;
+    let roles: ERole[] = [];
     let movieRoleController: MovieRoleController;
     let movieRole: MovieRoleResponseDto;
 
@@ -27,6 +29,9 @@
     globalJwt.subscribe((data) => {
         jwt = data;
         movieRoleController = new MovieRoleController(serverAddress, jwt);
+    });
+    globalRoles.subscribe((data) => {
+        roles = data;
     });
 
     onMount(async () => {
@@ -53,11 +58,14 @@
 <main>
     {#if movieRole}
         <MovieRoleView {movieRole} />
-        <p>
-            <a href="/movie-role/update/{movieRole.id}">
-                <button>Update movie role</button>
-            </a>
-        </p>
+        {#if roles.includes(ERole.ROLE_EDITOR)}
+            <p>
+                <a href="/movie-role/update/{movieRole.id}">
+                    <button>Update movie role</button>
+                </a>
+            </p>
+        {/if}
+
         <p>
             <a href="/movie-role">
                 <button>Return</button>
