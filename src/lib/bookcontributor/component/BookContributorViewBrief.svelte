@@ -7,6 +7,9 @@
 
     export let bookContributor: BookContributorResponseDto = new BookContributorResponseDto();
 
+    let bookRole: BookRoleResponseDto;
+    let contributor: ContributorResponseDto;
+
     $: bookRole = bookContributor.bookRole as BookRoleResponseDto;
     $: contributor = bookContributor.contributor as ContributorResponseDto;
 </script>

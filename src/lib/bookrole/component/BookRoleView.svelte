@@ -1,13 +1,15 @@
 <script lang="ts">
-    import type { BookContributorResponseDto } from '$lib/bookcontributor/api/book-contributor-response-dto';
-    import BookContributorList from '$lib/bookcontributor/component/BookContributorList.svelte';
+    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
+    import ContributorList from '$lib/contributor/component/ContributorList.svelte';
     import { BookRoleResponseDto } from '../api/book-role-response-dto';
 
     export let bookRole: BookRoleResponseDto = new BookRoleResponseDto();
 
-    $: bookContributors = bookRole.bookContributors as BookContributorResponseDto[];
+    let contributors: ContributorResponseDto[] = [];
+
+    $: contributors = bookRole.bookContributors.map((it) => it.contributor as ContributorResponseDto);
 </script>
 
 <h2>{bookRole.name}</h2>
 <p>Contributors:</p>
-<BookContributorList {bookContributors} />
+<ContributorList {contributors} />

@@ -5,6 +5,8 @@
 
     export let publishingHouse: PublishingHouseResponseDto = new PublishingHouseResponseDto();
 
+    let books: BookResponseDto[] = [];
+
     $: books = publishingHouse.books as BookResponseDto[];
 </script>
 
