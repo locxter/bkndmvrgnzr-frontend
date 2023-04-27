@@ -5,7 +5,8 @@
 </script>
 
 <p>
-    Name:
+    Name*:
     <br />
     <input type="text" placeholder="Name" bind:value={bookRoleUpdate.name} />
 </p>
+<p>* Required</p>

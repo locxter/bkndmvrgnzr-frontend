@@ -49,12 +49,12 @@
 </script>
 
 <p>
-    First name:
+    First name*:
     <br />
     <input type="text" placeholder="First name" bind:value={contributorUpdate.firstName} />
 </p>
 <p>
-    Last name:
+    Last name*:
     <br />
     <input type="text" placeholder="Last name" bind:value={contributorUpdate.lastName} />
 </p>
@@ -97,3 +97,4 @@
     </button>
 </MovieRoleList>
 <p>{contributorUpdateMovieRoles.length} movie roles selected</p>
+<p>* Required</p>

@@ -28,17 +28,15 @@
 
     async function login() {
         try {
-            if (authLogin.username && authLogin.username.trim() && authLogin.password && authLogin.password.trim()) {
-                authLogin.username = authLogin.username.trim();
-                authLogin.password = authLogin.password.trim();
-                let data = await authController.login(authLogin);
-                globalJwt.set(data);
-                globalServerAddress.set(serverAddress);
-                roleController = new RoleController(serverAddress, data);
-                let roles = await roleController.getAllRolesOfUser();
-                globalRoles.set(roles.map((it) => ERole[it.type as keyof typeof ERole]));
-                goto('/welcome');
-            }
+            authLogin.username = authLogin.username.trim();
+            authLogin.password = authLogin.password.trim();
+            let data = await authController.login(authLogin);
+            globalJwt.set(data);
+            globalServerAddress.set(serverAddress);
+            roleController = new RoleController(serverAddress, data);
+            let roles = await roleController.getAllRolesOfUser();
+            globalRoles.set(roles.map((it) => ERole[it.type as keyof typeof ERole]));
+            goto('/welcome');
         } catch (error) {
             console.error(error);
             alert(error);
@@ -47,18 +45,11 @@
 
     async function signup() {
         try {
-            if (
-                userCreate.username &&
-                userCreate.username.trim() &&
-                userCreate.password &&
-                userCreate.password.trim()
-            ) {
-                userCreate.username = userCreate.username.trim();
-                userCreate.password = userCreate.password.trim();
-                await userController.createUser(userCreate);
-                authLogin = userCreate as AuthLoginDto;
-                login();
-            }
+            userCreate.username = userCreate.username.trim();
+            userCreate.password = userCreate.password.trim();
+            await userController.createUser(userCreate);
+            authLogin = userCreate as AuthLoginDto;
+            login();
         } catch (error) {
             console.error(error);
             alert(error);

@@ -47,7 +47,7 @@
 </script>
 
 <p>
-    Title:
+    Title*:
     <br />
     <input type="text" placeholder="Title" bind:value={movieUpdate.title} />
 </p>
@@ -96,3 +96,4 @@
     </button>
 </MovieContributorList>
 <p>{movieUpdate.movieContributorIds.length} contributors selected</p>
+<p>* Required</p>

@@ -5,12 +5,13 @@
 </script>
 
 <p>
-    <label for="username">Username:</label>
+    <label for="username">Username*:</label>
     <br />
-    <input id="username" type="text" placeholder="Username" bind:value={authLogin.username} />
+    <input id="username" type="text" maxlength="32" placeholder="Username" bind:value={authLogin.username} />
 </p>
 <p>
-    <label for="password">Password:</label>
+    <label for="password">Password*:</label>
     <br />
-    <input id="password" type="password" placeholder="Password" bind:value={authLogin.password} />
+    <input id="password" type="password" maxlength="64" placeholder="Password" bind:value={authLogin.password} />
 </p>
+<p>* Required</p>

@@ -62,7 +62,7 @@
 </script>
 
 <p>
-    Title:
+    Title*:
     <br />
     <input type="text" placeholder="Title" bind:value={bookUpdate.title} />
 </p>
@@ -86,7 +86,7 @@
     <br />
     <input type="number" min="0" placeholder="Pages" bind:value={bookUpdate.pages} />
 </p>
-<p>Publishing house:</p>
+<p>Publishing house*:</p>
 <PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
     <button on:click={() => togglePublishingHouse(publishingHouse)}>
@@ -126,3 +126,4 @@
     </button>
 </BookContributorList>
 <p>{bookUpdate.bookContributorIds.length} contributors selected</p>
+<p>* Required</p>

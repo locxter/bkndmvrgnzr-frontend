@@ -5,7 +5,7 @@
 </script>
 
 <p>
-    Name:
+    Name*:
     <br />
     <input type="text" placeholder="Name" bind:value={publishingHouseCreate.name} />
 </p>
@@ -19,3 +19,4 @@
     <br />
     <input type="text" placeholder="Country" bind:value={publishingHouseCreate.country} />
 </p>
+<p>* Required</p>

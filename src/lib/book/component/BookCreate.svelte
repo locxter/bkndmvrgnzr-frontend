@@ -62,12 +62,12 @@
 </script>
 
 <p>
-    ISBN:
+    ISBN*:
     <br />
-    <input type="text" placeholder="ISBN" bind:value={bookCreate.isbn} />
+    <input type="text" maxlength="17" placeholder="ISBN" bind:value={bookCreate.isbn} />
 </p>
 <p>
-    Title:
+    Title*:
     <br />
     <input type="text" placeholder="Title" bind:value={bookCreate.title} />
 </p>
@@ -91,7 +91,7 @@
     <br />
     <input type="number" min="0" placeholder="Pages" bind:value={bookCreate.pages} />
 </p>
-<p>Publishing house:</p>
+<p>Publishing house*:</p>
 <PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
     <button on:click={() => togglePublishingHouse(publishingHouse)}>
@@ -131,3 +131,4 @@
     </button>
 </BookContributorList>
 <p>{bookCreate.bookContributorIds.length} contributors selected</p>
+<p>* Required</p>

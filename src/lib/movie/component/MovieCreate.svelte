@@ -47,12 +47,12 @@
 </script>
 
 <p>
-    ISAN:
+    ISAN*:
     <br />
-    <input type="text" placeholder="ISAN" bind:value={movieCreate.isan} />
+    <input type="text" maxlength="33" placeholder="ISAN" bind:value={movieCreate.isan} />
 </p>
 <p>
-    Title:
+    Title*:
     <br />
     <input type="text" placeholder="Title" bind:value={movieCreate.title} />
 </p>
@@ -101,3 +101,4 @@
     </button>
 </MovieContributorList>
 <p>{movieCreate.movieContributorIds.length} contributors selected</p>
+<p>* Required</p>
