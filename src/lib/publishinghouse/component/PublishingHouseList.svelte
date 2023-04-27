@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { PublishingHouseResponseDto } from '../api/publishing-house-response-dto';
+    import type { PublishingHouseBrief } from '../db/publishing-house-brief';
     import PublishingHouseViewBrief from './PublishingHouseViewBrief.svelte';
 
-    export let publishingHouses: PublishingHouseResponseDto[] = [];
+    export let publishingHouses: PublishingHouseBrief[] = [];
 </script>
 
 <ul>

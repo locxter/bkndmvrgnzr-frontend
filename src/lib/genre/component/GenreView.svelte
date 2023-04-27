@@ -1,17 +1,17 @@
 <script lang="ts">
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookList from '$lib/book/component/BookList.svelte';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import type { BookBrief } from '$lib/book/db/book-brief';
     import MovieList from '$lib/movie/component/MovieList.svelte';
-    import { GenreResponseDto } from '../api/genre-response-dto';
+    import type { MovieBrief } from '$lib/movie/db/movie-brief';
+    import { Genre } from '../db/genre';
 
-    export let genre: GenreResponseDto = new GenreResponseDto();
+    export let genre: Genre = new Genre();
 
-    let books: BookResponseDto[] = [];
-    let movies: MovieResponseDto[] = [];
+    let books: BookBrief[] = [];
+    let movies: MovieBrief[] = [];
 
-    $: books = genre.books as BookResponseDto[];
-    $: movies = genre.movies as MovieResponseDto[];
+    $: books = genre.books;
+    $: movies = genre.movies;
 </script>
 
 <h2>{genre.name}</h2>

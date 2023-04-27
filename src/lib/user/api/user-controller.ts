@@ -1,10 +1,11 @@
+import { User } from '../db/user';
+import type { UserId } from '../db/user-id';
 import type { PasswordUpdateAdminDto } from './password-update-admin-dto';
 import type { PasswordUpdateDto } from './password-update-dto';
 import type { UserCreateDto } from './user-create-dto';
 import type { UserDeleteAdminDto } from './user-delete-admin-dto';
 import type { UserDeleteDto } from './user-delete-dto';
 import type { UserResponseDto } from './user-response-dto';
-import type { UserUpdateDto } from './user-update-dto';
 
 export class UserController {
     readonly MAPPING = '/api/user';
@@ -16,7 +17,7 @@ export class UserController {
         this.jwt = jwt;
     }
 
-    async getUser(): Promise<UserResponseDto> {
+    async getUser(): Promise<User> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -25,13 +26,13 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllUsers(): Promise<UserResponseDto[]> {
+    async getAllUsers(): Promise<User[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/all', {
             method: 'GET',
             headers: {
@@ -40,14 +41,14 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as UserResponseDto[]).map((it) => User.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getSpecificUser(userId: string): Promise<UserResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
+    async getSpecificUser(userId: UserId): Promise<User> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -55,13 +56,13 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async createUser(userCreateDto: UserCreateDto): Promise<UserResponseDto> {
+    async createUser(userCreateDto: UserCreateDto): Promise<User> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -69,47 +70,47 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updateUser(userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
+    async updateUser(user: User): Promise<User> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(userUpdateDto),
+            body: JSON.stringify(user.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updateSpecificUser(userId: string, userUpdateDto: UserUpdateDto): Promise<UserResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
+    async updateSpecificUser(userId: UserId, user: User): Promise<User> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId.value, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(userUpdateDto),
+            body: JSON.stringify(user.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updatePassword(passwordUpdateDto: PasswordUpdateDto): Promise<UserResponseDto> {
+    async updatePassword(passwordUpdateDto: PasswordUpdateDto): Promise<User> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/password', {
             method: 'PUT',
             headers: {
@@ -120,17 +121,14 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updateSpecificUsersPassword(
-        userId: string,
-        PasswordUpdateAdminDto: PasswordUpdateAdminDto
-    ): Promise<UserResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId + '/password', {
+    async updateSpecificUsersPassword(userId: UserId, PasswordUpdateAdminDto: PasswordUpdateAdminDto): Promise<User> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId.value + '/password', {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -140,13 +138,13 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deleteUser(userDeleteDto: UserDeleteDto): Promise<UserResponseDto> {
+    async deleteUser(userDeleteDto: UserDeleteDto): Promise<User> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'DELETE',
             headers: {
@@ -157,14 +155,14 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deleteSpecificUser(userId: string, userDeleteAdminDto: UserDeleteAdminDto): Promise<UserResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId, {
+    async deleteSpecificUser(userId: UserId, userDeleteAdminDto: UserDeleteAdminDto): Promise<User> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + userId.value, {
             method: 'DELETE',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -174,13 +172,13 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return User.fromDto(JSON.parse(responseText) as UserResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllUsersOfSearchQuery(query: string): Promise<UserResponseDto[]> {
+    async getAllUsersOfSearchQuery(query: string): Promise<User[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -189,7 +187,7 @@ export class UserController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as UserResponseDto[]).map((it) => User.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

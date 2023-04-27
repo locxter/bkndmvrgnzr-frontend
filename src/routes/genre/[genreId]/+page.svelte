@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
     import GenreView from '$lib/genre/component/GenreView.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
+    import { GenreId } from '$lib/genre/db/genre-id';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -15,7 +16,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let genreController: GenreController;
-    let genre: GenreResponseDto;
+    let genre: Genre;
 
     page.subscribe((data) => {
         genreId = data.params.genreId;
@@ -36,7 +37,7 @@
 
     onMount(async () => {
         try {
-            genre = await genreController.getGenre(genreId);
+            genre = await genreController.getGenre(new GenreId(genreId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -60,7 +61,7 @@
         <GenreView {genre} />
         {#if roles.includes(ERole.ROLE_EDITOR)}
             <p>
-                <a href="/genre/update/{genre.id}">
+                <a href="/genre/update/{genre.id.value}">
                     <button>Update genre</button>
                 </a>
             </p>

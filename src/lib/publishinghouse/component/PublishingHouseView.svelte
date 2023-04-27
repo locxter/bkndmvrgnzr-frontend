@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookList from '$lib/book/component/BookList.svelte';
-    import { PublishingHouseResponseDto } from '../api/publishing-house-response-dto';
+    import type { BookBrief } from '$lib/book/db/book-brief';
+    import { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouse: PublishingHouseResponseDto = new PublishingHouseResponseDto();
+    export let publishingHouse: PublishingHouse = new PublishingHouse();
 
-    let books: BookResponseDto[] = [];
+    let books: BookBrief[] = [];
 
-    $: books = publishingHouse.books as BookResponseDto[];
+    $: books = publishingHouse.books;
 </script>
 
 <h2>{publishingHouse.name}</h2>

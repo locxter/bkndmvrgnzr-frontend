@@ -1,8 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookCreateDto } from '$lib/book/api/book-create-dto';
     import BookCreate from '$lib/book/component/BookCreate.svelte';
+    import type { Book } from '$lib/book/db/book';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
@@ -17,7 +17,7 @@
     let publishingHouseController: PublishingHouseController;
     let genreController: GenreController;
     let bookContributorController: BookContributorController;
-    let bookCreate: BookCreateDto;
+    let bookCreate: Book;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -39,7 +39,7 @@
         try {
             let data = await bookController.createBook(bookCreate);
             alert('Book successfully created');
-            goto('/book/' + data.isbn);
+            goto('/book/' + data.isbn.value);
         } catch (error) {
             console.error(error);
             alert(error);

@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { UserController } from '../api/user-controller';
-    import type { UserResponseDto } from '../api/user-response-dto';
+    import type { User } from '../db/user';
 
     export let userController: UserController;
-    export let users: UserResponseDto[] = [];
+    export let users: User[] = [];
 
     let query: string;
 

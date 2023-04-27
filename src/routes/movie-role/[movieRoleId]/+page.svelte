@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieRoleView from '$lib/movierole/component/MovieRoleView.svelte';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
+    import { MovieRoleId } from '$lib/movierole/db/movie-role-id';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -15,7 +16,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let movieRoleController: MovieRoleController;
-    let movieRole: MovieRoleResponseDto;
+    let movieRole: MovieRole;
 
     page.subscribe((data) => {
         movieRoleId = data.params.movieRoleId;
@@ -36,7 +37,7 @@
 
     onMount(async () => {
         try {
-            movieRole = await movieRoleController.getMovieRole(movieRoleId);
+            movieRole = await movieRoleController.getMovieRole(new MovieRoleId(movieRoleId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -60,7 +61,7 @@
         <MovieRoleView {movieRole} />
         {#if roles.includes(ERole.ROLE_EDITOR)}
             <p>
-                <a href="/movie-role/update/{movieRole.id}">
+                <a href="/movie-role/update/{movieRole.id.value}">
                     <button>Update movie role</button>
                 </a>
             </p>

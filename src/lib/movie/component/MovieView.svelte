@@ -1,24 +1,24 @@
 <script lang="ts">
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
     import GenreList from '$lib/genre/component/GenreList.svelte';
-    import type { MovieContributorResponseDto } from '$lib/moviecontributor/api/movie-contributor-response-dto';
+    import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
-    import { MovieResponseDto } from '../api/movie-response-dto';
+    import type { MovieContributorBrief } from '$lib/moviecontributor/db/movie-contributor-brief';
+    import { Movie } from '../db/movie';
 
-    export let movie: MovieResponseDto = new MovieResponseDto();
+    export let movie: Movie = new Movie();
 
-    let genres: GenreResponseDto[] = [];
-    let movieContributors: MovieContributorResponseDto[] = [];
+    let genres: GenreBrief[] = [];
+    let movieContributors: MovieContributorBrief[] = [];
 
-    $: genres = movie.genres as GenreResponseDto[];
-    $: movieContributors = movie.movieContributors as MovieContributorResponseDto[];
+    $: genres = movie.genres;
+    $: movieContributors = movie.movieContributors;
 </script>
 
 <h2>{movie.title}</h2>
 <p>
     ISAN:
     <br />
-    {movie.isan}
+    {movie.isan.value}
 </p>
 <p>
     Description:

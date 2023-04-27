@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { BookRoleResponseDto } from '../api/book-role-response-dto';
+    import type { BookRoleBrief } from '../db/book-role-brief';
     import BookRoleViewBrief from './BookRoleViewBrief.svelte';
 
-    export let bookRoles: BookRoleResponseDto[] = [];
+    export let bookRoles: BookRoleBrief[] = [];
 </script>
 
 <ul>

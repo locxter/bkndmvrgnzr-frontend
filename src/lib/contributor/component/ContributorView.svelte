@@ -1,32 +1,32 @@
 <script lang="ts">
     import type { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookViewBrief from '$lib/book/component/BookViewBrief.svelte';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import type { Book } from '$lib/book/db/book';
     import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
     import BookRoleViewBrief from '$lib/bookrole/component/BookRoleViewBrief.svelte';
+    import type { BookRoleBrief } from '$lib/bookrole/db/book-role-brief';
     import type { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
     import MovieViewBrief from '$lib/movie/component/MovieViewBrief.svelte';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
+    import type { Movie } from '$lib/movie/db/movie';
     import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
     import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
-    import { ContributorResponseDto } from '../api/contributor-response-dto';
+    import type { MovieRoleBrief } from '$lib/movierole/db/movie-role-brief';
+    import { Contributor } from '../db/contributor';
 
-    export let contributor: ContributorResponseDto = new ContributorResponseDto();
+    export let contributor: Contributor = new Contributor();
     export let bookController: BookController;
     export let movieController: MovieController;
 
-    let bookRoles: BookRoleResponseDto[] = [];
-    let movieRoles: MovieRoleResponseDto[] = [];
-    let bookRolesBooks: { bookRole: BookRoleResponseDto; books: BookResponseDto[] }[] = [];
-    let movieRolesMovies: { movieRole: MovieRoleResponseDto; movies: MovieResponseDto[] }[] = [];
+    let bookRoles: BookRoleBrief[] = [];
+    let movieRoles: MovieRoleBrief[] = [];
+    let bookRolesBooks: { bookRole: BookRoleBrief; books: Book[] }[] = [];
+    let movieRolesMovies: { movieRole: MovieRoleBrief; movies: Movie[] }[] = [];
 
-    $: bookRoles = contributor.bookContributors.map((it) => it.bookRole as BookRoleResponseDto);
-    $: movieRoles = contributor.movieContributors.map((it) => it.movieRole as MovieRoleResponseDto);
+    $: bookRoles = contributor.bookContributors.map((it) => it.bookRole);
+    $: movieRoles = contributor.movieContributors.map((it) => it.movieRole);
     $: loadIndirectData(contributor);
 
-    async function loadIndirectData(contributor: ContributorResponseDto) {
+    async function loadIndirectData(contributor: Contributor) {
         try {
             bookRolesBooks = [];
             movieRolesMovies = [];
@@ -36,7 +36,7 @@
                     bookRolesBooks = [
                         ...bookRolesBooks,
                         {
-                            bookRole: bookContributor.bookRole as BookRoleResponseDto,
+                            bookRole: bookContributor.bookRole,
                             books: data,
                         },
                     ];
@@ -48,7 +48,7 @@
                     movieRolesMovies = [
                         ...movieRolesMovies,
                         {
-                            movieRole: movieContributor.movieRole as MovieRoleResponseDto,
+                            movieRole: movieContributor.movieRole,
                             movies: data,
                         },
                     ];

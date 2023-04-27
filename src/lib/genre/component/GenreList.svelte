@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { GenreResponseDto } from '../api/genre-response-dto';
+    import type { GenreBrief } from '../db/genre-brief';
     import GenreViewBrief from './GenreViewBrief.svelte';
 
-    export let genres: GenreResponseDto[] = [];
+    export let genres: GenreBrief[] = [];
 </script>
 
 <ul>

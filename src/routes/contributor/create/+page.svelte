@@ -1,16 +1,18 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
-    import { BookContributorCreateDto } from '$lib/bookcontributor/api/book-contributor-create-dto';
+    import { BookContributor } from '$lib/bookcontributor/db/book-contributor';
+    import { BookContributorId } from '$lib/bookcontributor/db/book-contributor-id';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
-    import type { ContributorCreateDto } from '$lib/contributor/api/contributor-create-dto';
     import ContributorCreate from '$lib/contributor/component/ContributorCreate.svelte';
+    import type { Contributor } from '$lib/contributor/db/contributor';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
-    import { MovieContributorCreateDto } from '$lib/moviecontributor/api/movie-contributor-create-dto';
+    import { MovieContributor } from '$lib/moviecontributor/db/movie-contributor';
+    import { MovieContributorId } from '$lib/moviecontributor/db/movie-contributor-id';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -23,9 +25,9 @@
     let movieRoleController: MovieRoleController;
     let bookContributorController: BookContributorController;
     let movieContributorController: MovieContributorController;
-    let contributorCreate: ContributorCreateDto;
-    let contributorBookRoles: BookRoleResponseDto[] = [];
-    let contributorMovieRoles: MovieRoleResponseDto[] = [];
+    let contributorCreate: Contributor;
+    let contributorBookRoles: BookRole[] = [];
+    let contributorMovieRoles: MovieRole[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -49,15 +51,15 @@
         try {
             let data = await contributorController.createContributor(contributorCreate);
             for (let contributorBookRole of contributorBookRoles) {
-                let bookContributorCreate = new BookContributorCreateDto(data.id, contributorBookRole.id);
+                let bookContributorCreate = new BookContributor(new BookContributorId(), data, contributorBookRole);
                 await bookContributorController.createBookContributor(bookContributorCreate);
             }
             for (let contributorMovieRole of contributorMovieRoles) {
-                let movieContributorCreate = new MovieContributorCreateDto(data.id, contributorMovieRole.id);
+                let movieContributorCreate = new MovieContributor(new MovieContributorId(), data, contributorMovieRole);
                 await movieContributorController.createMovieContributor(movieContributorCreate);
             }
             alert('Contributor successfully created');
-            goto('/contributor/' + data.id);
+            goto('/contributor/' + data.id.value);
         } catch (error) {
             console.error(error);
             alert(error);

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { MovieRoleCreateDto } from '../api/movie-role-create-dto';
+    import { MovieRole } from '../db/movie-role';
 
-    export let movieRoleCreate: MovieRoleCreateDto = new MovieRoleCreateDto();
+    export let movieRoleCreate: MovieRole = new MovieRole();
 </script>
 
 <p>

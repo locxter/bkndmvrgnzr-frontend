@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
     import PublishingHouseView from '$lib/publishinghouse/component/PublishingHouseView.svelte';
+    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
+    import { PublishingHouseId } from '$lib/publishinghouse/db/publishing-house-id';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -15,7 +16,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let publishingHouseController: PublishingHouseController;
-    let publishingHouse: PublishingHouseResponseDto;
+    let publishingHouse: PublishingHouse;
 
     page.subscribe((data) => {
         publishingHouseId = data.params.publishingHouseId;
@@ -36,7 +37,9 @@
 
     onMount(async () => {
         try {
-            publishingHouse = await publishingHouseController.getPublishingHouse(publishingHouseId);
+            publishingHouse = await publishingHouseController.getPublishingHouse(
+                new PublishingHouseId(publishingHouseId)
+            );
         } catch (error) {
             console.error(error);
             alert(error);
@@ -60,7 +63,7 @@
         <PublishingHouseView {publishingHouse} />
         {#if roles.includes(ERole.ROLE_EDITOR)}
             <p>
-                <a href="/publishing-house/update/{publishingHouse.id}">
+                <a href="/publishing-house/update/{publishingHouse.id.value}">
                     <button>Update publishing house</button>
                 </a>
             </p>

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { MovieContributorResponseDto } from '../api/movie-contributor-response-dto';
+    import type { MovieContributorBrief } from '../db/movie-contributor-brief';
     import MovieContributorViewBrief from './MovieContributorViewBrief.svelte';
 
-    export let movieContributors: MovieContributorResponseDto[] = [];
+    export let movieContributors: MovieContributorBrief[] = [];
 </script>
 
 <ul>

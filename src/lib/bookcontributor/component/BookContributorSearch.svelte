@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { BookContributorController } from '../api/book-contributor-controller';
-    import type { BookContributorResponseDto } from '../api/book-contributor-response-dto';
+    import type { BookContributor } from '../db/book-contributor';
 
     export let bookContributorController: BookContributorController;
-    export let bookContributors: BookContributorResponseDto[] = [];
+    export let bookContributors: BookContributor[] = [];
 
     let query: string;
 

@@ -1,21 +1,21 @@
 <script lang="ts">
-    import type { BookContributorResponseDto } from '$lib/bookcontributor/api/book-contributor-response-dto';
     import BookContributorList from '$lib/bookcontributor/component/BookContributorList.svelte';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
+    import type { BookContributorBrief } from '$lib/bookcontributor/db/book-contributor-brief';
     import GenreList from '$lib/genre/component/GenreList.svelte';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
+    import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import PublishingHouseViewBrief from '$lib/publishinghouse/component/PublishingHouseViewBrief.svelte';
-    import { BookResponseDto } from '../api/book-response-dto';
+    import type { PublishingHouseBrief } from '$lib/publishinghouse/db/publishing-house-brief';
+    import { Book } from '../db/book';
 
-    export let book: BookResponseDto = new BookResponseDto();
+    export let book: Book = new Book();
 
-    let publishingHouse: PublishingHouseResponseDto;
-    let genres: GenreResponseDto[] = [];
-    let bookContributors: BookContributorResponseDto[] = [];
+    let publishingHouse: PublishingHouseBrief;
+    let genres: GenreBrief[] = [];
+    let bookContributors: BookContributorBrief[] = [];
 
-    $: publishingHouse = book.publishingHouse as PublishingHouseResponseDto;
-    $: genres = book.genres as GenreResponseDto[];
-    $: bookContributors = book.bookContributors as BookContributorResponseDto[];
+    $: publishingHouse = book.publishingHouse;
+    $: genres = book.genres;
+    $: bookContributors = book.bookContributors;
 </script>
 
 <h2>{book.title}</h2>
@@ -25,7 +25,7 @@
 <p>
     ISBN:
     <br />
-    {book.isbn}
+    {book.isbn.value}
 </p>
 <p>
     Description:

@@ -4,7 +4,6 @@
     import { AuthLoginDto } from '$lib/auth/api/auth-login-dto';
     import AuthLogin from '$lib/auth/component/AuthLogin.svelte';
     import { RoleController } from '$lib/role/api/role-controller';
-    import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { UserController } from '$lib/user/api/user-controller';
     import type { UserCreateDto } from '$lib/user/api/user-create-dto';
@@ -35,7 +34,7 @@
             globalServerAddress.set(serverAddress);
             roleController = new RoleController(serverAddress, data);
             let roles = await roleController.getAllRolesOfUser();
-            globalRoles.set(roles.map((it) => ERole[it.type as keyof typeof ERole]));
+            globalRoles.set(roles.map((it) => it.type));
             goto('/welcome');
         } catch (error) {
             console.error(error);

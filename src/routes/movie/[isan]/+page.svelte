@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
     import MovieView from '$lib/movie/component/MovieView.svelte';
+    import { Isan } from '$lib/movie/db/isan';
+    import type { Movie } from '$lib/movie/db/movie';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
@@ -13,7 +14,7 @@
     let serverAddress: string;
     let jwt: string;
     let movieController: MovieController;
-    let movie: MovieResponseDto;
+    let movie: Movie;
 
     page.subscribe((data) => {
         isan = data.params.isan;
@@ -31,7 +32,7 @@
 
     onMount(async () => {
         try {
-            movie = await movieController.getMovie(isan);
+            movie = await movieController.getMovie(new Isan(isan));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -54,7 +55,7 @@
     {#if movie}
         <MovieView {movie} />
         <p>
-            <a href="/movie/update/{movie.isan}">
+            <a href="/movie/update/{movie.isan.value}">
                 <button>Update movie</button>
             </a>
         </p>

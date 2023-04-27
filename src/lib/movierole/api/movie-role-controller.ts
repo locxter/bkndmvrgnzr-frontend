@@ -1,6 +1,7 @@
-import type { MovieRoleCreateDto } from './movie-role-create-dto';
+import type { ContributorId } from '$lib/contributor/db/contributor-id';
+import { MovieRole } from '../db/movie-role';
+import type { MovieRoleId } from '../db/movie-role-id';
 import type { MovieRoleResponseDto } from './movie-role-response-dto';
-import type { MovieRoleUpdateDto } from './movie-role-update-dto';
 
 export class MovieRoleController {
     readonly MAPPING = '/api/movie-role';
@@ -12,7 +13,7 @@ export class MovieRoleController {
         this.jwt = jwt;
     }
 
-    async getAllMovieRoles(): Promise<MovieRoleResponseDto[]> {
+    async getAllMovieRoles(): Promise<MovieRole[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -21,31 +22,31 @@ export class MovieRoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as MovieRoleResponseDto[]).map((it) => MovieRole.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async createMovieRole(movieRoleCreateDto: MovieRoleCreateDto): Promise<MovieRoleResponseDto> {
+    async createMovieRole(movieRole: MovieRole): Promise<MovieRole> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(movieRoleCreateDto),
+            body: JSON.stringify(movieRole.toCreateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return MovieRole.fromDto(JSON.parse(responseText) as MovieRoleResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getMovieRole(movieRoleId: String): Promise<MovieRoleResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
+    async getMovieRole(movieRoleId: MovieRoleId): Promise<MovieRole> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -53,31 +54,31 @@ export class MovieRoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return MovieRole.fromDto(JSON.parse(responseText) as MovieRoleResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updateMovieRole(movieRoleId: String, movieRoleUpdateDto: MovieRoleUpdateDto): Promise<MovieRoleResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
+    async updateMovieRole(movieRoleId: MovieRoleId, movieRole: MovieRole): Promise<MovieRole> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId.value, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(movieRoleUpdateDto),
+            body: JSON.stringify(movieRole.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return MovieRole.fromDto(JSON.parse(responseText) as MovieRoleResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deleteMovieRole(movieRoleId: string): Promise<MovieRoleResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId, {
+    async deleteMovieRole(movieRoleId: MovieRoleId): Promise<MovieRole> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + movieRoleId.value, {
             method: 'DELETE',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -85,14 +86,14 @@ export class MovieRoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return MovieRole.fromDto(JSON.parse(responseText) as MovieRoleResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllMovieRolesOfContributor(contributorId: string): Promise<MovieRoleResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
+    async getAllMovieRolesOfContributor(contributorId: ContributorId): Promise<MovieRole[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -100,13 +101,13 @@ export class MovieRoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as MovieRoleResponseDto[]).map((it) => MovieRole.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllMovieRolesOfSearchQuery(query: string): Promise<MovieRoleResponseDto[]> {
+    async getAllMovieRolesOfSearchQuery(query: string): Promise<MovieRole[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -115,7 +116,7 @@ export class MovieRoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as MovieRoleResponseDto[]).map((it) => MovieRole.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

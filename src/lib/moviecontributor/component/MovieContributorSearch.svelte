@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { MovieContributorController } from '../api/movie-contributor-controller';
-    import type { MovieContributorResponseDto } from '../api/movie-contributor-response-dto';
+    import type { MovieContributor } from '../db/movie-contributor';
 
     export let movieContributorController: MovieContributorController;
-    export let movieContributors: MovieContributorResponseDto[] = [];
+    export let movieContributors: MovieContributor[] = [];
 
     let query: string;
 

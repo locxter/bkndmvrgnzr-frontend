@@ -2,8 +2,8 @@
     import { goto } from '$app/navigation';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieCreateDto } from '$lib/movie/api/movie-create-dto';
     import MovieCreate from '$lib/movie/component/MovieCreate.svelte';
+    import type { Movie } from '$lib/movie/db/movie';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
@@ -15,7 +15,7 @@
     let movieController: MovieController;
     let genreController: GenreController;
     let movieContributorController: MovieContributorController;
-    let movieCreate: MovieCreateDto;
+    let movieCreate: Movie;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -35,7 +35,7 @@
         try {
             let data = await movieController.createMovie(movieCreate);
             alert('Movie successfully created');
-            goto('/movie/' + data.isan);
+            goto('/movie/' + data.isan.value);
         } catch (error) {
             console.error(error);
             alert(error);

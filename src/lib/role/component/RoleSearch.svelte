@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { RoleController } from '../api/role-controller';
-    import type { RoleResponseDto } from '../api/role-response-dto';
+    import type { Role } from '../db/role';
 
     export let roleController: RoleController;
-    export let roles: RoleResponseDto[] = [];
+    export let roles: Role[] = [];
 
     let query: string;
 

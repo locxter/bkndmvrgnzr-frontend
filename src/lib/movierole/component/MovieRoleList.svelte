@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { MovieRoleResponseDto } from '../api/movie-role-response-dto';
+    import type { MovieRoleBrief } from '../db/movie-role-brief';
     import MovieRoleViewBrief from './MovieRoleViewBrief.svelte';
 
-    export let movieRoles: MovieRoleResponseDto[] = [];
+    export let movieRoles: MovieRoleBrief[] = [];
 </script>
 
 <ul>

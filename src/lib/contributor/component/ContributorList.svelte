@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { ContributorResponseDto } from '../api/contributor-response-dto';
+    import type { ContributorBrief } from '../db/contributor-brief';
     import ContributorViewBrief from './ContributorViewBrief.svelte';
 
-    export let contributors: ContributorResponseDto[] = [];
+    export let contributors: ContributorBrief[] = [];
 </script>
 
 <ul>

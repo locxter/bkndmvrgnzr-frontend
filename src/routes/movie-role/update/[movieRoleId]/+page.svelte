@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
-    import type { MovieRoleUpdateDto } from '$lib/movierole/api/movie-role-update-dto';
     import MovieRoleUpdate from '$lib/movierole/component/MovieRoleUpdate.svelte';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
+    import { MovieRoleId } from '$lib/movierole/db/movie-role-id';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -15,8 +15,8 @@
     let serverAddress: string;
     let jwt: string;
     let movieRoleController: MovieRoleController;
-    let movieRole: MovieRoleResponseDto;
-    let movieRoleUpdate: MovieRoleUpdateDto;
+    let movieRole: MovieRole;
+    let movieRoleUpdate: MovieRole;
 
     page.subscribe((data) => {
         movieRoleId = data.params.movieRoleId;
@@ -34,8 +34,8 @@
 
     onMount(async () => {
         try {
-            movieRole = await movieRoleController.getMovieRole(movieRoleId);
-            movieRoleUpdate = movieRole as MovieRoleUpdateDto;
+            movieRole = await movieRoleController.getMovieRole(new MovieRoleId(movieRoleId));
+            movieRoleUpdate = Object.create(movieRole);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -46,7 +46,7 @@
         try {
             movieRole = await movieRoleController.updateMovieRole(movieRole.id, movieRoleUpdate);
             alert('Movie role successfully updated');
-            goto('/movie-role/' + movieRole.id);
+            goto('/movie-role/' + movieRole.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -83,7 +83,7 @@
             <button on:click={deleteMovieRole}>Delete movie role</button>
         </p>
         <p>
-            <a href="/movie-role/{movieRole.id}">
+            <a href="/movie-role/{movieRole.id.value}">
                 <button>Return</button>
             </a>
         </p>

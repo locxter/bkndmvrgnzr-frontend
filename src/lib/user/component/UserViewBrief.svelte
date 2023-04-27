@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { UserResponseDto } from '../api/user-response-dto';
+    import { User } from '../db/user';
 
-    export let user: UserResponseDto = new UserResponseDto();
+    export let user: User = new User();
 </script>
 
-<a href="/user/{user.id}">
+<a href="/user/{user.id.value}">
     {user.username}
     {#if user.firstName && user.lastName}
         ({user.lastName}, {user.firstName})

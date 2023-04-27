@@ -1,6 +1,6 @@
-import type { ContributorCreateDto } from './contributor-create-dto';
+import { Contributor } from '../db/contributor';
+import type { ContributorId } from '../db/contributor-id';
 import type { ContributorResponseDto } from './contributor-response-dto';
-import type { ContributorUpdateDto } from './contributor-update-dto';
 
 export class ContributorController {
     readonly MAPPING = '/api/contributor';
@@ -12,7 +12,7 @@ export class ContributorController {
         this.jwt = jwt;
     }
 
-    async getAllContributors(): Promise<ContributorResponseDto[]> {
+    async getAllContributors(): Promise<Contributor[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -21,31 +21,31 @@ export class ContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as ContributorResponseDto[]).map((it) => Contributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async createContributor(contributorCreateDto: ContributorCreateDto): Promise<ContributorResponseDto> {
+    async createContributor(contributor: Contributor): Promise<Contributor> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(contributorCreateDto),
+            body: JSON.stringify(contributor.toCreateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return Contributor.fromDto(JSON.parse(responseText) as ContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getContributor(contributorId: String): Promise<ContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
+    async getContributor(contributorId: ContributorId): Promise<Contributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -53,34 +53,31 @@ export class ContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return Contributor.fromDto(JSON.parse(responseText) as ContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async updateContributor(
-        contributorId: String,
-        contributorUpdateDto: ContributorUpdateDto
-    ): Promise<ContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
+    async updateContributor(contributorId: ContributorId, contributor: Contributor): Promise<Contributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId.value, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(contributorUpdateDto),
+            body: JSON.stringify(contributor.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return Contributor.fromDto(JSON.parse(responseText) as ContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deleteContributor(contributorId: string): Promise<ContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId, {
+    async deleteContributor(contributorId: ContributorId): Promise<Contributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + contributorId.value, {
             method: 'DELETE',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -88,13 +85,13 @@ export class ContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return Contributor.fromDto(JSON.parse(responseText) as ContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllContributorsOfSearchQuery(query: string): Promise<ContributorResponseDto[]> {
+    async getAllContributorsOfSearchQuery(query: string): Promise<Contributor[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -103,7 +100,7 @@ export class ContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as ContributorResponseDto[]).map((it) => Contributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

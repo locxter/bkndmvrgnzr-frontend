@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { UserUpdateDto } from '../api/user-update-dto';
+    import { User } from '../db/user';
 
-    export let userUpdate: UserUpdateDto = new UserUpdateDto();
+    export let userUpdate: User = new User();
 </script>
 
 <p>

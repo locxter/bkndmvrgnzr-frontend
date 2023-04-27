@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { GenreResponseDto } from '../api/genre-response-dto';
+    import { GenreBrief } from '../db/genre-brief';
 
-    export let genre: GenreResponseDto = new GenreResponseDto();
+    export let genre: GenreBrief = new GenreBrief();
 </script>
 
-<a href="/genre/{genre.id}">{genre.name}</a>
+<a href="/genre/{genre.id.value}">{genre.name}</a>

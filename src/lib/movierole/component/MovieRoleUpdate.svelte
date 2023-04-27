@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { MovieRoleUpdateDto } from '../api/movie-role-update-dto';
+    import { MovieRole } from '../db/movie-role';
 
-    export let movieRoleUpdate: MovieRoleUpdateDto = new MovieRoleUpdateDto();
+    export let movieRoleUpdate: MovieRole = new MovieRole();
 </script>
 
 <p>

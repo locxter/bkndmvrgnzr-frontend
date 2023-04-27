@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PublishingHouseUpdateDto } from '../api/publishing-house-update-dto';
+    import { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouseUpdate: PublishingHouseUpdateDto = new PublishingHouseUpdateDto();
+    export let publishingHouseUpdate: PublishingHouse = new PublishingHouse();
 </script>
 
 <p>

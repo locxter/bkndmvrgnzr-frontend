@@ -4,11 +4,10 @@
     import type { PasswordUpdateDto } from '$lib/user/api/password-update-dto';
     import { UserController } from '$lib/user/api/user-controller';
     import type { UserDeleteDto } from '$lib/user/api/user-delete-dto';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
-    import type { UserUpdateDto } from '$lib/user/api/user-update-dto';
     import PasswordUpdate from '$lib/user/component/PasswordUpdate.svelte';
     import UserDelete from '$lib/user/component/UserDelete.svelte';
     import UserUpdate from '$lib/user/component/UserUpdate.svelte';
+    import type { User } from '$lib/user/db/user';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -17,8 +16,8 @@
     let serverAddress: string;
     let jwt: string;
     let userController: UserController;
-    let user: UserResponseDto;
-    let userUpdate: UserUpdateDto;
+    let user: User;
+    let userUpdate: User;
     let passwordUpdate: PasswordUpdateDto;
     let userDelete: UserDeleteDto;
 
@@ -35,7 +34,7 @@
     onMount(async () => {
         try {
             user = await userController.getUser();
-            userUpdate = user as UserUpdateDto;
+            userUpdate = Object.create(user);
         } catch (error) {
             console.error(error);
             alert(error);

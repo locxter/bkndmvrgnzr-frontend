@@ -1,8 +1,8 @@
 <script lang="ts">
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
-    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
     import ContributorList from '$lib/contributor/component/ContributorList.svelte';
     import ContributorSearch from '$lib/contributor/component/ContributorSearch.svelte';
+    import type { Contributor } from '$lib/contributor/db/contributor';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -14,7 +14,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let contributorController: ContributorController;
-    let contributors: ContributorResponseDto[] = [];
+    let contributors: Contributor[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

@@ -1,8 +1,9 @@
 <script lang="ts">
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookLibrarySearch from '$lib/book/component/BookLibrarySearch.svelte';
     import BookList from '$lib/book/component/BookList.svelte';
+    import type { Book } from '$lib/book/db/book';
+    import type { BookBrief } from '$lib/book/db/book-brief';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
@@ -12,8 +13,8 @@
     let serverAddress: string;
     let jwt: string;
     let bookController: BookController;
-    let books: BookResponseDto[] = [];
-    let updateBooks: BookResponseDto[] = [];
+    let books: Book[] = [];
+    let updateBooks: Book[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -35,12 +36,12 @@
         }
     });
 
-    function toggleBook(book: BookResponseDto) {
-        if (updateBooks.map((it) => it.isbn).includes(book.isbn)) {
-            updateBooks.splice(updateBooks.map((it) => it.isbn).indexOf(book.isbn), 1);
+    function toggleBook(book: BookBrief) {
+        if (updateBooks.map((it) => it.isbn.value).includes(book.isbn.value)) {
+            updateBooks.splice(updateBooks.map((it) => it.isbn.value).indexOf(book.isbn.value), 1);
             updateBooks = updateBooks;
         } else {
-            updateBooks = [...updateBooks, book];
+            updateBooks = [...updateBooks, book as Book];
         }
     }
 
@@ -48,7 +49,7 @@
         try {
             // Remove unselected books
             for (let book of books) {
-                if (!updateBooks.map((it) => it.isbn).includes(book.isbn)) {
+                if (!updateBooks.map((it) => it.isbn.value).includes(book.isbn.value)) {
                     await bookController.removeBookFromUser(book.isbn);
                 }
             }
@@ -73,7 +74,7 @@
     <BookLibrarySearch {bookController} bind:books />
     <BookList {books} let:book>
         <button on:click={() => toggleBook(book)}>
-            {#if updateBooks.map((it) => it.isbn).includes(book.isbn)}
+            {#if updateBooks.map((it) => it.isbn.value).includes(book.isbn.value)}
                 Deselect
             {:else}
                 Select

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { UserResponseDto } from '../api/user-response-dto';
+    import type { User } from '../db/user';
     import UserViewBrief from './UserViewBrief.svelte';
 
-    export let users: UserResponseDto[] = [];
+    export let users: User[] = [];
 </script>
 
 <ul>

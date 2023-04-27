@@ -1,8 +1,8 @@
 <script lang="ts">
     import { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
     import GenreList from '$lib/genre/component/GenreList.svelte';
     import GenreSearch from '$lib/genre/component/GenreSearch.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -14,7 +14,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let genreController: GenreController;
-    let genres: GenreResponseDto[] = [];
+    let genres: Genre[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { ContributorController } from '../api/contributor-controller';
-    import type { ContributorResponseDto } from '../api/contributor-response-dto';
+    import type { Contributor } from '../db/contributor';
 
     export let contributorController: ContributorController;
-    export let contributors: ContributorResponseDto[] = [];
+    export let contributors: Contributor[] = [];
 
     let query: string;
 

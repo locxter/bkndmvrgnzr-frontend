@@ -2,8 +2,9 @@
     import { page } from '$app/stores';
     import { BookController } from '$lib/book/api/book-controller';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
-    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
     import ContributorView from '$lib/contributor/component/ContributorView.svelte';
+    import type { Contributor } from '$lib/contributor/db/contributor';
+    import { ContributorId } from '$lib/contributor/db/contributor-id';
     import { MovieController } from '$lib/movie/api/movie-controller';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
@@ -19,7 +20,7 @@
     let contributorController: ContributorController;
     let bookController: BookController;
     let movieController: MovieController;
-    let contributor: ContributorResponseDto;
+    let contributor: Contributor;
 
     page.subscribe((data) => {
         contributorId = data.params.contributorId;
@@ -44,7 +45,7 @@
 
     onMount(async () => {
         try {
-            contributor = await contributorController.getContributor(contributorId);
+            contributor = await contributorController.getContributor(new ContributorId(contributorId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -68,7 +69,7 @@
         <ContributorView {contributor} {bookController} {movieController} />
         {#if roles.includes(ERole.ROLE_EDITOR)}
             <p>
-                <a href="/contributor/update/{contributor.id}">
+                <a href="/contributor/update/{contributor.id.value}">
                     <button>Update contributor</button>
                 </a>
             </p>

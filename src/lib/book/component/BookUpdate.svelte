@@ -1,27 +1,30 @@
 <script lang="ts">
     import type { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
-    import type { BookContributorResponseDto } from '$lib/bookcontributor/api/book-contributor-response-dto';
     import BookContributorList from '$lib/bookcontributor/component/BookContributorList.svelte';
     import BookContributorSearch from '$lib/bookcontributor/component/BookContributorSearch.svelte';
+    import type { BookContributor } from '$lib/bookcontributor/db/book-contributor';
+    import type { BookContributorBrief } from '$lib/bookcontributor/db/book-contributor-brief';
     import type { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
     import GenreList from '$lib/genre/component/GenreList.svelte';
     import GenreSearch from '$lib/genre/component/GenreSearch.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
+    import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import type { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
     import PublishingHouseList from '$lib/publishinghouse/component/PublishingHouseList.svelte';
     import PublishingHouseSearch from '$lib/publishinghouse/component/PublishingHouseSearch.svelte';
+    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
+    import type { PublishingHouseBrief } from '$lib/publishinghouse/db/publishing-house-brief';
     import { onMount } from 'svelte';
-    import { BookUpdateDto } from '../api/book-update-dto';
+    import { Book } from '../db/book';
 
-    export let bookUpdate: BookUpdateDto = new BookUpdateDto();
+    export let bookUpdate: Book = new Book();
     export let publishingHouseController: PublishingHouseController;
     export let genreController: GenreController;
     export let bookContributorController: BookContributorController;
 
-    let publishingHouses: PublishingHouseResponseDto[] = [];
-    let genres: GenreResponseDto[] = [];
-    let bookContributors: BookContributorResponseDto[] = [];
+    let publishingHouses: PublishingHouse[] = [];
+    let genres: Genre[] = [];
+    let bookContributors: BookContributor[] = [];
 
     onMount(async () => {
         try {
@@ -34,29 +37,32 @@
         }
     });
 
-    function togglePublishingHouse(publishingHouse: PublishingHouseResponseDto) {
-        if (bookUpdate.publishingHouseId === publishingHouse.id) {
-            bookUpdate.publishingHouseId = '';
+    function togglePublishingHouse(publishingHouse: PublishingHouseBrief) {
+        if (bookUpdate.publishingHouse.id.value === publishingHouse.id.value) {
+            bookUpdate.publishingHouse.id.value = '';
         } else {
-            bookUpdate.publishingHouseId = publishingHouse.id;
+            bookUpdate.publishingHouse = publishingHouse;
         }
     }
 
-    function toggleGenre(genre: GenreResponseDto) {
-        if (bookUpdate.genreIds.includes(genre.id)) {
-            bookUpdate.genreIds.splice(bookUpdate.genreIds.indexOf(genre.id), 1);
-            bookUpdate.genreIds = bookUpdate.genreIds;
+    function toggleGenre(genre: GenreBrief) {
+        if (bookUpdate.genres.map((it) => it.id.value).includes(genre.id.value)) {
+            bookUpdate.genres.splice(bookUpdate.genres.map((it) => it.id.value).indexOf(genre.id.value), 1);
+            bookUpdate.genres = bookUpdate.genres;
         } else {
-            bookUpdate.genreIds = [...bookUpdate.genreIds, genre.id];
+            bookUpdate.genres = [...bookUpdate.genres, genre];
         }
     }
 
-    function toggleBookContributor(bookContributor: BookContributorResponseDto) {
-        if (bookUpdate.bookContributorIds.includes(bookContributor.id)) {
-            bookUpdate.bookContributorIds.splice(bookUpdate.bookContributorIds.indexOf(bookContributor.id), 1);
-            bookUpdate.bookContributorIds = bookUpdate.bookContributorIds;
+    function toggleBookContributor(bookContributor: BookContributorBrief) {
+        if (bookUpdate.bookContributors.map((it) => it.id.value).includes(bookContributor.id.value)) {
+            bookUpdate.bookContributors.splice(
+                bookUpdate.bookContributors.map((it) => it.id.value).indexOf(bookContributor.id.value),
+                1
+            );
+            bookUpdate.bookContributors = bookUpdate.bookContributors;
         } else {
-            bookUpdate.bookContributorIds = [...bookUpdate.bookContributorIds, bookContributor.id];
+            bookUpdate.bookContributors = [...bookUpdate.bookContributors, bookContributor];
         }
     }
 </script>
@@ -90,14 +96,14 @@
 <PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
     <button on:click={() => togglePublishingHouse(publishingHouse)}>
-        {#if bookUpdate.publishingHouseId === publishingHouse.id}
+        {#if bookUpdate.publishingHouse.id.value === publishingHouse.id.value}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </PublishingHouseList>
-{#if bookUpdate.publishingHouseId}
+{#if bookUpdate.publishingHouse.id.value}
     <p>Publishing house selected</p>
 {:else}
     <p>No publishing house selected</p>
@@ -106,24 +112,24 @@
 <GenreSearch bind:genres {genreController} />
 <GenreList {genres} let:genre>
     <button on:click={() => toggleGenre(genre)}>
-        {#if bookUpdate.genreIds.includes(genre.id)}
+        {#if bookUpdate.genres.map((it) => it.id.value).includes(genre.id.value)}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </GenreList>
-<p>{bookUpdate.genreIds.length} genres selected</p>
+<p>{bookUpdate.genres.length} genres selected</p>
 <p>Contributors:</p>
 <BookContributorSearch bind:bookContributors {bookContributorController} />
 <BookContributorList {bookContributors} let:bookContributor>
     <button on:click={() => toggleBookContributor(bookContributor)}>
-        {#if bookUpdate.bookContributorIds.includes(bookContributor.id)}
+        {#if bookUpdate.bookContributors.map((it) => it.id.value).includes(bookContributor.id.value)}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </BookContributorList>
-<p>{bookUpdate.bookContributorIds.length} contributors selected</p>
+<p>{bookUpdate.bookContributors.length} contributors selected</p>
 <p>* Required</p>

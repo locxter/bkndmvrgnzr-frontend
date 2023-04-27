@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { PublishingHouseController } from '../api/publishing-house-controller';
-    import type { PublishingHouseResponseDto } from '../api/publishing-house-response-dto';
+    import type { PublishingHouse } from '../db/publishing-house';
 
     export let publishingHouseController: PublishingHouseController;
-    export let publishingHouses: PublishingHouseResponseDto[] = [];
+    export let publishingHouses: PublishingHouse[] = [];
 
     let query: string;
 

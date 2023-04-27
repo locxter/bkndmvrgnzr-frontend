@@ -1,8 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleCreateDto } from '$lib/bookrole/api/book-role-create-dto';
     import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRoleCreate: BookRoleCreateDto;
+    let bookRoleCreate: BookRole;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,7 +27,7 @@
         try {
             let data = await bookRoleController.createBookRole(bookRoleCreate);
             alert('Book role successfully created');
-            goto('/book-role/' + data.id);
+            goto('/book-role/' + data.id.value);
         } catch (error) {
             console.error(error);
             alert(error);

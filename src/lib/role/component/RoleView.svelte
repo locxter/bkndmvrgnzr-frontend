@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { RoleResponseDto } from '../api/role-response-dto';
+    import { ERole } from '../db/erole';
+    import { Role } from '../db/role';
 
-    export let role: RoleResponseDto = new RoleResponseDto();
+    export let role: Role = new Role();
 </script>
 
-{role.type}
+{ERole[role.type]}

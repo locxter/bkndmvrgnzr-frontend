@@ -1,18 +1,18 @@
 <script lang="ts">
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookList from '$lib/book/component/BookList.svelte';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import type { BookBrief } from '$lib/book/db/book-brief';
     import MovieList from '$lib/movie/component/MovieList.svelte';
+    import type { MovieBrief } from '$lib/movie/db/movie-brief';
     import RoleList from '$lib/role/component/RoleList.svelte';
-    import { UserResponseDto } from '../api/user-response-dto';
+    import { User } from '../db/user';
 
-    export let user: UserResponseDto = new UserResponseDto();
+    export let user: User = new User();
 
-    let books: BookResponseDto[] = [];
-    let movies: MovieResponseDto[] = [];
+    let books: BookBrief[] = [];
+    let movies: MovieBrief[] = [];
 
-    $: books = user.books as BookResponseDto[];
-    $: movies = user.movies as MovieResponseDto[];
+    $: books = user.books;
+    $: movies = user.movies;
 </script>
 
 <h2>{user.username}</h2>

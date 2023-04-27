@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { MovieController } from '../api/movie-controller';
-    import type { MovieResponseDto } from '../api/movie-response-dto';
+    import type { Movie } from '../db/movie';
 
     export let movieController: MovieController;
-    export let movies: MovieResponseDto[] = [];
+    export let movies: Movie[] = [];
 
     let query: string;
 

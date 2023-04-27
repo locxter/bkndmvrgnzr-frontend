@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { BookController } from '../api/book-controller';
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { Book } from '../db/book';
 
     export let bookController: BookController;
-    export let books: BookResponseDto[] = [];
+    export let books: Book[] = [];
 
     let query: string;
 

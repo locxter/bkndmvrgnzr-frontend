@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookView from '$lib/book/component/BookView.svelte';
+    import type { Book } from '$lib/book/db/book';
+    import { Isbn } from '$lib/book/db/isbn';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -15,7 +16,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let bookController: BookController;
-    let book: BookResponseDto;
+    let book: Book;
 
     page.subscribe((data) => {
         isbn = data.params.isbn;
@@ -36,7 +37,7 @@
 
     onMount(async () => {
         try {
-            book = await bookController.getBook(isbn);
+            book = await bookController.getBook(new Isbn(isbn));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -60,7 +61,7 @@
         <BookView {book} />
         {#if roles.includes(ERole.ROLE_EDITOR)}
             <p>
-                <a href="/book/update/{book.isbn}">
+                <a href="/book/update/{book.isbn.value}">
                     <button>Update book</button>
                 </a>
             </p>

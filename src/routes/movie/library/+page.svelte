@@ -1,8 +1,9 @@
 <script lang="ts">
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
     import MovieLibrarySearch from '$lib/movie/component/MovieLibrarySearch.svelte';
     import MovieList from '$lib/movie/component/MovieList.svelte';
+    import type { Movie } from '$lib/movie/db/movie';
+    import type { MovieBrief } from '$lib/movie/db/movie-brief';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
@@ -12,8 +13,8 @@
     let serverAddress: string;
     let jwt: string;
     let movieController: MovieController;
-    let movies: MovieResponseDto[] = [];
-    let updateMovies: MovieResponseDto[] = [];
+    let movies: Movie[] = [];
+    let updateMovies: Movie[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -35,12 +36,12 @@
         }
     });
 
-    function toggleMovie(movie: MovieResponseDto) {
-        if (updateMovies.map((it) => it.isan).includes(movie.isan)) {
-            updateMovies.splice(updateMovies.map((it) => it.isan).indexOf(movie.isan), 1);
+    function toggleMovie(movie: MovieBrief) {
+        if (updateMovies.map((it) => it.isan.value).includes(movie.isan.value)) {
+            updateMovies.splice(updateMovies.map((it) => it.isan.value).indexOf(movie.isan.value), 1);
             updateMovies = updateMovies;
         } else {
-            updateMovies = [...updateMovies, movie];
+            updateMovies = [...updateMovies, movie as Movie];
         }
     }
 
@@ -48,7 +49,7 @@
         try {
             // Remove unselected movies
             for (let movie of movies) {
-                if (!updateMovies.map((it) => it.isan).includes(movie.isan)) {
+                if (!updateMovies.map((it) => it.isan.value).includes(movie.isan.value)) {
                     await movieController.removeMovieFromUser(movie.isan);
                 }
             }
@@ -73,7 +74,7 @@
     <MovieLibrarySearch {movieController} bind:movies />
     <MovieList {movies} let:movie>
         <button on:click={() => toggleMovie(movie)}>
-            {#if updateMovies.map((it) => it.isan).includes(movie.isan)}
+            {#if updateMovies.map((it) => it.isan.value).includes(movie.isan.value)}
                 Deselect
             {:else}
                 Select

@@ -1,6 +1,6 @@
-import type { PublishingHouseCreateDto } from './publishing-house-create-dto';
+import { PublishingHouse } from '../db/publishing-house';
+import type { PublishingHouseId } from '../db/publishing-house-id';
 import type { PublishingHouseResponseDto } from './publishing-house-response-dto';
-import type { PublishingHouseUpdateDto } from './publishing-house-update-dto';
 
 export class PublishingHouseController {
     readonly MAPPING = '/api/publishing-house';
@@ -12,7 +12,7 @@ export class PublishingHouseController {
         this.jwt = jwt;
     }
 
-    async getAllPublishingHouses(): Promise<PublishingHouseResponseDto[]> {
+    async getAllPublishingHouses(): Promise<PublishingHouse[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -21,33 +21,31 @@ export class PublishingHouseController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as PublishingHouseResponseDto[]).map((it) => PublishingHouse.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async createPublishingHouse(
-        publishingHouseCreateDto: PublishingHouseCreateDto
-    ): Promise<PublishingHouseResponseDto> {
+    async createPublishingHouse(publishingHouse: PublishingHouse): Promise<PublishingHouse> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(publishingHouseCreateDto),
+            body: JSON.stringify(publishingHouse.toCreateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return PublishingHouse.fromDto(JSON.parse(responseText) as PublishingHouseResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getPublishingHouse(publishingHouseId: String): Promise<PublishingHouseResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
+    async getPublishingHouse(publishingHouseId: PublishingHouseId): Promise<PublishingHouse> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -55,34 +53,34 @@ export class PublishingHouseController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return PublishingHouse.fromDto(JSON.parse(responseText) as PublishingHouseResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
     async updatePublishingHouse(
-        publishingHouseId: String,
-        publishingHouseUpdateDto: PublishingHouseUpdateDto
-    ): Promise<PublishingHouseResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
+        publishingHouseId: PublishingHouseId,
+        publishingHouse: PublishingHouse
+    ): Promise<PublishingHouse> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId.value, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(publishingHouseUpdateDto),
+            body: JSON.stringify(publishingHouse.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return PublishingHouse.fromDto(JSON.parse(responseText) as PublishingHouseResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deletePublishingHouse(publishingHouseId: string): Promise<PublishingHouseResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId, {
+    async deletePublishingHouse(publishingHouseId: PublishingHouseId): Promise<PublishingHouse> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + publishingHouseId.value, {
             method: 'DELETE',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -90,13 +88,13 @@ export class PublishingHouseController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return PublishingHouse.fromDto(JSON.parse(responseText) as PublishingHouseResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllPublishingHousesOfSearchQuery(query: string): Promise<PublishingHouseResponseDto[]> {
+    async getAllPublishingHousesOfSearchQuery(query: string): Promise<PublishingHouse[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -105,7 +103,7 @@ export class PublishingHouseController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as PublishingHouseResponseDto[]).map((it) => PublishingHouse.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

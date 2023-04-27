@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
-    import type { BookRoleUpdateDto } from '$lib/bookrole/api/book-role-update-dto';
     import BookRoleUpdate from '$lib/bookrole/component/BookRoleUpdate.svelte';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
+    import { BookRoleId } from '$lib/bookrole/db/book-role-id';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -15,8 +15,8 @@
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRole: BookRoleResponseDto;
-    let bookRoleUpdate: BookRoleUpdateDto;
+    let bookRole: BookRole;
+    let bookRoleUpdate: BookRole;
 
     page.subscribe((data) => {
         bookRoleId = data.params.bookRoleId;
@@ -34,8 +34,8 @@
 
     onMount(async () => {
         try {
-            bookRole = await bookRoleController.getBookRole(bookRoleId);
-            bookRoleUpdate = bookRole as BookRoleUpdateDto;
+            bookRole = await bookRoleController.getBookRole(new BookRoleId(bookRoleId));
+            bookRoleUpdate = Object.create(bookRole);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -46,7 +46,7 @@
         try {
             bookRole = await bookRoleController.updateBookRole(bookRole.id, bookRoleUpdate);
             alert('Book role successfully updated');
-            goto('/book-role/' + bookRole.id);
+            goto('/book-role/' + bookRole.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -83,7 +83,7 @@
             <button on:click={deleteBookRole}>Delete book role</button>
         </p>
         <p>
-            <a href="/book-role/{bookRole.id}">
+            <a href="/book-role/{bookRole.id.value}">
                 <button>Return</button>
             </a>
         </p>

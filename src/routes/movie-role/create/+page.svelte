@@ -1,8 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleCreateDto } from '$lib/movierole/api/movie-role-create-dto';
     import MovieRoleCreate from '$lib/movierole/component/MovieRoleCreate.svelte';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let movieRoleController: MovieRoleController;
-    let movieRoleCreate: MovieRoleCreateDto;
+    let movieRoleCreate: MovieRole;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,7 +27,7 @@
         try {
             let data = await movieRoleController.createMovieRole(movieRoleCreate);
             alert('Movie role successfully created');
-            goto('/movie-role/' + data.id);
+            goto('/movie-role/' + data.id.value);
         } catch (error) {
             console.error(error);
             alert(error);

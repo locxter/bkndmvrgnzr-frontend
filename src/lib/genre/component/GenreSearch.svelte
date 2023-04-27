@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { GenreController } from '../api/genre-controller';
-    import type { GenreResponseDto } from '../api/genre-response-dto';
+    import type { Genre } from '../db/genre';
 
     export let genreController: GenreController;
-    export let genres: GenreResponseDto[] = [];
+    export let genres: Genre[] = [];
 
     let query: string;
 

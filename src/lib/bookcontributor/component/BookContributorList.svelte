@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { BookContributorResponseDto } from '../api/book-contributor-response-dto';
+    import type { BookContributorBrief } from '../db/book-contributor-brief';
     import BookContributorViewBrief from './BookContributorViewBrief.svelte';
 
-    export let bookContributors: BookContributorResponseDto[] = [];
+    export let bookContributors: BookContributorBrief[] = [];
 </script>
 
 <ul>

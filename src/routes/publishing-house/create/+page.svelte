@@ -1,8 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import type { PublishingHouseCreateDto } from '$lib/publishinghouse/api/publishing-house-create-dto';
     import PublishingHouseCreate from '$lib/publishinghouse/component/PublishingHouseCreate.svelte';
+    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let publishingHouseController: PublishingHouseController;
-    let publishingHouseCreate: PublishingHouseCreateDto;
+    let publishingHouseCreate: PublishingHouse;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,7 +27,7 @@
         try {
             let data = await publishingHouseController.createPublishingHouse(publishingHouseCreate);
             alert('Publishing house successfully created');
-            goto('/publishing-house/' + data.id);
+            goto('/publishing-house/' + data.id.value);
         } catch (error) {
             console.error(error);
             alert(error);

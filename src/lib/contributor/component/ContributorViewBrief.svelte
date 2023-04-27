@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { ContributorResponseDto } from '../api/contributor-response-dto';
+    import { ContributorBrief } from '../db/contributor-brief';
 
-    export let contributor: ContributorResponseDto = new ContributorResponseDto();
+    export let contributor: ContributorBrief = new ContributorBrief();
 </script>
 
-<a href="/contributor/{contributor.id}">{contributor.lastName}, {contributor.firstName}</a>
+<a href="/contributor/{contributor.id.value}">{contributor.lastName}, {contributor.firstName}</a>

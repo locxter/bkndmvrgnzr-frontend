@@ -1,14 +1,14 @@
 <script lang="ts">
     import type { RoleController } from '$lib/role/api/role-controller';
-    import type { RoleResponseDto } from '$lib/role/api/role-response-dto';
     import RoleList from '$lib/role/component/RoleList.svelte';
     import RoleSearch from '$lib/role/component/RoleSearch.svelte';
+    import type { Role } from '$lib/role/db/role';
     import { onMount } from 'svelte';
 
-    export let userUpdateRoles: RoleResponseDto[] = [];
+    export let userUpdateRoles: Role[] = [];
     export let roleController: RoleController;
 
-    let roles: RoleResponseDto[] = [];
+    let roles: Role[] = [];
 
     onMount(async () => {
         try {
@@ -19,9 +19,9 @@
         }
     });
 
-    function toggleRole(role: RoleResponseDto) {
-        if (userUpdateRoles.map((it) => it.id).includes(role.id)) {
-            userUpdateRoles.splice(userUpdateRoles.map((it) => it.id).indexOf(role.id), 1);
+    function toggleRole(role: Role) {
+        if (userUpdateRoles.map((it) => it.id.value).includes(role.id.value)) {
+            userUpdateRoles.splice(userUpdateRoles.map((it) => it.id.value).indexOf(role.id.value), 1);
             userUpdateRoles = userUpdateRoles;
         } else {
             userUpdateRoles = [...userUpdateRoles, role];
@@ -33,7 +33,7 @@
 <RoleSearch bind:roles {roleController} />
 <RoleList {roles} let:role>
     <button on:click={() => toggleRole(role)}>
-        {#if userUpdateRoles.map((it) => it.id).includes(role.id)}
+        {#if userUpdateRoles.map((it) => it.id.value).includes(role.id.value)}
             Deselect
         {:else}
             Select

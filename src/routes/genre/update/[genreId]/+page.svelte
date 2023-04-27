@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
-    import type { GenreUpdateDto } from '$lib/genre/api/genre-update-dto';
     import GenreUpdate from '$lib/genre/component/GenreUpdate.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
+    import { GenreId } from '$lib/genre/db/genre-id';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -15,8 +15,8 @@
     let serverAddress: string;
     let jwt: string;
     let genreController: GenreController;
-    let genre: GenreResponseDto;
-    let genreUpdate: GenreUpdateDto;
+    let genre: Genre;
+    let genreUpdate: Genre;
 
     page.subscribe((data) => {
         genreId = data.params.genreId;
@@ -34,8 +34,8 @@
 
     onMount(async () => {
         try {
-            genre = await genreController.getGenre(genreId);
-            genreUpdate = genre as GenreUpdateDto;
+            genre = await genreController.getGenre(new GenreId(genreId));
+            genreUpdate = Object.create(genre);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -46,7 +46,7 @@
         try {
             genre = await genreController.updateGenre(genre.id, genreUpdate);
             alert('Genre successfully updated');
-            goto('/genre/' + genre.id);
+            goto('/genre/' + genre.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -83,7 +83,7 @@
             <button on:click={deleteGenre}>Delete genre</button>
         </p>
         <p>
-            <a href="/genre/{genre.id}">
+            <a href="/genre/{genre.id.value}">
                 <button>Return</button>
             </a>
         </p>

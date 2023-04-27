@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { PublishingHouseResponseDto } from '../api/publishing-house-response-dto';
+    import { PublishingHouseBrief } from '../db/publishing-house-brief';
 
-    export let publishingHouse: PublishingHouseResponseDto = new PublishingHouseResponseDto();
+    export let publishingHouse: PublishingHouseBrief = new PublishingHouseBrief();
 </script>
 
-<a href="/publishing-house/{publishingHouse.id}">
+<a href="/publishing-house/{publishingHouse.id.value}">
     {publishingHouse.name}
     {#if publishingHouse.city && publishingHouse.country}
         ({publishingHouse.city}, {publishingHouse.country})

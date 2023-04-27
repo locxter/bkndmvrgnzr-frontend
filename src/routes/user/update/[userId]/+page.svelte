@@ -2,17 +2,17 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { RoleController } from '$lib/role/api/role-controller';
-    import type { RoleResponseDto } from '$lib/role/api/role-response-dto';
+    import type { Role } from '$lib/role/db/role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import type { PasswordUpdateAdminDto } from '$lib/user/api/password-update-admin-dto';
     import { UserController } from '$lib/user/api/user-controller';
     import type { UserDeleteAdminDto } from '$lib/user/api/user-delete-admin-dto';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
-    import type { UserUpdateDto } from '$lib/user/api/user-update-dto';
     import PasswordUpdateAdmin from '$lib/user/component/PasswordUpdateAdmin.svelte';
     import UserDeleteAdmin from '$lib/user/component/UserDeleteAdmin.svelte';
     import UserRoleUpdate from '$lib/user/component/UserRoleUpdate.svelte';
     import UserUpdate from '$lib/user/component/UserUpdate.svelte';
+    import type { User } from '$lib/user/db/user';
+    import { UserId } from '$lib/user/db/user-id';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
     import Header from '../../../../components/Header.svelte';
@@ -23,10 +23,10 @@
     let jwt: string;
     let userController: UserController;
     let roleController: RoleController;
-    let user: UserResponseDto;
-    let userRoles: RoleResponseDto[] = [];
-    let userUpdate: UserUpdateDto;
-    let userUpdateRoles: RoleResponseDto[] = [];
+    let user: User;
+    let userRoles: Role[] = [];
+    let userUpdate: User;
+    let userUpdateRoles: Role[] = [];
     let passwordUpdateAdmin: PasswordUpdateAdminDto;
     let userDeleteAdmin: UserDeleteAdminDto;
 
@@ -48,8 +48,8 @@
 
     onMount(async () => {
         try {
-            user = await userController.getSpecificUser(userId);
-            userUpdate = user as UserUpdateDto;
+            user = await userController.getSpecificUser(new UserId(userId));
+            userUpdate = Object.create(user);
             userUpdateRoles = await roleController.getAllRolesOfSpecificUser(user.id);
             userRoles = [...userUpdateRoles];
         } catch (error) {
@@ -74,7 +74,7 @@
                 }
             }
             alert('User successfully updated');
-            goto('/user/' + user.id);
+            goto('/user/' + user.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -85,7 +85,7 @@
         try {
             user = await userController.updateSpecificUsersPassword(user.id, passwordUpdateAdmin);
             alert('Password successfully updated');
-            goto('/user/' + user.id);
+            goto('/user/' + user.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -120,7 +120,7 @@
             <button on:click={updateUser}>Update user</button>
         </p>
         <p>
-            <a href="/user/{user.id}">
+            <a href="/user/{user.id.value}">
                 <button>Return</button>
             </a>
         </p>

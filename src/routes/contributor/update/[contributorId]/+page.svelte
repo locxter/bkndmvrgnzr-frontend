@@ -2,17 +2,19 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
-    import { BookContributorCreateDto } from '$lib/bookcontributor/api/book-contributor-create-dto';
+    import { BookContributor } from '$lib/bookcontributor/db/book-contributor';
+    import { BookContributorId } from '$lib/bookcontributor/db/book-contributor-id';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
     import { ContributorController } from '$lib/contributor/api/contributor-controller';
-    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
-    import type { ContributorUpdateDto } from '$lib/contributor/api/contributor-update-dto';
     import ContributorUpdate from '$lib/contributor/component/ContributorUpdate.svelte';
+    import type { Contributor } from '$lib/contributor/db/contributor';
+    import { ContributorId } from '$lib/contributor/db/contributor-id';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
-    import { MovieContributorCreateDto } from '$lib/moviecontributor/api/movie-contributor-create-dto';
+    import { MovieContributor } from '$lib/moviecontributor/db/movie-contributor';
+    import { MovieContributorId } from '$lib/moviecontributor/db/movie-contributor-id';
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -27,12 +29,12 @@
     let movieRoleController: MovieRoleController;
     let bookContributorController: BookContributorController;
     let movieContributorController: MovieContributorController;
-    let contributor: ContributorResponseDto;
-    let contributorBookRoles: BookRoleResponseDto[] = [];
-    let contributorMovieRoles: MovieRoleResponseDto[] = [];
-    let contributorUpdate: ContributorUpdateDto;
-    let contributorUpdateBookRoles: BookRoleResponseDto[] = [];
-    let contributorUpdateMovieRoles: MovieRoleResponseDto[] = [];
+    let contributor: Contributor;
+    let contributorBookRoles: BookRole[] = [];
+    let contributorMovieRoles: MovieRole[] = [];
+    let contributorUpdate: Contributor;
+    let contributorUpdateBookRoles: BookRole[] = [];
+    let contributorUpdateMovieRoles: MovieRole[] = [];
 
     page.subscribe((data) => {
         contributorId = data.params.contributorId;
@@ -58,8 +60,8 @@
 
     onMount(async () => {
         try {
-            contributor = await contributorController.getContributor(contributorId);
-            contributorUpdate = contributor as ContributorUpdateDto;
+            contributor = await contributorController.getContributor(new ContributorId(contributorId));
+            contributorUpdate = Object.create(contributor);
             contributorUpdateBookRoles = await bookRoleController.getAllBookRolesOfContributor(contributor.id);
             contributorBookRoles = [...contributorUpdateBookRoles];
             contributorUpdateMovieRoles = await movieRoleController.getAllMovieRolesOfContributor(contributor.id);
@@ -75,46 +77,52 @@
             contributor = await contributorController.updateContributor(contributor.id, contributorUpdate);
             // Delete unselected book roles
             for (let contributorBookRole of contributorBookRoles) {
-                if (!contributorUpdateBookRoles.map((it) => it.id).includes(contributorBookRole.id)) {
+                if (!contributorUpdateBookRoles.map((it) => it.id.value).includes(contributorBookRole.id.value)) {
                     await bookContributorController.deleteBookContributor(
                         contributor.bookContributors[
-                            contributor.bookContributors.map((it) => it.bookRole.id).indexOf(contributorBookRole.id)
+                            contributor.bookContributors
+                                .map((it) => it.bookRole.id.value)
+                                .indexOf(contributorBookRole.id.value)
                         ].id
                     );
                 }
             }
             // Create new book roles
             for (let contributorUpdateBookRole of contributorUpdateBookRoles) {
-                if (!contributorBookRoles.map((it) => it.id).includes(contributorUpdateBookRole.id)) {
-                    let bookContributorCreate = new BookContributorCreateDto(
-                        contributor.id,
-                        contributorUpdateBookRole.id
+                if (!contributorBookRoles.map((it) => it.id.value).includes(contributorUpdateBookRole.id.value)) {
+                    let bookContributorCreate = new BookContributor(
+                        new BookContributorId(),
+                        contributor,
+                        contributorUpdateBookRole
                     );
                     await bookContributorController.createBookContributor(bookContributorCreate);
                 }
             }
             // Delete unselected movie roles
             for (let contributorMovieRole of contributorMovieRoles) {
-                if (!contributorUpdateMovieRoles.map((it) => it.id).includes(contributorMovieRole.id)) {
+                if (!contributorUpdateMovieRoles.map((it) => it.id.value).includes(contributorMovieRole.id.value)) {
                     await movieContributorController.deleteMovieContributor(
                         contributor.movieContributors[
-                            contributor.movieContributors.map((it) => it.movieRole.id).indexOf(contributorMovieRole.id)
+                            contributor.movieContributors
+                                .map((it) => it.movieRole.id.value)
+                                .indexOf(contributorMovieRole.id.value)
                         ].id
                     );
                 }
             }
             // Create new movie roles
             for (let contributorUpdateMovieRole of contributorUpdateMovieRoles) {
-                if (!contributorMovieRoles.map((it) => it.id).includes(contributorUpdateMovieRole.id)) {
-                    let movieContributorCreate = new MovieContributorCreateDto(
-                        contributor.id,
-                        contributorUpdateMovieRole.id
+                if (!contributorMovieRoles.map((it) => it.id.value).includes(contributorUpdateMovieRole.id.value)) {
+                    let movieContributorCreate = new MovieContributor(
+                        new MovieContributorId(),
+                        contributor,
+                        contributorUpdateMovieRole
                     );
                     await movieContributorController.createMovieContributor(movieContributorCreate);
                 }
             }
             alert('Contributor successfully updated');
-            goto('/contributor/' + contributor.id);
+            goto('/contributor/' + contributor.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -157,7 +165,7 @@
             <button on:click={deleteContributor}>Delete contributor</button>
         </p>
         <p>
-            <a href="/contributor/{contributor.id}">
+            <a href="/contributor/{contributor.id.value}">
                 <button>Return</button>
             </a>
         </p>

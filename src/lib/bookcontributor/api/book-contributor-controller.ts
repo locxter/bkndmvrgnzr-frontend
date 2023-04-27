@@ -1,6 +1,8 @@
-import type { BookContributorCreateDto } from './book-contributor-create-dto';
+import type { BookRoleId } from '$lib/bookrole/db/book-role-id';
+import type { ContributorId } from '$lib/contributor/db/contributor-id';
+import { BookContributor } from '../db/book-contributor';
+import type { BookContributorId } from '../db/book-contributor-id';
 import type { BookContributorResponseDto } from './book-contributor-response-dto';
-import type { BookContributorUpdateDto } from './book-contributor-update-dto';
 
 export class BookContributorController {
     readonly MAPPING = '/api/book-contributor';
@@ -12,7 +14,7 @@ export class BookContributorController {
         this.jwt = jwt;
     }
 
-    async getAllBookContributors(): Promise<BookContributorResponseDto[]> {
+    async getAllBookContributors(): Promise<BookContributor[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -21,33 +23,31 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as BookContributorResponseDto[]).map((it) => BookContributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async createBookContributor(
-        bookContributorCreateDto: BookContributorCreateDto
-    ): Promise<BookContributorResponseDto> {
+    async createBookContributor(bookContributor: BookContributor): Promise<BookContributor> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(bookContributorCreateDto),
+            body: JSON.stringify(bookContributor.toCreateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return BookContributor.fromDto(JSON.parse(responseText) as BookContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getBookContributor(bookContributorId: String): Promise<BookContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
+    async getBookContributor(bookContributorId: BookContributorId): Promise<BookContributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -55,34 +55,34 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return BookContributor.fromDto(JSON.parse(responseText) as BookContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
     async updateBookContributor(
-        bookContributorId: String,
-        bookContributorUpdateDto: BookContributorUpdateDto
-    ): Promise<BookContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
+        bookContributorId: BookContributorId,
+        bookContributor: BookContributor
+    ): Promise<BookContributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId.value, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(bookContributorUpdateDto),
+            body: JSON.stringify(bookContributor.toUpdateDto()),
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return BookContributor.fromDto(JSON.parse(responseText) as BookContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async deleteBookContributor(bookContributorId: string): Promise<BookContributorResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId, {
+    async deleteBookContributor(bookContributorId: BookContributorId): Promise<BookContributor> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + bookContributorId.value, {
             method: 'DELETE',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -90,14 +90,14 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return BookContributor.fromDto(JSON.parse(responseText) as BookContributorResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllBookContributorsOfContributor(contributorId: string): Promise<BookContributorResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId, {
+    async getAllBookContributorsOfContributor(contributorId: ContributorId): Promise<BookContributor[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/contributor/' + contributorId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -105,14 +105,14 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as BookContributorResponseDto[]).map((it) => BookContributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllBookContributorsOfBookRole(bookRoleId: string): Promise<BookContributorResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/book-role/' + bookRoleId, {
+    async getAllBookContributorsOfBookRole(bookRoleId: BookRoleId): Promise<BookContributor[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/book-role/' + bookRoleId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -120,13 +120,13 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as BookContributorResponseDto[]).map((it) => BookContributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllBookContributorsOfSearchQuery(query: string): Promise<BookContributorResponseDto[]> {
+    async getAllBookContributorsOfSearchQuery(query: string): Promise<BookContributor[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -135,7 +135,7 @@ export class BookContributorController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as BookContributorResponseDto[]).map((it) => BookContributor.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

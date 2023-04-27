@@ -1,21 +1,23 @@
 <script lang="ts">
     import type { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreResponseDto } from '$lib/genre/api/genre-response-dto';
     import GenreList from '$lib/genre/component/GenreList.svelte';
     import GenreSearch from '$lib/genre/component/GenreSearch.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
+    import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import type { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
-    import type { MovieContributorResponseDto } from '$lib/moviecontributor/api/movie-contributor-response-dto';
     import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
     import MovieContributorSearch from '$lib/moviecontributor/component/MovieContributorSearch.svelte';
+    import type { MovieContributor } from '$lib/moviecontributor/db/movie-contributor';
+    import type { MovieContributorBrief } from '$lib/moviecontributor/db/movie-contributor-brief';
     import { onMount } from 'svelte';
-    import { MovieCreateDto } from '../api/movie-create-dto';
+    import { Movie } from '../db/movie';
 
-    export let movieCreate: MovieCreateDto = new MovieCreateDto();
+    export let movieCreate: Movie = new Movie();
     export let genreController: GenreController;
     export let movieContributorController: MovieContributorController;
 
-    let genres: GenreResponseDto[] = [];
-    let movieContributors: MovieContributorResponseDto[] = [];
+    let genres: Genre[] = [];
+    let movieContributors: MovieContributor[] = [];
 
     onMount(async () => {
         try {
@@ -27,21 +29,24 @@
         }
     });
 
-    function toggleGenre(genre: GenreResponseDto) {
-        if (movieCreate.genreIds.includes(genre.id)) {
-            movieCreate.genreIds.splice(movieCreate.genreIds.indexOf(genre.id), 1);
-            movieCreate.genreIds = movieCreate.genreIds;
+    function toggleGenre(genre: GenreBrief) {
+        if (movieCreate.genres.map((it) => it.id.value).includes(genre.id.value)) {
+            movieCreate.genres.splice(movieCreate.genres.map((it) => it.id.value).indexOf(genre.id.value), 1);
+            movieCreate.genres = movieCreate.genres;
         } else {
-            movieCreate.genreIds = [...movieCreate.genreIds, genre.id];
+            movieCreate.genres = [...movieCreate.genres, genre];
         }
     }
 
-    function toggleMovieContributor(movieContributor: MovieContributorResponseDto) {
-        if (movieCreate.movieContributorIds.includes(movieContributor.id)) {
-            movieCreate.movieContributorIds.splice(movieCreate.movieContributorIds.indexOf(movieContributor.id), 1);
-            movieCreate.movieContributorIds = movieCreate.movieContributorIds;
+    function toggleMovieContributor(movieContributor: MovieContributorBrief) {
+        if (movieCreate.movieContributors.map((it) => it.id.value).includes(movieContributor.id.value)) {
+            movieCreate.movieContributors.splice(
+                movieCreate.movieContributors.map((it) => it.id.value).indexOf(movieContributor.id.value),
+                1
+            );
+            movieCreate.movieContributors = movieCreate.movieContributors;
         } else {
-            movieCreate.movieContributorIds = [...movieCreate.movieContributorIds, movieContributor.id];
+            movieCreate.movieContributors = [...movieCreate.movieContributors, movieContributor];
         }
     }
 </script>
@@ -77,28 +82,27 @@
     <input type="number" min="0" placeholder="Age restriction" bind:value={movieCreate.ageRestriction} />
 </p>
 <p>Genres:</p>
-<p>Genres:</p>
 <GenreSearch bind:genres {genreController} />
 <GenreList {genres} let:genre>
     <button on:click={() => toggleGenre(genre)}>
-        {#if movieCreate.genreIds.includes(genre.id)}
+        {#if movieCreate.genres.map((it) => it.id.value).includes(genre.id.value)}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </GenreList>
-<p>{movieCreate.genreIds.length} genres selected</p>
+<p>{movieCreate.genres.length} genres selected</p>
 <p>Contributors:</p>
 <MovieContributorSearch bind:movieContributors {movieContributorController} />
 <MovieContributorList {movieContributors} let:movieContributor>
     <button on:click={() => toggleMovieContributor(movieContributor)}>
-        {#if movieCreate.movieContributorIds.includes(movieContributor.id)}
+        {#if movieCreate.movieContributors.map((it) => it.id.value).includes(movieContributor.id.value)}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </MovieContributorList>
-<p>{movieCreate.movieContributorIds.length} contributors selected</p>
+<p>{movieCreate.movieContributors.length} contributors selected</p>
 <p>* Required</p>

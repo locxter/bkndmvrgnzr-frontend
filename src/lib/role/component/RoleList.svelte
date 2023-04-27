@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { RoleResponseDto } from '../api/role-response-dto';
+    import type { Role } from '../db/role';
     import RoleView from './RoleView.svelte';
 
-    export let roles: RoleResponseDto[] = [];
+    export let roles: Role[] = [];
 </script>
 
 <ul>

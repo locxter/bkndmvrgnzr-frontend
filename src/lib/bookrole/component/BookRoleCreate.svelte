@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { BookRoleCreateDto } from '../api/book-role-create-dto';
+    import { BookRole } from '../db/book-role';
 
-    export let bookRoleCreate: BookRoleCreateDto = new BookRoleCreateDto();
+    export let bookRoleCreate: BookRole = new BookRole();
 </script>
 
 <p>

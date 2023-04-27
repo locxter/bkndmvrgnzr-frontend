@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { BookResponseDto } from '../api/book-response-dto';
+    import { BookBrief } from '../db/book-brief';
 
-    export let book: BookResponseDto = new BookResponseDto();
+    export let book: BookBrief = new BookBrief();
 </script>
 
-<a href="/book/{book.isbn}">
+<a href="/book/{book.isbn.value}">
     {book.title}
     {#if book.subtitle}
         - {book.subtitle}

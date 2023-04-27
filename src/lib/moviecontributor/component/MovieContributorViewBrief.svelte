@@ -1,17 +1,17 @@
 <script lang="ts">
-    import type { ContributorResponseDto } from '$lib/contributor/api/contributor-response-dto';
+    import type { BookRoleBrief } from '$lib/bookrole/db/book-role-brief';
     import ContributorViewBrief from '$lib/contributor/component/ContributorViewBrief.svelte';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
+    import type { ContributorBrief } from '$lib/contributor/db/contributor-brief';
     import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
-    import { MovieContributorResponseDto } from '../api/movie-contributor-response-dto';
+    import { MovieContributorBrief } from '../db/movie-contributor-brief';
 
-    export let movieContributor: MovieContributorResponseDto = new MovieContributorResponseDto();
+    export let movieContributor: MovieContributorBrief = new MovieContributorBrief();
 
-    let movieRole: MovieRoleResponseDto;
-    let contributor: ContributorResponseDto;
+    let movieRole: BookRoleBrief;
+    let contributor: ContributorBrief;
 
-    $: movieRole = movieContributor.movieRole as MovieRoleResponseDto;
-    $: contributor = movieContributor.contributor as ContributorResponseDto;
+    $: movieRole = movieContributor.movieRole;
+    $: contributor = movieContributor.contributor;
 </script>
 
 <MovieRoleViewBrief {movieRole} />

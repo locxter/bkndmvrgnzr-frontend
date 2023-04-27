@@ -1,8 +1,8 @@
 <script lang="ts">
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
     import UserView from '$lib/user/component/UserView.svelte';
+    import type { User } from '$lib/user/db/user';
     import { onMount } from 'svelte';
     import Footer from '../../components/Footer.svelte';
     import Header from '../../components/Header.svelte';
@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let userController: UserController;
-    let user: UserResponseDto;
+    let user: User;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

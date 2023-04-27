@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
-    import type { PublishingHouseUpdateDto } from '$lib/publishinghouse/api/publishing-house-update-dto';
     import PublishingHouseUpdate from '$lib/publishinghouse/component/PublishingHouseUpdate.svelte';
+    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
+    import { PublishingHouseId } from '$lib/publishinghouse/db/publishing-house-id';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -15,8 +15,8 @@
     let serverAddress: string;
     let jwt: string;
     let publishingHouseController: PublishingHouseController;
-    let publishingHouse: PublishingHouseResponseDto;
-    let publishingHouseUpdate: PublishingHouseUpdateDto;
+    let publishingHouse: PublishingHouse;
+    let publishingHouseUpdate: PublishingHouse;
 
     page.subscribe((data) => {
         publishingHouseId = data.params.publishingHouseId;
@@ -34,8 +34,10 @@
 
     onMount(async () => {
         try {
-            publishingHouse = await publishingHouseController.getPublishingHouse(publishingHouseId);
-            publishingHouseUpdate = publishingHouse as PublishingHouseUpdateDto;
+            publishingHouse = await publishingHouseController.getPublishingHouse(
+                new PublishingHouseId(publishingHouseId)
+            );
+            publishingHouseUpdate = Object.create(publishingHouse);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -49,7 +51,7 @@
                 publishingHouseUpdate
             );
             alert('Publishing house successfully updated');
-            goto('/publishing-house/' + publishingHouse.id);
+            goto('/publishing-house/' + publishingHouse.id.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -87,7 +89,7 @@
             <button on:click={deletePublishingHouse}>Delete publishing house</button>
         </p>
         <p>
-            <a href="/publishing-house/{publishingHouse.id}">
+            <a href="/publishing-house/{publishingHouse.id.value}">
                 <button>Return</button>
             </a>
         </p>

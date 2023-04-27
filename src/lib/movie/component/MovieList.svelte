@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { MovieResponseDto } from '../api/movie-response-dto';
+    import type { MovieBrief } from '../db/movie-brief';
     import MovieViewBrief from './MovieViewBrief.svelte';
 
-    export let movies: MovieResponseDto[] = [];
+    export let movies: MovieBrief[] = [];
 </script>
 
 <ul>

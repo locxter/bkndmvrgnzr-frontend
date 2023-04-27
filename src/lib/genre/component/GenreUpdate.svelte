@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { GenreUpdateDto } from '../api/genre-update-dto';
+    import { Genre } from '../db/genre';
 
-    export let genreUpdate: GenreUpdateDto = new GenreUpdateDto();
+    export let genreUpdate: Genre = new Genre();
 </script>
 
 <p>

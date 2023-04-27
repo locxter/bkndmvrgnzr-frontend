@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { GenreCreateDto } from '../api/genre-create-dto';
+    import { Genre } from '../db/genre';
 
-    export let genreCreate: GenreCreateDto = new GenreCreateDto();
+    export let genreCreate: Genre = new Genre();
 </script>
 
 <p>

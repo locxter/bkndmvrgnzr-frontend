@@ -2,8 +2,9 @@
     import { page } from '$app/stores';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
     import UserView from '$lib/user/component/UserView.svelte';
+    import type { User } from '$lib/user/db/user';
+    import { UserId } from '$lib/user/db/user-id';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -13,7 +14,7 @@
     let serverAddress: string;
     let jwt: string;
     let userController: UserController;
-    let user: UserResponseDto;
+    let user: User;
 
     page.subscribe((data) => {
         userId = data.params.userId;
@@ -31,7 +32,7 @@
 
     onMount(async () => {
         try {
-            user = await userController.getSpecificUser(userId);
+            user = await userController.getSpecificUser(new UserId(userId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -54,7 +55,7 @@
     {#if user}
         <UserView {user} />
         <p>
-            <a href="/user/update/{user.id}">
+            <a href="/user/update/{user.id.value}">
                 <button>Update user</button>
             </a>
         </p>

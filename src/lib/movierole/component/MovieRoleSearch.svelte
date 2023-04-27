@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { MovieRoleController } from '../api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '../api/movie-role-response-dto';
+    import type { MovieRole } from '../db/movie-role';
 
     export let movieRoleController: MovieRoleController;
-    export let movieRoles: MovieRoleResponseDto[] = [];
+    export let movieRoles: MovieRole[] = [];
 
     let query: string;
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { MovieRoleResponseDto } from '../api/movie-role-response-dto';
+    import { MovieRoleBrief } from '../db/movie-role-brief';
 
-    export let movieRole: MovieRoleResponseDto = new MovieRoleResponseDto();
+    export let movieRole: MovieRoleBrief = new MovieRoleBrief();
 </script>
 
-<a href="/movie-role/{movieRole.id}">{movieRole.name}</a>
+<a href="/movie-role/{movieRole.id.value}">{movieRole.name}</a>

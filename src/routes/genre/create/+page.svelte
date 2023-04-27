@@ -1,8 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { GenreController } from '$lib/genre/api/genre-controller';
-    import type { GenreCreateDto } from '$lib/genre/api/genre-create-dto';
     import GenreCreate from '$lib/genre/component/GenreCreate.svelte';
+    import type { Genre } from '$lib/genre/db/genre';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let genreController: GenreController;
-    let genreCreate: GenreCreateDto;
+    let genreCreate: Genre;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -27,7 +27,7 @@
         try {
             let data = await genreController.createGenre(genreCreate);
             alert('Genre successfully created');
-            goto('/genre/' + data.id);
+            goto('/genre/' + data.id.value);
         } catch (error) {
             console.error(error);
             alert(error);

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PublishingHouseCreateDto } from '../api/publishing-house-create-dto';
+    import { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouseCreate: PublishingHouseCreateDto = new PublishingHouseCreateDto();
+    export let publishingHouseCreate: PublishingHouse = new PublishingHouse();
 </script>
 
 <p>

@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { BookRoleController } from '../api/book-role-controller';
-    import type { BookRoleResponseDto } from '../api/book-role-response-dto';
+    import type { BookRole } from '../db/book-role';
 
     export let bookRoleController: BookRoleController;
-    export let bookRoles: BookRoleResponseDto[] = [];
+    export let bookRoles: BookRole[] = [];
 
     let query: string;
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { MovieResponseDto } from '../api/movie-response-dto';
+    import { MovieBrief } from '../db/movie-brief';
 
-    export let movie: MovieResponseDto = new MovieResponseDto();
+    export let movie: MovieBrief = new MovieBrief();
 </script>
 
-<a href="/movie/{movie.isan}">
+<a href="/movie/{movie.isan.value}">
     {movie.title}
     {#if movie.year}
         ({movie.year})

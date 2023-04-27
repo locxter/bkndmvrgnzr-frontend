@@ -3,9 +3,9 @@
     import { page } from '$app/stores';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
-    import { MovieUpdateDto } from '$lib/movie/api/movie-update-dto';
     import MovieUpdate from '$lib/movie/component/MovieUpdate.svelte';
+    import { Isan } from '$lib/movie/db/isan';
+    import type { Movie } from '$lib/movie/db/movie';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -19,8 +19,8 @@
     let movieController: MovieController;
     let genreController: GenreController;
     let movieContributorController: MovieContributorController;
-    let movie: MovieResponseDto;
-    let movieUpdate: MovieUpdateDto;
+    let movie: Movie;
+    let movieUpdate: Movie;
 
     page.subscribe((data) => {
         isan = data.params.isan;
@@ -42,16 +42,8 @@
 
     onMount(async () => {
         try {
-            movie = await movieController.getMovie(isan);
-            movieUpdate = new MovieUpdateDto(
-                movie.title,
-                movie.description,
-                movie.year,
-                movie.playTime,
-                movie.ageRestriction,
-                movie.genres.map((it) => it.id),
-                movie.movieContributors.map((it) => it.id)
-            );
+            movie = await movieController.getMovie(new Isan(isan));
+            movieUpdate = Object.create(movie);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -62,7 +54,7 @@
         try {
             movie = await movieController.updateMovie(movie.isan, movieUpdate);
             alert('Movie successfully updated');
-            goto('/movie/' + movie.isan);
+            goto('/movie/' + movie.isan.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -99,7 +91,7 @@
             <button on:click={deleteMovie}>Delete movie</button>
         </p>
         <p>
-            <a href="/movie/{movie.isan}">
+            <a href="/movie/{movie.isan.value}">
                 <button>Return</button>
             </a>
         </p>

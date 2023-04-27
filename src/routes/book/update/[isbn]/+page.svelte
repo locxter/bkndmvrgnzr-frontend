@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
-    import { BookUpdateDto } from '$lib/book/api/book-update-dto';
     import BookUpdate from '$lib/book/component/BookUpdate.svelte';
+    import type { Book } from '$lib/book/db/book';
+    import { Isbn } from '$lib/book/db/isbn';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
@@ -21,8 +21,8 @@
     let publishingHouseController: PublishingHouseController;
     let genreController: GenreController;
     let bookContributorController: BookContributorController;
-    let book: BookResponseDto;
-    let bookUpdate: BookUpdateDto;
+    let book: Book;
+    let bookUpdate: Book;
 
     page.subscribe((data) => {
         isbn = data.params.isbn;
@@ -46,17 +46,8 @@
 
     onMount(async () => {
         try {
-            book = await bookController.getBook(isbn);
-            bookUpdate = new BookUpdateDto(
-                book.title,
-                book.subtitle,
-                book.description,
-                book.year,
-                book.pages,
-                book.publishingHouse.id,
-                book.genres.map((it) => it.id),
-                book.bookContributors.map((it) => it.id)
-            );
+            book = await bookController.getBook(new Isbn(isbn));
+            bookUpdate = Object.create(book);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -67,7 +58,7 @@
         try {
             book = await bookController.updateBook(book.isbn, bookUpdate);
             alert('Book successfully updated');
-            goto('/book/' + book.isbn);
+            goto('/book/' + book.isbn.value);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -104,7 +95,7 @@
             <button on:click={deleteBook}>Delete book</button>
         </p>
         <p>
-            <a href="/book/{book.isbn}">
+            <a href="/book/{book.isbn.value}">
                 <button>Return</button>
             </a>
         </p>

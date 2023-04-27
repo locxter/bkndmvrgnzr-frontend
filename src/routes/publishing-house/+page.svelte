@@ -1,8 +1,8 @@
 <script lang="ts">
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import type { PublishingHouseResponseDto } from '$lib/publishinghouse/api/publishing-house-response-dto';
     import PublishingHouseList from '$lib/publishinghouse/component/PublishingHouseList.svelte';
     import PublishingHouseSearch from '$lib/publishinghouse/component/PublishingHouseSearch.svelte';
+    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -14,7 +14,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let publishingHouseController: PublishingHouseController;
-    let publishingHouses: PublishingHouseResponseDto[] = [];
+    let publishingHouses: PublishingHouse[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

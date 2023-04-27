@@ -1,3 +1,6 @@
+import type { UserId } from '$lib/user/db/user-id';
+import { Role } from '../db/role';
+import type { RoleId } from '../db/role-id';
 import type { RoleResponseDto } from './role-response-dto';
 
 export class RoleController {
@@ -10,7 +13,7 @@ export class RoleController {
         this.jwt = jwt;
     }
 
-    async getAllRoles(): Promise<RoleResponseDto[]> {
+    async getAllRoles(): Promise<Role[]> {
         let response = await fetch(this.serverAddress + this.MAPPING, {
             method: 'GET',
             headers: {
@@ -19,14 +22,14 @@ export class RoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getRole(roleId: String): Promise<RoleResponseDto> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/' + roleId, {
+    async getRole(roleId: RoleId): Promise<Role> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/' + roleId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -34,13 +37,13 @@ export class RoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return Role.fromDto(JSON.parse(responseText) as RoleResponseDto);
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllRolesOfSearchQuery(query: string): Promise<RoleResponseDto[]> {
+    async getAllRolesOfSearchQuery(query: string): Promise<Role[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/search/' + query, {
             method: 'GET',
             headers: {
@@ -49,13 +52,13 @@ export class RoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllRolesOfUser(): Promise<RoleResponseDto[]> {
+    async getAllRolesOfUser(): Promise<Role[]> {
         let response = await fetch(this.serverAddress + this.MAPPING + '/user', {
             method: 'GET',
             headers: {
@@ -64,14 +67,14 @@ export class RoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async getAllRolesOfSpecificUser(userId: string): Promise<RoleResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId, {
+    async getAllRolesOfSpecificUser(userId: UserId): Promise<Role[]> {
+        let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId.value, {
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + this.jwt,
@@ -79,37 +82,43 @@ export class RoleController {
         });
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async addRoleToSpecificUser(userId: string, roleId: string): Promise<RoleResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId + '/role/' + roleId, {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + this.jwt,
-            },
-        });
+    async addRoleToSpecificUser(userId: UserId, roleId: RoleId): Promise<Role[]> {
+        let response = await fetch(
+            this.serverAddress + this.MAPPING + '/user/' + userId.value + '/role/' + roleId.value,
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + this.jwt,
+                },
+            }
+        );
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }
     }
 
-    async removeRoleFromSpecificUser(userId: string, roleId: string): Promise<RoleResponseDto[]> {
-        let response = await fetch(this.serverAddress + this.MAPPING + '/user/' + userId + '/role/' + roleId, {
-            method: 'DELETE',
-            headers: {
-                Authorization: 'Bearer ' + this.jwt,
-            },
-        });
+    async removeRoleFromSpecificUser(userId: UserId, roleId: RoleId): Promise<Role[]> {
+        let response = await fetch(
+            this.serverAddress + this.MAPPING + '/user/' + userId.value + '/role/' + roleId.value,
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + this.jwt,
+                },
+            }
+        );
         let responseText = await response.text();
         if (response.ok) {
-            return JSON.parse(responseText);
+            return (JSON.parse(responseText) as RoleResponseDto[]).map((it) => Role.fromDto(it));
         } else {
             throw new Error('\nStatus: ' + response.status + '\nMessage: ' + responseText);
         }

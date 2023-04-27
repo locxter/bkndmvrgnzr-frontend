@@ -1,23 +1,25 @@
 <script lang="ts">
     import type { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
     import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
     import BookRoleSearch from '$lib/bookrole/component/BookRoleSearch.svelte';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
+    import type { BookRoleBrief } from '$lib/bookrole/db/book-role-brief';
     import type { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
     import MovieRoleSearch from '$lib/movierole/component/MovieRoleSearch.svelte';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
+    import type { MovieRoleBrief } from '$lib/movierole/db/movie-role-brief';
     import { onMount } from 'svelte';
-    import { ContributorCreateDto } from '../api/contributor-create-dto';
+    import { Contributor } from '../db/contributor';
 
-    export let contributorCreate: ContributorCreateDto = new ContributorCreateDto();
-    export let contributorBookRoles: BookRoleResponseDto[] = [];
-    export let contributorMovieRoles: MovieRoleResponseDto[] = [];
+    export let contributorCreate: Contributor = new Contributor();
+    export let contributorBookRoles: BookRole[] = [];
+    export let contributorMovieRoles: MovieRole[] = [];
     export let bookRoleController: BookRoleController;
     export let movieRoleController: MovieRoleController;
 
-    let bookRoles: BookRoleResponseDto[] = [];
-    let movieRoles: MovieRoleResponseDto[] = [];
+    let bookRoles: BookRole[] = [];
+    let movieRoles: MovieRole[] = [];
 
     onMount(async () => {
         try {
@@ -29,21 +31,21 @@
         }
     });
 
-    function toggleBookRole(bookRole: BookRoleResponseDto) {
-        if (contributorBookRoles.map((it) => it.id).includes(bookRole.id)) {
-            contributorBookRoles.splice(contributorBookRoles.map((it) => it.id).indexOf(bookRole.id), 1);
+    function toggleBookRole(bookRole: BookRoleBrief) {
+        if (contributorBookRoles.map((it) => it.id.value).includes(bookRole.id.value)) {
+            contributorBookRoles.splice(contributorBookRoles.map((it) => it.id.value).indexOf(bookRole.id.value), 1);
             contributorBookRoles = contributorBookRoles;
         } else {
-            contributorBookRoles = [...contributorBookRoles, bookRole];
+            contributorBookRoles = [...contributorBookRoles, bookRole as BookRole];
         }
     }
 
-    function toggleMovieRole(movieRole: MovieRoleResponseDto) {
-        if (contributorMovieRoles.map((it) => it.id).includes(movieRole.id)) {
-            contributorMovieRoles.splice(contributorMovieRoles.map((it) => it.id).indexOf(movieRole.id), 1);
+    function toggleMovieRole(movieRole: MovieRoleBrief) {
+        if (contributorMovieRoles.map((it) => it.id.value).includes(movieRole.id.value)) {
+            contributorMovieRoles.splice(contributorMovieRoles.map((it) => it.id.value).indexOf(movieRole.id.value), 1);
             contributorMovieRoles = contributorMovieRoles;
         } else {
-            contributorMovieRoles = [...contributorMovieRoles, movieRole];
+            contributorMovieRoles = [...contributorMovieRoles, movieRole as MovieRole];
         }
     }
 </script>
@@ -77,7 +79,7 @@
 <BookRoleSearch bind:bookRoles {bookRoleController} />
 <BookRoleList {bookRoles} let:bookRole>
     <button on:click={() => toggleBookRole(bookRole)}>
-        {#if contributorBookRoles.map((it) => it.id).includes(bookRole.id)}
+        {#if contributorBookRoles.map((it) => it.id.value).includes(bookRole.id.value)}
             Deselect
         {:else}
             Select
@@ -89,7 +91,7 @@
 <MovieRoleSearch bind:movieRoles {movieRoleController} />
 <MovieRoleList {movieRoles} let:movieRole>
     <button on:click={() => toggleMovieRole(movieRole)}>
-        {#if contributorMovieRoles.map((it) => it.id).includes(movieRole.id)}
+        {#if contributorMovieRoles.map((it) => it.id.value).includes(movieRole.id.value)}
             Deselect
         {:else}
             Select

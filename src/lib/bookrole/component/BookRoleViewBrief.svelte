@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { BookRoleResponseDto } from '../api/book-role-response-dto';
+    import { BookRoleBrief } from '../db/book-role-brief';
 
-    export let bookRole: BookRoleResponseDto = new BookRoleResponseDto();
+    export let bookRole: BookRoleBrief = new BookRoleBrief();
 </script>
 
-<a href="/book-role/{bookRole.id}">{bookRole.name}</a>
+<a href="/book-role/{bookRole.id.value}">{bookRole.name}</a>

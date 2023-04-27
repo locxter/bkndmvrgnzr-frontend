@@ -1,8 +1,8 @@
 <script lang="ts">
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
-    import type { BookRoleResponseDto } from '$lib/bookrole/api/book-role-response-dto';
     import BookRoleList from '$lib/bookrole/component/BookRoleList.svelte';
     import BookRoleSearch from '$lib/bookrole/component/BookRoleSearch.svelte';
+    import type { BookRole } from '$lib/bookrole/db/book-role';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -14,7 +14,7 @@
     let jwt: string;
     let roles: ERole[] = [];
     let bookRoleController: BookRoleController;
-    let bookRoles: BookRoleResponseDto[] = [];
+    let bookRoles: BookRole[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {

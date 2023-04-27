@@ -1,8 +1,9 @@
 <script lang="ts">
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
     import BookList from '$lib/book/component/BookList.svelte';
     import BookSearch from '$lib/book/component/BookSearch.svelte';
+    import type { Book } from '$lib/book/db/book';
+    import type { BookBrief } from '$lib/book/db/book-brief';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -14,9 +15,9 @@
     let jwt: string;
     let roles: ERole[] = [];
     let bookController: BookController;
-    let books: BookResponseDto[];
-    let libraryBooks: BookResponseDto[] = [];
-    let libraryUpdateBooks: BookResponseDto[] = [];
+    let books: Book[];
+    let libraryBooks: Book[] = [];
+    let libraryUpdateBooks: Book[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -42,12 +43,12 @@
         }
     });
 
-    function toggleLibraryBook(libraryBook: BookResponseDto) {
-        if (libraryUpdateBooks.map((it) => it.isbn).includes(libraryBook.isbn)) {
-            libraryUpdateBooks.splice(libraryUpdateBooks.map((it) => it.isbn).indexOf(libraryBook.isbn), 1);
+    function toggleLibraryBook(libraryBook: BookBrief) {
+        if (libraryUpdateBooks.map((it) => it.isbn.value).includes(libraryBook.isbn.value)) {
+            libraryUpdateBooks.splice(libraryUpdateBooks.map((it) => it.isbn.value).indexOf(libraryBook.isbn.value), 1);
             libraryUpdateBooks = libraryUpdateBooks;
         } else {
-            libraryUpdateBooks = [...libraryUpdateBooks, libraryBook];
+            libraryUpdateBooks = [...libraryUpdateBooks, libraryBook as Book];
         }
     }
 
@@ -55,13 +56,13 @@
         try {
             // Remove unselected library books
             for (let libraryBook of libraryBooks) {
-                if (!libraryUpdateBooks.map((it) => it.isbn).includes(libraryBook.isbn)) {
+                if (!libraryUpdateBooks.map((it) => it.isbn.value).includes(libraryBook.isbn.value)) {
                     await bookController.removeBookFromUser(libraryBook.isbn);
                 }
             }
             // Add new library books
             for (let libraryUpdateBook of libraryUpdateBooks) {
-                if (!libraryBooks.map((it) => it.isbn).includes(libraryUpdateBook.isbn)) {
+                if (!libraryBooks.map((it) => it.isbn.value).includes(libraryUpdateBook.isbn.value)) {
                     await bookController.addBookToUser(libraryUpdateBook.isbn);
                 }
             }
@@ -85,7 +86,7 @@
     <BookSearch {bookController} bind:books />
     <BookList {books} let:book>
         <button on:click={() => toggleLibraryBook(book)}>
-            {#if libraryUpdateBooks.map((it) => it.isbn).includes(book.isbn)}
+            {#if libraryUpdateBooks.map((it) => it.isbn.value).includes(book.isbn.value)}
                 Deselect
             {:else}
                 Select

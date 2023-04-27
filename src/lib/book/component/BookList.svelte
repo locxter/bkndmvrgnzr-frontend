@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { BookResponseDto } from '../api/book-response-dto';
+    import type { BookBrief } from '../db/book-brief';
     import BookViewBrief from './BookViewBrief.svelte';
 
-    export let books: BookResponseDto[] = [];
+    export let books: BookBrief[] = [];
 </script>
 
 <ul>

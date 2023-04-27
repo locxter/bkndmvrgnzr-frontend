@@ -1,11 +1,11 @@
 <script lang="ts">
     import { BookController } from '$lib/book/api/book-controller';
-    import type { BookResponseDto } from '$lib/book/api/book-response-dto';
+    import type { Book } from '$lib/book/db/book';
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import type { MovieResponseDto } from '$lib/movie/api/movie-response-dto';
+    import type { Movie } from '$lib/movie/db/movie';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserResponseDto } from '$lib/user/api/user-response-dto';
+    import type { User } from '$lib/user/db/user';
     import { onMount } from 'svelte';
     import Footer from '../../components/Footer.svelte';
     import Header from '../../components/Header.svelte';
@@ -18,9 +18,9 @@
     let userController: UserController;
     let bookController: BookController;
     let movieController: MovieController;
-    let user: UserResponseDto;
-    let books: BookResponseDto[] = [];
-    let movies: MovieResponseDto[] = [];
+    let user: User;
+    let books: Book[] = [];
+    let movies: Movie[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
