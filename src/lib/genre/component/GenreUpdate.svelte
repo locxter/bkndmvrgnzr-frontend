@@ -1,12 +1,12 @@
 <script lang="ts">
     import { Genre } from '../db/genre';
 
-    export let genreUpdate: Genre = new Genre();
+    export let genre: Genre = new Genre();
 </script>
 
 <p>
     Name*:
     <br />
-    <input type="text" placeholder="Name" bind:value={genreUpdate.name} />
+    <input type="text" placeholder="Name" bind:value={genre.name} />
 </p>
 <p>* Required</p>

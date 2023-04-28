@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let bookRoleController: BookRoleController;
-    let bookRoleCreate: BookRole;
+    let bookRole: BookRole;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -25,7 +25,7 @@
 
     async function createBookRole() {
         try {
-            let data = await bookRoleController.createBookRole(bookRoleCreate);
+            let data = await bookRoleController.createBookRole(bookRole);
             alert('Book role successfully created');
             goto('/book-role/' + data.id.value);
         } catch (error) {
@@ -44,7 +44,7 @@
 </Header>
 <main>
     <h2>Create book role</h2>
-    <BookRoleCreate bind:bookRoleCreate />
+    <BookRoleCreate bind:bookRole />
     <p>
         <button on:click={createBookRole}>Create book role</button>
     </p>

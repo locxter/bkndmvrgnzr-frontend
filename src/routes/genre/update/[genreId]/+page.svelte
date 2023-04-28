@@ -16,7 +16,6 @@
     let jwt: string;
     let genreController: GenreController;
     let genre: Genre;
-    let genreUpdate: Genre;
 
     page.subscribe((data) => {
         genreId = data.params.genreId;
@@ -35,7 +34,6 @@
     onMount(async () => {
         try {
             genre = await genreController.getGenre(new GenreId(genreId));
-            genreUpdate = Object.create(genre);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -44,7 +42,7 @@
 
     async function updateGenre() {
         try {
-            genre = await genreController.updateGenre(genre.id, genreUpdate);
+            genre = await genreController.updateGenre(genre.id, genre);
             alert('Genre successfully updated');
             goto('/genre/' + genre.id.value);
         } catch (error) {
@@ -75,7 +73,7 @@
 <main>
     {#if genre}
         <h2>Update genre</h2>
-        <GenreUpdate bind:genreUpdate />
+        <GenreUpdate bind:genre />
         <p>
             <button on:click={updateGenre}>Update genre</button>
         </p>

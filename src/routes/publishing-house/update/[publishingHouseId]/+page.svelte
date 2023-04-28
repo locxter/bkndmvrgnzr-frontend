@@ -16,7 +16,6 @@
     let jwt: string;
     let publishingHouseController: PublishingHouseController;
     let publishingHouse: PublishingHouse;
-    let publishingHouseUpdate: PublishingHouse;
 
     page.subscribe((data) => {
         publishingHouseId = data.params.publishingHouseId;
@@ -37,7 +36,6 @@
             publishingHouse = await publishingHouseController.getPublishingHouse(
                 new PublishingHouseId(publishingHouseId)
             );
-            publishingHouseUpdate = Object.create(publishingHouse);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -48,7 +46,7 @@
         try {
             publishingHouse = await publishingHouseController.updatePublishingHouse(
                 publishingHouse.id,
-                publishingHouseUpdate
+                publishingHouse
             );
             alert('Publishing house successfully updated');
             goto('/publishing-house/' + publishingHouse.id.value);
@@ -80,7 +78,7 @@
 <main>
     {#if publishingHouse}
         <h2>Update publishing house</h2>
-        <PublishingHouseUpdate bind:publishingHouseUpdate />
+        <PublishingHouseUpdate bind:publishingHouse />
         <p>
             <button on:click={updatePublishingHouse}>Update publishing house</button>
         </p>

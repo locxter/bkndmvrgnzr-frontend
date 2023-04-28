@@ -15,7 +15,7 @@
     let movieController: MovieController;
     let genreController: GenreController;
     let movieContributorController: MovieContributorController;
-    let movieCreate: Movie;
+    let movie: Movie;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -33,7 +33,7 @@
 
     async function createMovie() {
         try {
-            let data = await movieController.createMovie(movieCreate);
+            let data = await movieController.createMovie(movie);
             alert('Movie successfully created');
             goto('/movie/' + data.isan.value);
         } catch (error) {
@@ -52,7 +52,7 @@
 </Header>
 <main>
     <h2>Create movie</h2>
-    <MovieCreate bind:movieCreate {genreController} {movieContributorController} />
+    <MovieCreate bind:movie {genreController} {movieContributorController} />
     <p>
         <button on:click={createMovie}>Create movie</button>
     </p>

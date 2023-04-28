@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let genreController: GenreController;
-    let genreCreate: Genre;
+    let genre: Genre;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -25,7 +25,7 @@
 
     async function createGenre() {
         try {
-            let data = await genreController.createGenre(genreCreate);
+            let data = await genreController.createGenre(genre);
             alert('Genre successfully created');
             goto('/genre/' + data.id.value);
         } catch (error) {
@@ -44,7 +44,7 @@
 </Header>
 <main>
     <h2>Create genre</h2>
-    <GenreCreate bind:genreCreate />
+    <GenreCreate bind:genre />
     <p>
         <button on:click={createGenre}>Create genre</button>
     </p>

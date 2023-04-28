@@ -17,7 +17,6 @@
     let jwt: string;
     let userController: UserController;
     let user: User;
-    let userUpdate: User;
     let passwordUpdate: PasswordUpdateDto;
     let userDelete: UserDeleteDto;
 
@@ -34,7 +33,6 @@
     onMount(async () => {
         try {
             user = await userController.getUser();
-            userUpdate = Object.create(user);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -43,7 +41,7 @@
 
     async function updateUser() {
         try {
-            user = await userController.updateUser(userUpdate);
+            user = await userController.updateUser(user);
             alert('User successfully updated');
             goto('/user');
         } catch (error) {
@@ -86,7 +84,7 @@
 <main>
     {#if user}
         <h2>Update user</h2>
-        <UserUpdate bind:userUpdate />
+        <UserUpdate bind:user />
         <p>
             <button on:click={updateUser}>Update user</button>
         </p>

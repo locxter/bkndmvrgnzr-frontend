@@ -1,9 +1,7 @@
 <script lang="ts">
     import { BookController } from '$lib/book/api/book-controller';
-    import BookList from '$lib/book/component/BookList.svelte';
-    import BookSearch from '$lib/book/component/BookSearch.svelte';
+    import BookLibraryBookSelect from '$lib/book/component/BookLibraryBookSelect.svelte';
     import type { Book } from '$lib/book/db/book';
-    import type { BookBrief } from '$lib/book/db/book-brief';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -15,9 +13,9 @@
     let jwt: string;
     let roles: ERole[] = [];
     let bookController: BookController;
-    let books: Book[];
+    let books: Book[] = [];
+    let libraryBooksOld: Book[] = [];
     let libraryBooks: Book[] = [];
-    let libraryUpdateBooks: Book[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -35,37 +33,30 @@
     onMount(async () => {
         try {
             books = await bookController.getAllBooks();
-            libraryUpdateBooks = await bookController.getAllBooksOfUser();
-            libraryBooks = [...libraryUpdateBooks];
+            libraryBooksOld = await bookController.getAllBooksOfUser();
+            libraryBooks = [...libraryBooksOld];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
 
-    function toggleLibraryBook(libraryBook: BookBrief) {
-        if (libraryUpdateBooks.map((it) => it.isbn.value).includes(libraryBook.isbn.value)) {
-            libraryUpdateBooks.splice(libraryUpdateBooks.map((it) => it.isbn.value).indexOf(libraryBook.isbn.value), 1);
-            libraryUpdateBooks = libraryUpdateBooks;
-        } else {
-            libraryUpdateBooks = [...libraryUpdateBooks, libraryBook as Book];
-        }
-    }
-
     async function updateLibrary() {
         try {
             // Remove unselected library books
-            for (let libraryBook of libraryBooks) {
-                if (!libraryUpdateBooks.map((it) => it.isbn.value).includes(libraryBook.isbn.value)) {
-                    await bookController.removeBookFromUser(libraryBook.isbn);
+            for (let libraryBookOld of libraryBooksOld) {
+                if (!libraryBooks.map((it) => it.isbn.value).includes(libraryBookOld.isbn.value)) {
+                    await bookController.removeBookFromUser(libraryBookOld.isbn);
                 }
             }
             // Add new library books
-            for (let libraryUpdateBook of libraryUpdateBooks) {
-                if (!libraryBooks.map((it) => it.isbn.value).includes(libraryUpdateBook.isbn.value)) {
-                    await bookController.addBookToUser(libraryUpdateBook.isbn);
+            for (let libraryBook of libraryBooks) {
+                if (!libraryBooksOld.map((it) => it.isbn.value).includes(libraryBook.isbn.value)) {
+                    await bookController.addBookToUser(libraryBook.isbn);
                 }
             }
+            books = await bookController.getAllBooks();
+            libraryBooksOld = [...libraryBooks];
             alert('Library successfully updated');
         } catch (error) {
             console.error(error);
@@ -83,17 +74,7 @@
 </Header>
 <main>
     <h2>Book</h2>
-    <BookSearch {bookController} bind:books />
-    <BookList {books} let:book>
-        <button on:click={() => toggleLibraryBook(book)}>
-            {#if libraryUpdateBooks.map((it) => it.isbn.value).includes(book.isbn.value)}
-                Deselect
-            {:else}
-                Select
-            {/if}
-        </button>
-    </BookList>
-    <p>{libraryUpdateBooks.length} books in library</p>
+    <BookLibraryBookSelect bind:books bind:libraryBooks {bookController} />
     <p>
         <button on:click={updateLibrary}>Update library</button>
     </p>

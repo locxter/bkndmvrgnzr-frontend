@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let publishingHouseController: PublishingHouseController;
-    let publishingHouseCreate: PublishingHouse;
+    let publishingHouse: PublishingHouse;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -25,7 +25,7 @@
 
     async function createPublishingHouse() {
         try {
-            let data = await publishingHouseController.createPublishingHouse(publishingHouseCreate);
+            let data = await publishingHouseController.createPublishingHouse(publishingHouse);
             alert('Publishing house successfully created');
             goto('/publishing-house/' + data.id.value);
         } catch (error) {
@@ -44,7 +44,7 @@
 </Header>
 <main>
     <h2>Create publishing house</h2>
-    <PublishingHouseCreate bind:publishingHouseCreate />
+    <PublishingHouseCreate bind:publishingHouse />
     <p>
         <button on:click={createPublishingHouse}>Create publishing house</button>
     </p>

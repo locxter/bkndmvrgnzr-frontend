@@ -9,7 +9,7 @@
     import type { UserDeleteAdminDto } from '$lib/user/api/user-delete-admin-dto';
     import PasswordUpdateAdmin from '$lib/user/component/PasswordUpdateAdmin.svelte';
     import UserDeleteAdmin from '$lib/user/component/UserDeleteAdmin.svelte';
-    import UserRoleUpdate from '$lib/user/component/UserRoleUpdate.svelte';
+    import UserRoleSelect from '$lib/user/component/UserRoleSelect.svelte';
     import UserUpdate from '$lib/user/component/UserUpdate.svelte';
     import type { User } from '$lib/user/db/user';
     import { UserId } from '$lib/user/db/user-id';
@@ -24,9 +24,8 @@
     let userController: UserController;
     let roleController: RoleController;
     let user: User;
+    let userRolesOld: Role[] = [];
     let userRoles: Role[] = [];
-    let userUpdate: User;
-    let userUpdateRoles: Role[] = [];
     let passwordUpdateAdmin: PasswordUpdateAdminDto;
     let userDeleteAdmin: UserDeleteAdminDto;
 
@@ -49,9 +48,8 @@
     onMount(async () => {
         try {
             user = await userController.getSpecificUser(new UserId(userId));
-            userUpdate = Object.create(user);
-            userUpdateRoles = await roleController.getAllRolesOfSpecificUser(user.id);
-            userRoles = [...userUpdateRoles];
+            userRoles = await roleController.getAllRolesOfSpecificUser(user.id);
+            userRolesOld = [...userRoles];
         } catch (error) {
             console.error(error);
             alert(error);
@@ -60,17 +58,17 @@
 
     async function updateUser() {
         try {
-            user = await userController.updateSpecificUser(user.id, userUpdate);
+            user = await userController.updateSpecificUser(user.id, user);
             // Remove unselected roles
-            for (let userRole of userRoles) {
-                if (!userUpdateRoles.map((it) => it.id).includes(userRole.id)) {
-                    await roleController.removeRoleFromSpecificUser(user.id, userRole.id);
+            for (let userRoleOld of userRolesOld) {
+                if (!userRoles.map((it) => it.id).includes(userRoleOld.id)) {
+                    await roleController.removeRoleFromSpecificUser(user.id, userRoleOld.id);
                 }
             }
             // Add new roles
-            for (let userUpdateRole of userUpdateRoles) {
-                if (!userRoles.map((it) => it.id).includes(userUpdateRole.id)) {
-                    await roleController.addRoleToSpecificUser(user.id, userUpdateRole.id);
+            for (let userRole of userRoles) {
+                if (!userRolesOld.map((it) => it.id).includes(userRole.id)) {
+                    await roleController.addRoleToSpecificUser(user.id, userRole.id);
                 }
             }
             alert('User successfully updated');
@@ -114,8 +112,8 @@
 <main>
     {#if user}
         <h2>Update user</h2>
-        <UserUpdate bind:userUpdate />
-        <UserRoleUpdate bind:userUpdateRoles {roleController} />
+        <UserUpdate bind:user />
+        <UserRoleSelect bind:userRoles {roleController} />
         <p>
             <button on:click={updateUser}>Update user</button>
         </p>

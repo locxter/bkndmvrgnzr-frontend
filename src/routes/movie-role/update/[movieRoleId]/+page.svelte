@@ -16,7 +16,6 @@
     let jwt: string;
     let movieRoleController: MovieRoleController;
     let movieRole: MovieRole;
-    let movieRoleUpdate: MovieRole;
 
     page.subscribe((data) => {
         movieRoleId = data.params.movieRoleId;
@@ -35,7 +34,6 @@
     onMount(async () => {
         try {
             movieRole = await movieRoleController.getMovieRole(new MovieRoleId(movieRoleId));
-            movieRoleUpdate = Object.create(movieRole);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -44,7 +42,7 @@
 
     async function updateMovieRole() {
         try {
-            movieRole = await movieRoleController.updateMovieRole(movieRole.id, movieRoleUpdate);
+            movieRole = await movieRoleController.updateMovieRole(movieRole.id, movieRole);
             alert('Movie role successfully updated');
             goto('/movie-role/' + movieRole.id.value);
         } catch (error) {
@@ -75,7 +73,7 @@
 <main>
     {#if movieRole}
         <h2>Update movie role</h2>
-        <MovieRoleUpdate bind:movieRoleUpdate />
+        <MovieRoleUpdate bind:movieRole />
         <p>
             <button on:click={updateMovieRole}>Update movie role</button>
         </p>

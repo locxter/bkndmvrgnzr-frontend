@@ -17,7 +17,7 @@
     let publishingHouseController: PublishingHouseController;
     let genreController: GenreController;
     let bookContributorController: BookContributorController;
-    let bookCreate: Book;
+    let book: Book;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -37,7 +37,7 @@
 
     async function createBook() {
         try {
-            let data = await bookController.createBook(bookCreate);
+            let data = await bookController.createBook(book);
             alert('Book successfully created');
             goto('/book/' + data.isbn.value);
         } catch (error) {
@@ -56,7 +56,7 @@
 </Header>
 <main>
     <h2>Create book</h2>
-    <BookCreate bind:bookCreate {publishingHouseController} {genreController} {bookContributorController} />
+    <BookCreate bind:book {publishingHouseController} {genreController} {bookContributorController} />
     <p>
         <button on:click={createBook}>Create book</button>
     </p>

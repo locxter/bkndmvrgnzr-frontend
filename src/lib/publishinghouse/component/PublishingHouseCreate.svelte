@@ -1,22 +1,22 @@
 <script lang="ts">
     import { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouseCreate: PublishingHouse = new PublishingHouse();
+    export let publishingHouse: PublishingHouse = new PublishingHouse();
 </script>
 
 <p>
     Name*:
     <br />
-    <input type="text" placeholder="Name" bind:value={publishingHouseCreate.name} />
+    <input type="text" placeholder="Name" bind:value={publishingHouse.name} />
 </p>
 <p>
     City:
     <br />
-    <input type="text" placeholder="City" bind:value={publishingHouseCreate.city} />
+    <input type="text" placeholder="City" bind:value={publishingHouse.city} />
 </p>
 <p>
     Country:
     <br />
-    <input type="text" placeholder="Country" bind:value={publishingHouseCreate.country} />
+    <input type="text" placeholder="Country" bind:value={publishingHouse.country} />
 </p>
 <p>* Required</p>

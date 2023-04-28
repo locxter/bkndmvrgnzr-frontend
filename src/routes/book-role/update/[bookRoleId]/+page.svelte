@@ -16,7 +16,6 @@
     let jwt: string;
     let bookRoleController: BookRoleController;
     let bookRole: BookRole;
-    let bookRoleUpdate: BookRole;
 
     page.subscribe((data) => {
         bookRoleId = data.params.bookRoleId;
@@ -35,7 +34,6 @@
     onMount(async () => {
         try {
             bookRole = await bookRoleController.getBookRole(new BookRoleId(bookRoleId));
-            bookRoleUpdate = Object.create(bookRole);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -44,7 +42,7 @@
 
     async function updateBookRole() {
         try {
-            bookRole = await bookRoleController.updateBookRole(bookRole.id, bookRoleUpdate);
+            bookRole = await bookRoleController.updateBookRole(bookRole.id, bookRole);
             alert('Book role successfully updated');
             goto('/book-role/' + bookRole.id.value);
         } catch (error) {
@@ -75,7 +73,7 @@
 <main>
     {#if bookRole}
         <h2>Update book role</h2>
-        <BookRoleUpdate bind:bookRoleUpdate />
+        <BookRoleUpdate bind:bookRole />
         <p>
             <button on:click={updateBookRole}>Update book role</button>
         </p>

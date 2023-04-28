@@ -22,7 +22,6 @@
     let genreController: GenreController;
     let bookContributorController: BookContributorController;
     let book: Book;
-    let bookUpdate: Book;
 
     page.subscribe((data) => {
         isbn = data.params.isbn;
@@ -47,7 +46,6 @@
     onMount(async () => {
         try {
             book = await bookController.getBook(new Isbn(isbn));
-            bookUpdate = Object.create(book);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -56,7 +54,7 @@
 
     async function updateBook() {
         try {
-            book = await bookController.updateBook(book.isbn, bookUpdate);
+            book = await bookController.updateBook(book.isbn, book);
             alert('Book successfully updated');
             goto('/book/' + book.isbn.value);
         } catch (error) {
@@ -87,7 +85,7 @@
 <main>
     {#if book}
         <h2>Update book</h2>
-        <BookUpdate bind:bookUpdate {publishingHouseController} {genreController} {bookContributorController} />
+        <BookUpdate bind:book {publishingHouseController} {genreController} {bookContributorController} />
         <p>
             <button on:click={updateBook}>Update book</button>
         </p>

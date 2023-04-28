@@ -25,7 +25,7 @@
     let movieRoleController: MovieRoleController;
     let bookContributorController: BookContributorController;
     let movieContributorController: MovieContributorController;
-    let contributorCreate: Contributor;
+    let contributor: Contributor;
     let contributorBookRoles: BookRole[] = [];
     let contributorMovieRoles: MovieRole[] = [];
 
@@ -49,7 +49,7 @@
 
     async function createContributor() {
         try {
-            let data = await contributorController.createContributor(contributorCreate);
+            let data = await contributorController.createContributor(contributor);
             for (let contributorBookRole of contributorBookRoles) {
                 let bookContributorCreate = new BookContributor(new BookContributorId(), data, contributorBookRole);
                 await bookContributorController.createBookContributor(bookContributorCreate);
@@ -77,7 +77,7 @@
 <main>
     <h2>Create contributor</h2>
     <ContributorCreate
-        bind:contributorCreate
+        bind:contributor
         bind:contributorBookRoles
         bind:contributorMovieRoles
         {bookRoleController}

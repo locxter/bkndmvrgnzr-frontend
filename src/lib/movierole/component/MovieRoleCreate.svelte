@@ -1,12 +1,12 @@
 <script lang="ts">
     import { MovieRole } from '../db/movie-role';
 
-    export let movieRoleCreate: MovieRole = new MovieRole();
+    export let movieRole: MovieRole = new MovieRole();
 </script>
 
 <p>
     Name*:
     <br />
-    <input type="text" placeholder="Name" bind:value={movieRoleCreate.name} />
+    <input type="text" placeholder="Name" bind:value={movieRole.name} />
 </p>
 <p>* Required</p>

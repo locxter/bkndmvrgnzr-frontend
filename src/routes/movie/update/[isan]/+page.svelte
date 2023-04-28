@@ -20,7 +20,6 @@
     let genreController: GenreController;
     let movieContributorController: MovieContributorController;
     let movie: Movie;
-    let movieUpdate: Movie;
 
     page.subscribe((data) => {
         isan = data.params.isan;
@@ -43,7 +42,6 @@
     onMount(async () => {
         try {
             movie = await movieController.getMovie(new Isan(isan));
-            movieUpdate = Object.create(movie);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -52,7 +50,7 @@
 
     async function updateMovie() {
         try {
-            movie = await movieController.updateMovie(movie.isan, movieUpdate);
+            movie = await movieController.updateMovie(movie.isan, movie);
             alert('Movie successfully updated');
             goto('/movie/' + movie.isan.value);
         } catch (error) {
@@ -83,7 +81,7 @@
 <main>
     {#if movie}
         <h2>Update movie</h2>
-        <MovieUpdate bind:movieUpdate {genreController} {movieContributorController} />
+        <MovieUpdate bind:movie {genreController} {movieContributorController} />
         <p>
             <button on:click={updateMovie}>Update movie</button>
         </p>

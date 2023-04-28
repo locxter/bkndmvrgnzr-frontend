@@ -5,7 +5,7 @@
     import type { Role } from '$lib/role/db/role';
     import { onMount } from 'svelte';
 
-    export let userUpdateRoles: Role[] = [];
+    export let userRoles: Role[] = [];
     export let roleController: RoleController;
 
     let roles: Role[] = [];
@@ -20,11 +20,11 @@
     });
 
     function toggleRole(role: Role) {
-        if (userUpdateRoles.map((it) => it.id.value).includes(role.id.value)) {
-            userUpdateRoles.splice(userUpdateRoles.map((it) => it.id.value).indexOf(role.id.value), 1);
-            userUpdateRoles = userUpdateRoles;
+        if (userRoles.map((it) => it.id.value).includes(role.id.value)) {
+            userRoles.splice(userRoles.map((it) => it.id.value).indexOf(role.id.value), 1);
+            userRoles = userRoles;
         } else {
-            userUpdateRoles = [...userUpdateRoles, role];
+            userRoles = [...userRoles, role];
         }
     }
 </script>
@@ -33,11 +33,11 @@
 <RoleSearch bind:roles {roleController} />
 <RoleList {roles} let:role>
     <button on:click={() => toggleRole(role)}>
-        {#if userUpdateRoles.map((it) => it.id.value).includes(role.id.value)}
+        {#if userRoles.map((it) => it.id.value).includes(role.id.value)}
             Deselect
         {:else}
             Select
         {/if}
     </button>
 </RoleList>
-<p>{userUpdateRoles.length} roles selected</p>
+<p>{userRoles.length} roles selected</p>

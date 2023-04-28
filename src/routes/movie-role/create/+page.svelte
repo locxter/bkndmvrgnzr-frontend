@@ -11,7 +11,7 @@
     let serverAddress: string;
     let jwt: string;
     let movieRoleController: MovieRoleController;
-    let movieRoleCreate: MovieRole;
+    let movieRole: MovieRole;
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -25,7 +25,7 @@
 
     async function createMovieRole() {
         try {
-            let data = await movieRoleController.createMovieRole(movieRoleCreate);
+            let data = await movieRoleController.createMovieRole(movieRole);
             alert('Movie role successfully created');
             goto('/movie-role/' + data.id.value);
         } catch (error) {
@@ -44,7 +44,7 @@
 </Header>
 <main>
     <h2>Create movie role</h2>
-    <MovieRoleCreate bind:movieRoleCreate />
+    <MovieRoleCreate bind:movieRole />
     <p>
         <button on:click={createMovieRole}>Create movie role</button>
     </p>
