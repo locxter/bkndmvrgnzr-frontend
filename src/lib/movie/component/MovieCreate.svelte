@@ -13,7 +13,7 @@
 <p>
     ISAN*:
     <br />
-    <input type="text" maxlength="33" placeholder="ISAN" bind:value={movie.isan} />
+    <input type="text" maxlength="33" placeholder="ISAN" bind:value={movie.isan.value} />
 </p>
 <p>
     Title*:
