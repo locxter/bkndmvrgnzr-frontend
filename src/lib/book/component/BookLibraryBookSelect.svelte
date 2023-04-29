@@ -21,7 +21,7 @@
 
 <BookSearch {bookController} bind:books />
 <BookList {books} let:book>
-    <button on:click={() => toggleLibraryBook(book)}>
+    <button class="select-button" on:click={() => toggleLibraryBook(book)}>
         {#if libraryBooks.map((it) => it.isbn.value).includes(book.isbn.value)}
             Deselect
         {:else}

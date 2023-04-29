@@ -32,7 +32,7 @@
 
 <PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
-    <button on:click={() => togglePublishingHouse(publishingHouse)}>
+    <button class="select-button" on:click={() => togglePublishingHouse(publishingHouse)}>
         {#if book.publishingHouse.id.value === publishingHouse.id.value}
             Deselect
         {:else}

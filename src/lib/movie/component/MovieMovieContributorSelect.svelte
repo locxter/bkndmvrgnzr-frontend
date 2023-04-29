@@ -36,7 +36,7 @@
 
 <MovieContributorSearch bind:movieContributors {movieContributorController} />
 <MovieContributorList {movieContributors} let:movieContributor>
-    <button on:click={() => toggleMovieContributor(movieContributor)}>
+    <button class="select-button" on:click={() => toggleMovieContributor(movieContributor)}>
         {#if movie.movieContributors.map((it) => it.id.value).includes(movieContributor.id.value)}
             Deselect
         {:else}

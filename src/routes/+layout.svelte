@@ -3,3 +3,9 @@
 </script>
 
 <slot />
+
+<style>
+    :global(.select-button) {
+        width: 8em;
+    }
+</style>

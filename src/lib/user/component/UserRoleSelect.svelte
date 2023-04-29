@@ -32,7 +32,7 @@
 <p>Roles:</p>
 <RoleSearch bind:roles {roleController} />
 <RoleList {roles} let:role>
-    <button on:click={() => toggleRole(role)}>
+    <button class="select-button" on:click={() => toggleRole(role)}>
         {#if userRoles.map((it) => it.id.value).includes(role.id.value)}
             Deselect
         {:else}

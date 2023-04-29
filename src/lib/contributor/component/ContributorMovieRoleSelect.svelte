@@ -32,7 +32,7 @@
 
 <MovieRoleSearch bind:movieRoles {movieRoleController} />
 <MovieRoleList {movieRoles} let:movieRole>
-    <button on:click={() => toggleMovieRole(movieRole)}>
+    <button class="select-button" on:click={() => toggleMovieRole(movieRole)}>
         {#if contributorMovieRoles.map((it) => it.id.value).includes(movieRole.id.value)}
             Deselect
         {:else}

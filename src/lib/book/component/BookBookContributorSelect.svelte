@@ -36,7 +36,7 @@
 
 <BookContributorSearch bind:bookContributors {bookContributorController} />
 <BookContributorList {bookContributors} let:bookContributor>
-    <button on:click={() => toggleBookContributor(bookContributor)}>
+    <button class="select-button" on:click={() => toggleBookContributor(bookContributor)}>
         {#if book.bookContributors.map((it) => it.id.value).includes(bookContributor.id.value)}
             Deselect
         {:else}

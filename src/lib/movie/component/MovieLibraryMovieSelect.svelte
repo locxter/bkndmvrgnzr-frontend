@@ -21,7 +21,7 @@
 
 <MovieSearch {movieController} bind:movies />
 <MovieList {movies} let:movie>
-    <button on:click={() => toggleLibraryMovie(movie)}>
+    <button class="select-button" on:click={() => toggleLibraryMovie(movie)}>
         {#if libraryMovies.map((it) => it.isan.value).includes(movie.isan.value)}
             Deselect
         {:else}

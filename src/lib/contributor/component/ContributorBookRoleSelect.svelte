@@ -32,7 +32,7 @@
 
 <BookRoleSearch bind:bookRoles {bookRoleController} />
 <BookRoleList {bookRoles} let:bookRole>
-    <button on:click={() => toggleBookRole(bookRole)}>
+    <button class="select-button" on:click={() => toggleBookRole(bookRole)}>
         {#if contributorBookRoles.map((it) => it.id.value).includes(bookRole.id.value)}
             Deselect
         {:else}

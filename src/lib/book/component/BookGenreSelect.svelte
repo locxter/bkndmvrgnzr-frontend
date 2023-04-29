@@ -33,7 +33,7 @@
 
 <GenreSearch bind:genres {genreController} />
 <GenreList {genres} let:genre>
-    <button on:click={() => toggleGenre(genre)}>
+    <button class="select-button" on:click={() => toggleGenre(genre)}>
         {#if book.genres.map((it) => it.id.value).includes(genre.id.value)}
             Deselect
         {:else}
