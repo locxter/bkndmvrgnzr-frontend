@@ -11,33 +11,12 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let genreId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let genreController: GenreController;
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
     let genre: Genre;
-
-    page.subscribe((data) => {
-        genreId = data.params.genreId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
-            genre = await genreController.getGenre(new GenreId(genreId));
+            genre = await genreController.getGenre(new GenreId($page.params.genreId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -59,7 +38,7 @@
 <main>
     {#if genre}
         <GenreView {genre} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/genre/update/{genre.id.value}">
                     <button>Update genre</button>

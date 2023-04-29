@@ -2,7 +2,7 @@
     import type { Role } from '../db/role';
     import RoleView from './RoleView.svelte';
 
-    export let roles: Role[] = [];
+    export let roles: Role[];
 </script>
 
 <ul>

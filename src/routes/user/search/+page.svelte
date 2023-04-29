@@ -9,20 +9,8 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let userController: UserController;
+    $: userController = new UserController($globalServerAddress, $globalJwt);
     let users: User[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        userController = new UserController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        userController = new UserController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {

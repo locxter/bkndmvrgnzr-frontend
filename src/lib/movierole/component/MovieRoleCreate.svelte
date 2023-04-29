@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { MovieRole } from '../db/movie-role';
+    import type { MovieRole } from '../db/movie-role';
 
-    export let movieRole: MovieRole = new MovieRole();
+    export let movieRole: MovieRole;
 </script>
 
 <p>

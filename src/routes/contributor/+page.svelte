@@ -10,24 +10,8 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let contributorController: ContributorController;
+    $: contributorController = new ContributorController($globalServerAddress, $globalJwt);
     let contributors: Contributor[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
@@ -50,7 +34,7 @@
     <h2>Contributor</h2>
     <ContributorSearch {contributorController} bind:contributors />
     <ContributorList {contributors} />
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/contributor/create">
                 <button>Create contributor</button>

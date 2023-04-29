@@ -3,12 +3,9 @@
     import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import MovieContributorList from '$lib/moviecontributor/component/MovieContributorList.svelte';
     import type { MovieContributorBrief } from '$lib/moviecontributor/db/movie-contributor-brief';
-    import { Movie } from '../db/movie';
+    import type { Movie } from '../db/movie';
 
-    export let movie: Movie = new Movie();
-
-    let genres: GenreBrief[] = [];
-    let movieContributors: MovieContributorBrief[] = [];
+    export let movie: Movie;
 
     $: genres = movie.genres;
     $: movieContributors = movie.movieContributors;

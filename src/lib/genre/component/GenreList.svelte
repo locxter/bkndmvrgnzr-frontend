@@ -2,7 +2,7 @@
     import type { GenreBrief } from '../db/genre-brief';
     import GenreViewBrief from './GenreViewBrief.svelte';
 
-    export let genres: GenreBrief[] = [];
+    export let genres: GenreBrief[];
 </script>
 
 <ul>

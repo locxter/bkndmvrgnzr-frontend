@@ -4,12 +4,9 @@
     import MovieList from '$lib/movie/component/MovieList.svelte';
     import type { MovieBrief } from '$lib/movie/db/movie-brief';
     import RoleList from '$lib/role/component/RoleList.svelte';
-    import { User } from '../db/user';
+    import type { User } from '../db/user';
 
-    export let user: User = new User();
-
-    let books: BookBrief[] = [];
-    let movies: MovieBrief[] = [];
+    export let user: User;
 
     $: books = user.books;
     $: movies = user.movies;

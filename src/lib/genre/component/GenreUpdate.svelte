@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Genre } from '../db/genre';
+    import type { Genre } from '../db/genre';
 
-    export let genre: Genre = new Genre();
+    export let genre: Genre;
 </script>
 
 <p>

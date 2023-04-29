@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { AuthLoginDto } from '../api/auth-login-dto';
+    import type { AuthLoginDto } from '../api/auth-login-dto';
 
-    export let authLogin: AuthLoginDto = new AuthLoginDto();
+    export let authLogin: AuthLoginDto;
 </script>
 
 <p>

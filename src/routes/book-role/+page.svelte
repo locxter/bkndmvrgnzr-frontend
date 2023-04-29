@@ -10,24 +10,8 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let bookRoleController: BookRoleController;
+    $: bookRoleController = new BookRoleController($globalServerAddress, $globalJwt);
     let bookRoles: BookRole[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
@@ -50,7 +34,7 @@
     <h2>Book role</h2>
     <BookRoleSearch {bookRoleController} bind:bookRoles />
     <BookRoleList {bookRoles} />
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/book-role/create">
                 <button>Create book role</button>

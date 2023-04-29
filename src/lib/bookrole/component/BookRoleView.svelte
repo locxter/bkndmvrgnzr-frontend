@@ -1,11 +1,9 @@
 <script lang="ts">
     import ContributorList from '$lib/contributor/component/ContributorList.svelte';
     import type { ContributorBrief } from '$lib/contributor/db/contributor-brief';
-    import { BookRole } from '../db/book-role';
+    import type { BookRole } from '../db/book-role';
 
-    export let bookRole: BookRole = new BookRole();
-
-    let contributors: ContributorBrief[] = [];
+    export let bookRole: BookRole;
 
     $: contributors = bookRole.bookContributors.map((it) => it.contributor);
 </script>

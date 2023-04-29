@@ -2,7 +2,7 @@
     import type { BookBrief } from '../db/book-brief';
     import BookViewBrief from './BookViewBrief.svelte';
 
-    export let books: BookBrief[] = [];
+    export let books: BookBrief[];
 </script>
 
 <ul>

@@ -7,10 +7,10 @@ export class AccessRestriction {
     static roles: ERole[] = [];
 
     static {
-        globalJwt.subscribe((data) => {
+        let unscribeJwt = globalJwt.subscribe((data) => {
             this.jwt = data;
         });
-        globalRoles.subscribe((data) => {
+        let unsubscribeRoles = globalRoles.subscribe((data) => {
             this.roles = data;
         });
     }

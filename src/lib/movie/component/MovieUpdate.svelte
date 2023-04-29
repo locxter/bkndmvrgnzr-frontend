@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { GenreController } from '$lib/genre/api/genre-controller';
     import type { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
-    import { Movie } from '../db/movie';
+    import type { Movie } from '../db/movie';
     import MovieGenreSelect from './MovieGenreSelect.svelte';
     import MovieMovieContributorSelect from './MovieMovieContributorSelect.svelte';
 
-    export let movie: Movie = new Movie();
+    export let movie: Movie;
     export let genreController: GenreController;
     export let movieContributorController: MovieContributorController;
 </script>

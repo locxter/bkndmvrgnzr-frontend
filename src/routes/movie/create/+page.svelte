@@ -3,33 +3,17 @@
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { MovieController } from '$lib/movie/api/movie-controller';
     import MovieCreate from '$lib/movie/component/MovieCreate.svelte';
-    import type { Movie } from '$lib/movie/db/movie';
+    import { Movie } from '$lib/movie/db/movie';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let movieController: MovieController;
-    let genreController: GenreController;
-    let movieContributorController: MovieContributorController;
-    let movie: Movie;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieController = new MovieController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieController = new MovieController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
+    $: movieContributorController = new MovieContributorController($globalServerAddress, $globalJwt);
+    let movie = new Movie();
 
     async function createMovie() {
         try {

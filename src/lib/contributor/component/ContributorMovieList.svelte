@@ -4,9 +4,9 @@
     import type { Movie } from '$lib/movie/db/movie';
     import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
     import type { MovieRoleBrief } from '$lib/movierole/db/movie-role-brief';
-    import { Contributor } from '../db/contributor';
+    import type { Contributor } from '../db/contributor';
 
-    export let contributor: Contributor = new Contributor();
+    export let contributor: Contributor;
     export let movieController: MovieController;
 
     let movieRolesMovies: { movieRole: MovieRoleBrief; movies: Movie[] }[] = [];

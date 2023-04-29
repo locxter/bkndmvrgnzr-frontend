@@ -10,24 +10,8 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let publishingHouseController: PublishingHouseController;
+    $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
     let publishingHouses: PublishingHouse[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
@@ -50,7 +34,7 @@
     <h2>Publishing house</h2>
     <PublishingHouseSearch {publishingHouseController} bind:publishingHouses />
     <PublishingHouseList {publishingHouses} />
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/publishing-house/create">
                 <button>Create publishing house</button>

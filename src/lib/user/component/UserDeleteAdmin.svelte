@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { UserDeleteAdminDto } from '../api/user-delete-admin-dto';
+    import type { UserDeleteAdminDto } from '../api/user-delete-admin-dto';
 
-    export let userDeleteAdmin: UserDeleteAdminDto = new UserDeleteAdminDto();
+    export let userDeleteAdmin: UserDeleteAdminDto;
 </script>
 
 <p>

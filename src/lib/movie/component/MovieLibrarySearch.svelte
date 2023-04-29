@@ -3,7 +3,7 @@
     import type { Movie } from '../db/movie';
 
     export let movieController: MovieController;
-    export let movies: Movie[] = [];
+    export let movies: Movie[];
 
     let query: string;
 

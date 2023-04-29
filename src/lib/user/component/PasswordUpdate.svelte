@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PasswordUpdateDto } from '../api/password-update-dto';
+    import type { PasswordUpdateDto } from '../api/password-update-dto';
 
-    export let passwordUpdate: PasswordUpdateDto = new PasswordUpdateDto();
+    export let passwordUpdate: PasswordUpdateDto;
 </script>
 
 <p>

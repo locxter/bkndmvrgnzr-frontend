@@ -3,7 +3,7 @@
     import type { Role } from '../db/role';
 
     export let roleController: RoleController;
-    export let roles: Role[] = [];
+    export let roles: Role[];
 
     let query: string;
 

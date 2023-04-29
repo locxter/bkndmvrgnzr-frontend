@@ -11,29 +11,12 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let genreId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let genreController: GenreController;
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
     let genre: Genre;
-
-    page.subscribe((data) => {
-        genreId = data.params.genreId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
-            genre = await genreController.getGenre(new GenreId(genreId));
+            genre = await genreController.getGenre(new GenreId($page.params.genreId));
         } catch (error) {
             console.error(error);
             alert(error);

@@ -11,33 +11,12 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let bookRoleId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let bookRoleController: BookRoleController;
+    $: bookRoleController = new BookRoleController($globalServerAddress, $globalJwt);
     let bookRole: BookRole;
-
-    page.subscribe((data) => {
-        bookRoleId = data.params.bookRoleId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
-            bookRole = await bookRoleController.getBookRole(new BookRoleId(bookRoleId));
+            bookRole = await bookRoleController.getBookRole(new BookRoleId($page.params.bookRoleId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -59,7 +38,7 @@
 <main>
     {#if bookRole}
         <BookRoleView {bookRole} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/book-role/update/{bookRole.id.value}">
                     <button>Update book role</button>

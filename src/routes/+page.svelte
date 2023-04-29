@@ -6,34 +6,26 @@
     import { RoleController } from '$lib/role/api/role-controller';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserCreateDto } from '$lib/user/api/user-create-dto';
+    import { UserCreateDto } from '$lib/user/api/user-create-dto';
     import UserCreate from '$lib/user/component/UserCreate.svelte';
     import Footer from '../components/Footer.svelte';
     import Header from '../components/Header.svelte';
 
-    let serverAddress: string;
-    let authController: AuthController;
-    let userController: UserController;
-    let roleController: RoleController;
-    let authLogin: AuthLoginDto = new AuthLoginDto();
-    let userCreate: UserCreateDto;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        authController = new AuthController(serverAddress);
-        userController = new UserController(serverAddress);
-    });
+    let serverAddress = $globalServerAddress;
+    $: authController = new AuthController(serverAddress);
+    $: userController = new UserController(serverAddress);
+    let authLogin = new AuthLoginDto();
+    let userCreate = new UserCreateDto();
 
     async function login() {
         try {
             authLogin.username = authLogin.username.trim();
             authLogin.password = authLogin.password.trim();
-            let data = await authController.login(authLogin);
-            globalJwt.set(data);
-            globalServerAddress.set(serverAddress);
-            roleController = new RoleController(serverAddress, data);
+            let jwt = await authController.login(authLogin);
+            let roleController = new RoleController(serverAddress, jwt);
             let roles = await roleController.getAllRolesOfUser();
+            globalServerAddress.set(serverAddress);
+            globalJwt.set(jwt);
             globalRoles.set(roles.map((it) => it.type));
             goto('/welcome');
         } catch (error) {

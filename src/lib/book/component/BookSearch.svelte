@@ -3,7 +3,7 @@
     import type { Book } from '../db/book';
 
     export let bookController: BookController;
-    export let books: Book[] = [];
+    export let books: Book[];
 
     let query: string;
 

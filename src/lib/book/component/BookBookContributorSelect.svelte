@@ -5,9 +5,9 @@
     import type { BookContributor } from '$lib/bookcontributor/db/book-contributor';
     import type { BookContributorBrief } from '$lib/bookcontributor/db/book-contributor-brief';
     import { onMount } from 'svelte';
-    import { Book } from '../db/book';
+    import type { Book } from '../db/book';
 
-    export let book: Book = new Book();
+    export let book: Book;
     export let bookContributorController: BookContributorController;
 
     let bookContributors: BookContributor[] = [];

@@ -3,13 +3,13 @@
     import type { BookRole } from '$lib/bookrole/db/book-role';
     import type { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
     import type { MovieRole } from '$lib/movierole/db/movie-role';
-    import { Contributor } from '../db/contributor';
+    import type { Contributor } from '../db/contributor';
     import ContributorBookRoleSelect from './ContributorBookRoleSelect.svelte';
     import ContributorMovieRoleSelect from './ContributorMovieRoleSelect.svelte';
 
-    export let contributor: Contributor = new Contributor();
-    export let contributorBookRoles: BookRole[] = [];
-    export let contributorMovieRoles: MovieRole[] = [];
+    export let contributor: Contributor;
+    export let contributorBookRoles: BookRole[];
+    export let contributorMovieRoles: MovieRole[];
     export let bookRoleController: BookRoleController;
     export let movieRoleController: MovieRoleController;
 </script>

@@ -3,7 +3,7 @@
     import type { MovieRole } from '../db/movie-role';
 
     export let movieRoleController: MovieRoleController;
-    export let movieRoles: MovieRole[] = [];
+    export let movieRoles: MovieRole[];
 
     let query: string;
 

@@ -14,38 +14,15 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let isbn: string;
-    let serverAddress: string;
-    let jwt: string;
-    let bookController: BookController;
-    let publishingHouseController: PublishingHouseController;
-    let genreController: GenreController;
-    let bookContributorController: BookContributorController;
+    $: bookController = new BookController($globalServerAddress, $globalJwt);
+    $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
+    $: bookContributorController = new BookContributorController($globalServerAddress, $globalJwt);
     let book: Book;
-
-    page.subscribe((data) => {
-        isbn = data.params.isbn;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookController = new BookController(serverAddress, jwt);
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        bookContributorController = new BookContributorController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookController = new BookController(serverAddress, jwt);
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        bookContributorController = new BookContributorController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
-            book = await bookController.getBook(new Isbn(isbn));
+            book = await bookController.getBook(new Isbn($page.params.isbn));
         } catch (error) {
             console.error(error);
             alert(error);

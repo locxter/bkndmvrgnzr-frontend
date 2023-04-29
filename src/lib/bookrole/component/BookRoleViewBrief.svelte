@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { BookRoleBrief } from '../db/book-role-brief';
+    import type { BookRoleBrief } from '../db/book-role-brief';
 
-    export let bookRole: BookRoleBrief = new BookRoleBrief();
+    export let bookRole: BookRoleBrief;
 </script>
 
 <a href="/book-role/{bookRole.id.value}">{bookRole.name}</a>

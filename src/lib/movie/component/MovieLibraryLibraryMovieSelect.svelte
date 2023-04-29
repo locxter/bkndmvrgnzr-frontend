@@ -5,8 +5,8 @@
     import MovieLibrarySearch from './MovieLibrarySearch.svelte';
     import MovieList from './MovieList.svelte';
 
-    export let movies: Movie[] = [];
-    export let libraryMovies: Movie[] = [];
+    export let movies: Movie[];
+    export let libraryMovies: Movie[];
     export let movieController: MovieController;
 
     function toggleLibraryMovie(libraryMovie: MovieBrief) {

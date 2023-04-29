@@ -5,16 +5,13 @@
     import type { MovieController } from '$lib/movie/api/movie-controller';
     import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
     import type { MovieRoleBrief } from '$lib/movierole/db/movie-role-brief';
-    import { Contributor } from '../db/contributor';
+    import type { Contributor } from '../db/contributor';
     import ContributorBookList from './ContributorBookList.svelte';
     import ContributorMovieList from './ContributorMovieList.svelte';
 
-    export let contributor: Contributor = new Contributor();
+    export let contributor: Contributor;
     export let bookController: BookController;
     export let movieController: MovieController;
-
-    let bookRoles: BookRoleBrief[] = [];
-    let movieRoles: MovieRoleBrief[] = [];
 
     $: bookRoles = contributor.bookContributors.map((it) => it.bookRole);
     $: movieRoles = contributor.movieContributors.map((it) => it.movieRole);
@@ -41,6 +38,6 @@
 <p>Movie roles:</p>
 <MovieRoleList {movieRoles} />
 <p>Books:</p>
-<ContributorBookList bind:contributor {bookController} />
+<ContributorBookList {contributor} {bookController} />
 <p>Movies:</p>
-<ContributorMovieList bind:contributor {movieController} />
+<ContributorMovieList {contributor} {movieController} />

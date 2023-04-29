@@ -1,8 +1,8 @@
 <script lang="ts">
     import { MovieRoleController } from '$lib/movierole/api/movie-role-controller';
-    import type { MovieRoleResponseDto } from '$lib/movierole/api/movie-role-response-dto';
     import MovieRoleList from '$lib/movierole/component/MovieRoleList.svelte';
     import MovieRoleSearch from '$lib/movierole/component/MovieRoleSearch.svelte';
+    import type { MovieRole } from '$lib/movierole/db/movie-role';
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
@@ -10,24 +10,8 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let movieRoleController: MovieRoleController;
-    let movieRoles: MovieRoleResponseDto[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
+    $: movieRoleController = new MovieRoleController($globalServerAddress, $globalJwt);
+    let movieRoles: MovieRole[] = [];
 
     onMount(async () => {
         try {
@@ -50,7 +34,7 @@
     <h2>Movie role</h2>
     <MovieRoleSearch {movieRoleController} bind:movieRoles />
     <MovieRoleList {movieRoles} />
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/movie-role/create">
                 <button>Create movie role</button>

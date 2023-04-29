@@ -5,8 +5,8 @@
     import BookLibrarySearch from './BookLibrarySearch.svelte';
     import BookList from './BookList.svelte';
 
-    export let books: Book[] = [];
-    export let libraryBooks: Book[] = [];
+    export let books: Book[];
+    export let libraryBooks: Book[];
     export let bookController: BookController;
 
     function toggleLibraryBook(libraryBook: BookBrief) {

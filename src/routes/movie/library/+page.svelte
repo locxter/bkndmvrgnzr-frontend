@@ -8,22 +8,10 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let movieController: MovieController;
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
     let movies: Movie[] = [];
     let libraryMoviesOld: Movie[] = [];
     let libraryMovies: Movie[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieController = new MovieController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {

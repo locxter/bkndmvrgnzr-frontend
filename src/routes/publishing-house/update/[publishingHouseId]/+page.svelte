@@ -11,30 +11,13 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let publishingHouseId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let publishingHouseController: PublishingHouseController;
+    $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
     let publishingHouse: PublishingHouse;
-
-    page.subscribe((data) => {
-        publishingHouseId = data.params.publishingHouseId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
             publishingHouse = await publishingHouseController.getPublishingHouse(
-                new PublishingHouseId(publishingHouseId)
+                new PublishingHouseId($page.params.publishingHouseId)
             );
         } catch (error) {
             console.error(error);

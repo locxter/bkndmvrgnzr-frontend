@@ -2,7 +2,7 @@
     import type { MovieRoleBrief } from '../db/movie-role-brief';
     import MovieRoleViewBrief from './MovieRoleViewBrief.svelte';
 
-    export let movieRoles: MovieRoleBrief[] = [];
+    export let movieRoles: MovieRoleBrief[];
 </script>
 
 <ul>

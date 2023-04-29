@@ -2,26 +2,14 @@
     import { goto } from '$app/navigation';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
     import PublishingHouseCreate from '$lib/publishinghouse/component/PublishingHouseCreate.svelte';
-    import type { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
+    import { PublishingHouse } from '$lib/publishinghouse/db/publishing-house';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let publishingHouseController: PublishingHouseController;
-    let publishingHouse: PublishingHouse;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
+    $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
+    let publishingHouse = new PublishingHouse();
 
     async function createPublishingHouse() {
         try {

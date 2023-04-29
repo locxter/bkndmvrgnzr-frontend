@@ -10,24 +10,8 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let genreController: GenreController;
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
     let genres: Genre[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
@@ -50,7 +34,7 @@
     <h2>Genre</h2>
     <GenreSearch {genreController} bind:genres />
     <GenreList {genres} />
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/genre/create">
                 <button>Create genre</button>

@@ -2,26 +2,14 @@
     import { goto } from '$app/navigation';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import GenreCreate from '$lib/genre/component/GenreCreate.svelte';
-    import type { Genre } from '$lib/genre/db/genre';
+    import { Genre } from '$lib/genre/db/genre';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let genreController: GenreController;
-    let genre: Genre;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        genreController = new GenreController(serverAddress, jwt);
-    });
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
+    let genre = new Genre();
 
     async function createGenre() {
         try {

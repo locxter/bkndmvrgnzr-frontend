@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { MovieBrief } from '../db/movie-brief';
+    import type { MovieBrief } from '../db/movie-brief';
 
-    export let movie: MovieBrief = new MovieBrief();
+    export let movie: MovieBrief;
 </script>
 
 <a href="/movie/{movie.isan.value}">

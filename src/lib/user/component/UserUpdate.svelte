@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { User } from '../db/user';
+    import type { User } from '../db/user';
 
-    export let user: User = new User();
+    export let user: User;
 </script>
 
 <p>

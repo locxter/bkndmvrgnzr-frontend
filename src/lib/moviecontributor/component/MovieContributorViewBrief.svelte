@@ -3,12 +3,9 @@
     import ContributorViewBrief from '$lib/contributor/component/ContributorViewBrief.svelte';
     import type { ContributorBrief } from '$lib/contributor/db/contributor-brief';
     import MovieRoleViewBrief from '$lib/movierole/component/MovieRoleViewBrief.svelte';
-    import { MovieContributorBrief } from '../db/movie-contributor-brief';
+    import type { MovieContributorBrief } from '../db/movie-contributor-brief';
 
-    export let movieContributor: MovieContributorBrief = new MovieContributorBrief();
-
-    let movieRole: BookRoleBrief;
-    let contributor: ContributorBrief;
+    export let movieContributor: MovieContributorBrief;
 
     $: movieRole = movieContributor.movieRole;
     $: contributor = movieContributor.contributor;

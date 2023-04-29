@@ -11,34 +11,13 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let publishingHouseId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let publishingHouseController: PublishingHouseController;
+    $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
     let publishingHouse: PublishingHouse;
-
-    page.subscribe((data) => {
-        publishingHouseId = data.params.publishingHouseId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        publishingHouseController = new PublishingHouseController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
             publishingHouse = await publishingHouseController.getPublishingHouse(
-                new PublishingHouseId(publishingHouseId)
+                new PublishingHouseId($page.params.publishingHouseId)
             );
         } catch (error) {
             console.error(error);
@@ -61,7 +40,7 @@
 <main>
     {#if publishingHouse}
         <PublishingHouseView {publishingHouse} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/publishing-house/update/{publishingHouse.id.value}">
                     <button>Update publishing house</button>

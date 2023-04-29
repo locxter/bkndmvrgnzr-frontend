@@ -3,7 +3,7 @@
     import type { MovieContributor } from '../db/movie-contributor';
 
     export let movieContributorController: MovieContributorController;
-    export let movieContributors: MovieContributor[] = [];
+    export let movieContributors: MovieContributor[];
 
     let query: string;
 

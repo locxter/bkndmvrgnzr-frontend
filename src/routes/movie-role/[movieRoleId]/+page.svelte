@@ -11,33 +11,12 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let movieRoleId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let movieRoleController: MovieRoleController;
+    $: movieRoleController = new MovieRoleController($globalServerAddress, $globalJwt);
     let movieRole: MovieRole;
-
-    page.subscribe((data) => {
-        movieRoleId = data.params.movieRoleId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
-            movieRole = await movieRoleController.getMovieRole(new MovieRoleId(movieRoleId));
+            movieRole = await movieRoleController.getMovieRole(new MovieRoleId($page.params.movieRoleId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -59,7 +38,7 @@
 <main>
     {#if movieRole}
         <MovieRoleView {movieRole} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/movie-role/update/{movieRole.id.value}">
                     <button>Update movie role</button>

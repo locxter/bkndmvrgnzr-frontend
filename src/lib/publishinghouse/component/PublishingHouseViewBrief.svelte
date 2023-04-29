@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PublishingHouseBrief } from '../db/publishing-house-brief';
+    import type { PublishingHouseBrief } from '../db/publishing-house-brief';
 
-    export let publishingHouse: PublishingHouseBrief = new PublishingHouseBrief();
+    export let publishingHouse: PublishingHouseBrief;
 </script>
 
 <a href="/publishing-house/{publishingHouse.id.value}">

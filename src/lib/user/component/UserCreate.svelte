@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { UserCreateDto } from '../api/user-create-dto';
+    import type { UserCreateDto } from '../api/user-create-dto';
 
-    export let userCreate: UserCreateDto = new UserCreateDto();
+    export let userCreate: UserCreateDto;
 </script>
 
 <p>

@@ -10,29 +10,12 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let userId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let userController: UserController;
+    $: userController = new UserController($globalServerAddress, $globalJwt);
     let user: User;
-
-    page.subscribe((data) => {
-        userId = data.params.userId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        userController = new UserController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        userController = new UserController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
-            user = await userController.getSpecificUser(new UserId(userId));
+            user = await userController.getSpecificUser(new UserId($page.params.userId));
         } catch (error) {
             console.error(error);
             alert(error);

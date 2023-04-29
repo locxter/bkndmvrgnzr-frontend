@@ -11,29 +11,12 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let movieRoleId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let movieRoleController: MovieRoleController;
+    $: movieRoleController = new MovieRoleController($globalServerAddress, $globalJwt);
     let movieRole: MovieRole;
-
-    page.subscribe((data) => {
-        movieRoleId = data.params.movieRoleId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
-            movieRole = await movieRoleController.getMovieRole(new MovieRoleId(movieRoleId));
+            movieRole = await movieRoleController.getMovieRole(new MovieRoleId($page.params.movieRoleId));
         } catch (error) {
             console.error(error);
             alert(error);

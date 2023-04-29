@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { UserDeleteDto } from '../api/user-delete-dto';
+    import type { UserDeleteDto } from '../api/user-delete-dto';
 
-    export let userDelete: UserDeleteDto = new UserDeleteDto();
+    export let userDelete: UserDeleteDto;
 </script>
 
 <p>

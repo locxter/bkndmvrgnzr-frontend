@@ -8,22 +8,10 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let bookController: BookController;
+    $: bookController = new BookController($globalServerAddress, $globalJwt);
     let books: Book[] = [];
     let libraryBooksOld: Book[] = [];
     let libraryBooks: Book[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookController = new BookController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookController = new BookController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {

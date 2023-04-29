@@ -4,9 +4,9 @@
     import { RoleController } from '$lib/role/api/role-controller';
     import type { Role } from '$lib/role/db/role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
-    import type { PasswordUpdateAdminDto } from '$lib/user/api/password-update-admin-dto';
+    import { PasswordUpdateAdminDto } from '$lib/user/api/password-update-admin-dto';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserDeleteAdminDto } from '$lib/user/api/user-delete-admin-dto';
+    import { UserDeleteAdminDto } from '$lib/user/api/user-delete-admin-dto';
     import PasswordUpdateAdmin from '$lib/user/component/PasswordUpdateAdmin.svelte';
     import UserDeleteAdmin from '$lib/user/component/UserDeleteAdmin.svelte';
     import UserRoleSelect from '$lib/user/component/UserRoleSelect.svelte';
@@ -18,36 +18,17 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let userId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let userController: UserController;
-    let roleController: RoleController;
+    $: userController = new UserController($globalServerAddress, $globalJwt);
+    $: roleController = new RoleController($globalServerAddress, $globalJwt);
     let user: User;
     let userRolesOld: Role[] = [];
     let userRoles: Role[] = [];
-    let passwordUpdateAdmin: PasswordUpdateAdminDto;
-    let userDeleteAdmin: UserDeleteAdminDto;
-
-    page.subscribe((data) => {
-        userId = data.params.userId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        userController = new UserController(serverAddress, jwt);
-        roleController = new RoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        userController = new UserController(serverAddress, jwt);
-        roleController = new RoleController(serverAddress, jwt);
-    });
+    let passwordUpdateAdmin = new PasswordUpdateAdminDto();
+    let userDeleteAdmin = new UserDeleteAdminDto();
 
     onMount(async () => {
         try {
-            user = await userController.getSpecificUser(new UserId(userId));
+            user = await userController.getSpecificUser(new UserId($page.params.userId));
             userRoles = await roleController.getAllRolesOfSpecificUser(user.id);
             userRolesOld = [...userRoles];
         } catch (error) {

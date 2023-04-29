@@ -5,7 +5,7 @@
     import type { Role } from '$lib/role/db/role';
     import { onMount } from 'svelte';
 
-    export let userRoles: Role[] = [];
+    export let userRoles: Role[];
     export let roleController: RoleController;
 
     let roles: Role[] = [];

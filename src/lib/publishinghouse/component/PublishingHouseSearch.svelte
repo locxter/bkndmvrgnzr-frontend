@@ -3,7 +3,7 @@
     import type { PublishingHouse } from '../db/publishing-house';
 
     export let publishingHouseController: PublishingHouseController;
-    export let publishingHouses: PublishingHouse[] = [];
+    export let publishingHouses: PublishingHouse[];
 
     let query: string;
 

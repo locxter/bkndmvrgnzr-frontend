@@ -2,26 +2,14 @@
     import { goto } from '$app/navigation';
     import { BookRoleController } from '$lib/bookrole/api/book-role-controller';
     import BookRoleCreate from '$lib/bookrole/component/BookRoleCreate.svelte';
-    import type { BookRole } from '$lib/bookrole/db/book-role';
+    import { BookRole } from '$lib/bookrole/db/book-role';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import Footer from '../../../components/Footer.svelte';
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let bookRoleController: BookRoleController;
-    let bookRole: BookRole;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-    });
+    $: bookRoleController = new BookRoleController($globalServerAddress, $globalJwt);
+    let bookRole = new BookRole();
 
     async function createBookRole() {
         try {

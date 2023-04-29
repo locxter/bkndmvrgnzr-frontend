@@ -1,11 +1,9 @@
 <script lang="ts">
     import ContributorList from '$lib/contributor/component/ContributorList.svelte';
     import type { ContributorBrief } from '$lib/contributor/db/contributor-brief';
-    import { MovieRole } from '../db/movie-role';
+    import type { MovieRole } from '../db/movie-role';
 
-    export let movieRole: MovieRole = new MovieRole();
-
-    let contributors: ContributorBrief[] = [];
+    export let movieRole: MovieRole;
 
     $: contributors = movieRole.movieContributors.map((it) => it.contributor);
 </script>

@@ -3,13 +3,6 @@
     import { ERole } from '$lib/role/db/erole';
     import { globalJwt, globalRoles } from '$lib/stores';
 
-    let roles: ERole[] = [];
-
-    // Subscribe to global stores
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
-
     function logout() {
         globalJwt.set('');
         globalRoles.set([]);
@@ -29,7 +22,7 @@
     <a href="/movie-role">Movie role</a>
     <a href="/publishing-house">Publishing house</a>
     <a href="/user">User</a>
-    {#if roles.includes(ERole.ROLE_ADMIN)}
+    {#if $globalRoles.includes(ERole.ROLE_ADMIN)}
         <a href="/user/search">User search</a>
     {/if}
     <button on:click={logout}>Logout</button>

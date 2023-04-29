@@ -5,9 +5,9 @@
     import type { Genre } from '$lib/genre/db/genre';
     import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import { onMount } from 'svelte';
-    import { Book } from '../db/book';
+    import type { Book } from '../db/book';
 
-    export let book: Book = new Book();
+    export let book: Book;
     export let genreController: GenreController;
 
     let genres: Genre[] = [];

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { BookRole } from '../db/book-role';
+    import type { BookRole } from '../db/book-role';
 
-    export let bookRole: BookRole = new BookRole();
+    export let bookRole: BookRole;
 </script>
 
 <p>

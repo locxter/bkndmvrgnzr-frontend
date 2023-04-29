@@ -11,33 +11,12 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let isbn: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let bookController: BookController;
+    $: bookController = new BookController($globalServerAddress, $globalJwt);
     let book: Book;
-
-    page.subscribe((data) => {
-        isbn = data.params.isbn;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        bookController = new BookController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        bookController = new BookController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
-            book = await bookController.getBook(new Isbn(isbn));
+            book = await bookController.getBook(new Isbn($page.params.isbn));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -47,7 +26,11 @@
 
 <svelte:head>
     {#if book}
-        <title>{book.title} | bkndmvrgnzr</title>
+        {#if book.subtitle}
+            <title>{book.title} - {book.subtitle} | bkndmvrgnzr</title>
+        {:else}
+            <title>{book.title} | bkndmvrgnzr</title>
+        {/if}
     {:else}
         <title>Book not found | bkndmvrgnzr</title>
     {/if}
@@ -59,7 +42,7 @@
 <main>
     {#if book}
         <BookView {book} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/book/update/{book.isbn.value}">
                     <button>Update book</button>

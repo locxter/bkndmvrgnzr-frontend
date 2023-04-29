@@ -3,7 +3,7 @@
     import type { BookContributor } from '../db/book-contributor';
 
     export let bookContributorController: BookContributorController;
-    export let bookContributors: BookContributor[] = [];
+    export let bookContributors: BookContributor[];
 
     let query: string;
 

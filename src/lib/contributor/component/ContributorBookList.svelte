@@ -4,9 +4,9 @@
     import type { Book } from '$lib/book/db/book';
     import BookRoleViewBrief from '$lib/bookrole/component/BookRoleViewBrief.svelte';
     import type { BookRoleBrief } from '$lib/bookrole/db/book-role-brief';
-    import { Contributor } from '../db/contributor';
+    import type { Contributor } from '../db/contributor';
 
-    export let contributor: Contributor = new Contributor();
+    export let contributor: Contributor;
     export let bookController: BookController;
 
     let bookRolesBooks: { bookRole: BookRoleBrief; books: Book[] }[] = [];

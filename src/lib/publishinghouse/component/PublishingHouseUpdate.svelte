@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PublishingHouse } from '../db/publishing-house';
+    import type { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouse: PublishingHouse = new PublishingHouse();
+    export let publishingHouse: PublishingHouse;
 </script>
 
 <p>

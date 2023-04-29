@@ -9,26 +9,10 @@
     import Header from '../../components/Header.svelte';
     import Navigation from '../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let movieController: MovieController;
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
     let movies: Movie[] = [];
     let libraryMoviesOld: Movie[] = [];
     let libraryMovies: Movie[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
@@ -78,7 +62,7 @@
     <p>
         <button on:click={updateLibrary}>Update library</button>
     </p>
-    {#if roles.includes(ERole.ROLE_EDITOR)}
+    {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
         <p>
             <a href="/movie/create">
                 <button>Create movie</button>

@@ -2,7 +2,7 @@
     import type { User } from '../db/user';
     import UserViewBrief from './UserViewBrief.svelte';
 
-    export let users: User[] = [];
+    export let users: User[];
 </script>
 
 <ul>

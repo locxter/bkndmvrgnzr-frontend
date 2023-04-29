@@ -6,7 +6,7 @@
     import type { MovieRoleBrief } from '$lib/movierole/db/movie-role-brief';
     import { onMount } from 'svelte';
 
-    export let contributorMovieRoles: MovieRole[] = [];
+    export let contributorMovieRoles: MovieRole[];
     export let movieRoleController: MovieRoleController;
 
     let movieRoles: MovieRole[] = [];

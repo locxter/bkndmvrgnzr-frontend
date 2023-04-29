@@ -3,7 +3,7 @@
     import type { BookRole } from '../db/book-role';
 
     export let bookRoleController: BookRoleController;
-    export let bookRoles: BookRole[] = [];
+    export let bookRoles: BookRole[];
 
     let query: string;
 

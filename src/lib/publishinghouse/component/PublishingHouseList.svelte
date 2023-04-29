@@ -2,7 +2,7 @@
     import type { PublishingHouseBrief } from '../db/publishing-house-brief';
     import PublishingHouseViewBrief from './PublishingHouseViewBrief.svelte';
 
-    export let publishingHouses: PublishingHouseBrief[] = [];
+    export let publishingHouses: PublishingHouseBrief[];
 </script>
 
 <ul>

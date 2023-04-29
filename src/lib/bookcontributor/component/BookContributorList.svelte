@@ -2,7 +2,7 @@
     import type { BookContributorBrief } from '../db/book-contributor-brief';
     import BookContributorViewBrief from './BookContributorViewBrief.svelte';
 
-    export let bookContributors: BookContributorBrief[] = [];
+    export let bookContributors: BookContributorBrief[];
 </script>
 
 <ul>

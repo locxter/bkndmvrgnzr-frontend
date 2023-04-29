@@ -3,7 +3,7 @@
     import type { Genre } from '../db/genre';
 
     export let genreController: GenreController;
-    export let genres: Genre[] = [];
+    export let genres: Genre[];
 
     let query: string;
 

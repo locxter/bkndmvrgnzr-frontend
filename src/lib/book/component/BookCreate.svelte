@@ -2,12 +2,12 @@
     import type { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
     import type { GenreController } from '$lib/genre/api/genre-controller';
     import type { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
-    import { Book } from '../db/book';
+    import type { Book } from '../db/book';
     import BookBookContributorSelect from './BookBookContributorSelect.svelte';
     import BookGenreSelect from './BookGenreSelect.svelte';
     import BookPublishingHouseSelect from './BookPublishingHouseSelect.svelte';
 
-    export let book: Book = new Book();
+    export let book: Book;
     export let publishingHouseController: PublishingHouseController;
     export let genreController: GenreController;
     export let bookContributorController: BookContributorController;

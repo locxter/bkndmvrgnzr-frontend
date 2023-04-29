@@ -6,7 +6,7 @@
     import type { BookRoleBrief } from '$lib/bookrole/db/book-role-brief';
     import { onMount } from 'svelte';
 
-    export let contributorBookRoles: BookRole[] = [];
+    export let contributorBookRoles: BookRole[];
     export let bookRoleController: BookRoleController;
 
     let bookRoles: BookRole[] = [];

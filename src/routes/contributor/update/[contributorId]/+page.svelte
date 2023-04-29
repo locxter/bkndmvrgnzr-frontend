@@ -21,45 +21,20 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let contributorId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let contributorController: ContributorController;
-    let bookRoleController: BookRoleController;
-    let movieRoleController: MovieRoleController;
-    let bookContributorController: BookContributorController;
-    let movieContributorController: MovieContributorController;
+    $: contributorController = new ContributorController($globalServerAddress, $globalJwt);
+    $: bookRoleController = new BookRoleController($globalServerAddress, $globalJwt);
+    $: movieRoleController = new MovieRoleController($globalServerAddress, $globalJwt);
+    $: bookContributorController = new BookContributorController($globalServerAddress, $globalJwt);
+    $: movieContributorController = new MovieContributorController($globalServerAddress, $globalJwt);
     let contributor: Contributor;
     let contributorBookRolesOld: BookRole[] = [];
     let contributorMovieRolesOld: MovieRole[] = [];
     let contributorBookRoles: BookRole[] = [];
     let contributorMovieRoles: MovieRole[] = [];
 
-    page.subscribe((data) => {
-        contributorId = data.params.contributorId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-        bookContributorController = new BookContributorController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-        bookRoleController = new BookRoleController(serverAddress, jwt);
-        movieRoleController = new MovieRoleController(serverAddress, jwt);
-        bookContributorController = new BookContributorController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
-
     onMount(async () => {
         try {
-            contributor = await contributorController.getContributor(new ContributorId(contributorId));
+            contributor = await contributorController.getContributor(new ContributorId($page.params.contributorId));
             contributorBookRolesOld = await bookRoleController.getAllBookRolesOfContributor(contributor.id);
             contributorBookRoles = [...contributorBookRolesOld];
             contributorMovieRolesOld = await movieRoleController.getAllMovieRolesOfContributor(contributor.id);

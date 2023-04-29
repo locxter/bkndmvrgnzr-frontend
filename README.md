@@ -2,7 +2,7 @@
 
 ## Overview
 
-> Please keep in mind that this is an **early work in progress**.
+> Please keep in mind that this is a **work in progress**.
 
 This repository includes the frontend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at [CEWE](https://www.cewe.de/). It has the following features:
 

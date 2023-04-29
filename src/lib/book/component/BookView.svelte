@@ -1,17 +1,10 @@
 <script lang="ts">
     import BookContributorList from '$lib/bookcontributor/component/BookContributorList.svelte';
-    import type { BookContributorBrief } from '$lib/bookcontributor/db/book-contributor-brief';
     import GenreList from '$lib/genre/component/GenreList.svelte';
-    import type { GenreBrief } from '$lib/genre/db/genre-brief';
     import PublishingHouseViewBrief from '$lib/publishinghouse/component/PublishingHouseViewBrief.svelte';
-    import type { PublishingHouseBrief } from '$lib/publishinghouse/db/publishing-house-brief';
-    import { Book } from '../db/book';
+    import type { Book } from '../db/book';
 
-    export let book: Book = new Book();
-
-    let publishingHouse: PublishingHouseBrief;
-    let genres: GenreBrief[] = [];
-    let bookContributors: BookContributorBrief[] = [];
+    export let book: Book;
 
     $: publishingHouse = book.publishingHouse;
     $: genres = book.genres;

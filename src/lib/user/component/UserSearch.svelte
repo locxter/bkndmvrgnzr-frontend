@@ -3,7 +3,7 @@
     import type { User } from '../db/user';
 
     export let userController: UserController;
-    export let users: User[] = [];
+    export let users: User[];
 
     let query: string;
 

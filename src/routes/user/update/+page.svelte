@@ -1,9 +1,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { globalJwt, globalServerAddress } from '$lib/stores';
-    import type { PasswordUpdateDto } from '$lib/user/api/password-update-dto';
+    import { PasswordUpdateDto } from '$lib/user/api/password-update-dto';
     import { UserController } from '$lib/user/api/user-controller';
-    import type { UserDeleteDto } from '$lib/user/api/user-delete-dto';
+    import { UserDeleteDto } from '$lib/user/api/user-delete-dto';
     import PasswordUpdate from '$lib/user/component/PasswordUpdate.svelte';
     import UserDelete from '$lib/user/component/UserDelete.svelte';
     import UserUpdate from '$lib/user/component/UserUpdate.svelte';
@@ -13,22 +13,10 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let userController: UserController;
+    $: userController = new UserController($globalServerAddress, $globalJwt);
     let user: User;
-    let passwordUpdate: PasswordUpdateDto;
-    let userDelete: UserDeleteDto;
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        userController = new UserController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        userController = new UserController(serverAddress, jwt);
-    });
+    let passwordUpdate = new PasswordUpdateDto();
+    let userDelete = new UserDeleteDto();
 
     onMount(async () => {
         try {

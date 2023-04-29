@@ -13,39 +13,14 @@
     import Header from '../../../components/Header.svelte';
     import Navigation from '../../../components/Navigation.svelte';
 
-    let contributorId: string;
-    let serverAddress: string;
-    let jwt: string;
-    let roles: ERole[] = [];
-    let contributorController: ContributorController;
-    let bookController: BookController;
-    let movieController: MovieController;
+    $: contributorController = new ContributorController($globalServerAddress, $globalJwt);
+    $: bookController = new BookController($globalServerAddress, $globalJwt);
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
     let contributor: Contributor;
-
-    page.subscribe((data) => {
-        contributorId = data.params.contributorId;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-        bookController = new BookController(serverAddress, jwt);
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        contributorController = new ContributorController(serverAddress, jwt);
-        bookController = new BookController(serverAddress, jwt);
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalRoles.subscribe((data) => {
-        roles = data;
-    });
 
     onMount(async () => {
         try {
-            contributor = await contributorController.getContributor(new ContributorId(contributorId));
+            contributor = await contributorController.getContributor(new ContributorId($page.params.contributorId));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -67,7 +42,7 @@
 <main>
     {#if contributor}
         <ContributorView {contributor} {bookController} {movieController} />
-        {#if roles.includes(ERole.ROLE_EDITOR)}
+        {#if $globalRoles.includes(ERole.ROLE_EDITOR)}
             <p>
                 <a href="/contributor/update/{contributor.id.value}">
                     <button>Update contributor</button>

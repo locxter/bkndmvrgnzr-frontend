@@ -5,9 +5,9 @@
     import type { MovieContributor } from '$lib/moviecontributor/db/movie-contributor';
     import type { MovieContributorBrief } from '$lib/moviecontributor/db/movie-contributor-brief';
     import { onMount } from 'svelte';
-    import { Movie } from '../db/movie';
+    import type { Movie } from '../db/movie';
 
-    export let movie: Movie = new Movie();
+    export let movie: Movie;
     export let movieContributorController: MovieContributorController;
 
     let movieContributors: MovieContributor[] = [];

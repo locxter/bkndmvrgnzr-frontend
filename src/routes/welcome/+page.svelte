@@ -13,28 +13,12 @@
     import BookList from '../../lib/book/component/BookList.svelte';
     import MovieList from '../../lib/movie/component/MovieList.svelte';
 
-    let serverAddress: string;
-    let jwt: string;
-    let userController: UserController;
-    let bookController: BookController;
-    let movieController: MovieController;
+    $: userController = new UserController($globalServerAddress, $globalJwt);
+    $: bookController = new BookController($globalServerAddress, $globalJwt);
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
     let user: User;
     let books: Book[] = [];
     let movies: Movie[] = [];
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        userController = new UserController(serverAddress, jwt);
-        bookController = new BookController(serverAddress, jwt);
-        movieController = new MovieController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        userController = new UserController(serverAddress, jwt);
-        bookController = new BookController(serverAddress, jwt);
-        movieController = new MovieController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {

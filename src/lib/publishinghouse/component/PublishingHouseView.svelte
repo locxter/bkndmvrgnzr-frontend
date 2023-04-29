@@ -1,11 +1,9 @@
 <script lang="ts">
     import BookList from '$lib/book/component/BookList.svelte';
     import type { BookBrief } from '$lib/book/db/book-brief';
-    import { PublishingHouse } from '../db/publishing-house';
+    import type { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouse: PublishingHouse = new PublishingHouse();
-
-    let books: BookBrief[] = [];
+    export let publishingHouse: PublishingHouse;
 
     $: books = publishingHouse.books;
 </script>

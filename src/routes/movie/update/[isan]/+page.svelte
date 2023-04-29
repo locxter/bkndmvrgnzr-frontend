@@ -13,35 +13,14 @@
     import Header from '../../../../components/Header.svelte';
     import Navigation from '../../../../components/Navigation.svelte';
 
-    let isan: string;
-    let serverAddress: string;
-    let jwt: string;
-    let movieController: MovieController;
-    let genreController: GenreController;
-    let movieContributorController: MovieContributorController;
+    $: movieController = new MovieController($globalServerAddress, $globalJwt);
+    $: genreController = new GenreController($globalServerAddress, $globalJwt);
+    $: movieContributorController = new MovieContributorController($globalServerAddress, $globalJwt);
     let movie: Movie;
-
-    page.subscribe((data) => {
-        isan = data.params.isan;
-    });
-
-    // Subscribe to global stores
-    globalServerAddress.subscribe((data) => {
-        serverAddress = data;
-        movieController = new MovieController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
-    globalJwt.subscribe((data) => {
-        jwt = data;
-        movieController = new MovieController(serverAddress, jwt);
-        genreController = new GenreController(serverAddress, jwt);
-        movieContributorController = new MovieContributorController(serverAddress, jwt);
-    });
 
     onMount(async () => {
         try {
-            movie = await movieController.getMovie(new Isan(isan));
+            movie = await movieController.getMovie(new Isan($page.params.isan));
         } catch (error) {
             console.error(error);
             alert(error);
