@@ -41,4 +41,12 @@
         {/if}
     </button>
 </GenreList>
-<p>{movie.genres.length} genres selected</p>
+<p>
+    {movie.genres.length}
+    {#if movie.genres.length === 1}
+        genre
+    {:else}
+        genres
+    {/if}
+    selected
+</p>

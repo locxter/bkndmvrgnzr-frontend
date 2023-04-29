@@ -40,4 +40,12 @@
         {/if}
     </button>
 </RoleList>
-<p>{userRoles.length} roles selected</p>
+<p>
+    {userRoles.length}
+    {#if userRoles.length === 1}
+        role
+    {:else}
+        roles
+    {/if}
+    selected
+</p>

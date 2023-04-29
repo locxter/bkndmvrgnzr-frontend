@@ -32,12 +32,12 @@
 <p>
     Birth month:
     <br />
-    <input type="number" min="0" placeholder="Birth month" bind:value={contributor.birthMonth} />
+    <input type="number" min="0" max="12" placeholder="Birth month" bind:value={contributor.birthMonth} />
 </p>
 <p>
     Birth day:
     <br />
-    <input type="number" min="0" placeholder="Birth day" bind:value={contributor.birthDay} />
+    <input type="number" min="0" max="31" placeholder="Birth day" bind:value={contributor.birthDay} />
 </p>
 <p>Book roles:</p>
 <ContributorBookRoleSelect bind:contributorBookRoles {bookRoleController} />

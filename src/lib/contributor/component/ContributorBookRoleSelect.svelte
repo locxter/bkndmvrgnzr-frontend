@@ -40,4 +40,12 @@
         {/if}
     </button>
 </BookRoleList>
-<p>{contributorBookRoles.length} book roles selected</p>
+<p>
+    {contributorBookRoles.length}
+    {#if contributorBookRoles.length === 1}
+        book role
+    {:else}
+        book roles
+    {/if}
+    selected
+</p>

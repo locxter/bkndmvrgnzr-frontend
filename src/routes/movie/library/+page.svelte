@@ -1,9 +1,7 @@
 <script lang="ts">
     import { MovieController } from '$lib/movie/api/movie-controller';
-    import MovieLibrarySearch from '$lib/movie/component/MovieLibrarySearch.svelte';
-    import MovieList from '$lib/movie/component/MovieList.svelte';
+    import MovieLibraryLibraryMovieSelect from '$lib/movie/component/MovieLibraryLibraryMovieSelect.svelte';
     import type { Movie } from '$lib/movie/db/movie';
-    import type { MovieBrief } from '$lib/movie/db/movie-brief';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../components/Footer.svelte';
@@ -14,7 +12,8 @@
     let jwt: string;
     let movieController: MovieController;
     let movies: Movie[] = [];
-    let updateMovies: Movie[] = [];
+    let libraryMoviesOld: Movie[] = [];
+    let libraryMovies: Movie[] = [];
 
     // Subscribe to global stores
     globalServerAddress.subscribe((data) => {
@@ -28,32 +27,25 @@
 
     onMount(async () => {
         try {
-            updateMovies = await movieController.getAllMoviesOfUser();
-            movies = [...updateMovies];
+            movies = await movieController.getAllMoviesOfUser();
+            libraryMoviesOld = [...movies];
+            libraryMovies = [...movies];
         } catch (error) {
             console.error(error);
             alert(error);
         }
     });
 
-    function toggleMovie(movie: MovieBrief) {
-        if (updateMovies.map((it) => it.isan.value).includes(movie.isan.value)) {
-            updateMovies.splice(updateMovies.map((it) => it.isan.value).indexOf(movie.isan.value), 1);
-            updateMovies = updateMovies;
-        } else {
-            updateMovies = [...updateMovies, movie as Movie];
-        }
-    }
-
     async function update() {
         try {
-            // Remove unselected movies
-            for (let movie of movies) {
-                if (!updateMovies.map((it) => it.isan.value).includes(movie.isan.value)) {
-                    await movieController.removeMovieFromUser(movie.isan);
+            // Remove unselected library movies
+            for (let libraryMovieOld of libraryMoviesOld) {
+                if (!libraryMovies.map((it) => it.isan.value).includes(libraryMovieOld.isan.value)) {
+                    await movieController.removeMovieFromUser(libraryMovieOld.isan);
                 }
             }
-            movies = [...updateMovies];
+            movies = await movieController.getAllMoviesOfUser();
+            libraryMoviesOld = [...libraryMovies];
             alert('Library successfully updated');
         } catch (error) {
             console.error(error);
@@ -71,17 +63,7 @@
 </Header>
 <main>
     <h2>Movie library</h2>
-    <MovieLibrarySearch {movieController} bind:movies />
-    <MovieList {movies} let:movie>
-        <button on:click={() => toggleMovie(movie)}>
-            {#if updateMovies.map((it) => it.isan.value).includes(movie.isan.value)}
-                Deselect
-            {:else}
-                Select
-            {/if}
-        </button>
-    </MovieList>
-    <p>{updateMovies.length} movies in library</p>
+    <MovieLibraryLibraryMovieSelect bind:movies bind:libraryMovies {movieController} />
     <p>
         <button on:click={update}>Update library</button>
     </p>

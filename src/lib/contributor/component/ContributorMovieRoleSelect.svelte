@@ -40,4 +40,12 @@
         {/if}
     </button>
 </MovieRoleList>
-<p>{contributorMovieRoles.length} movie roles selected</p>
+<p>
+    {contributorMovieRoles.length}
+    {#if contributorMovieRoles.length === 1}
+        movie role
+    {:else}
+        movie roles
+    {/if}
+    selected
+</p>

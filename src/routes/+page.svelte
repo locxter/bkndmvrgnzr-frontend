@@ -15,7 +15,7 @@
     let authController: AuthController;
     let userController: UserController;
     let roleController: RoleController;
-    let authLogin: AuthLoginDto = new AuthLoginDto('admin', 'password');
+    let authLogin: AuthLoginDto = new AuthLoginDto();
     let userCreate: UserCreateDto;
 
     // Subscribe to global stores

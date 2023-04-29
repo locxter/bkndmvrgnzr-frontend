@@ -29,4 +29,12 @@
         {/if}
     </button>
 </BookList>
-<p>{libraryBooks.length} books in library</p>
+<p>
+    {libraryBooks.length}
+    {#if libraryBooks.length === 1}
+        book
+    {:else}
+        books
+    {/if}
+    in library
+</p>

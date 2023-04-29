@@ -15,12 +15,12 @@
 
     async function loadIndirectData(contributor: Contributor) {
         try {
-            bookRolesBooks = [];
+            let internalBookRolesBooks: { bookRole: BookRoleBrief; books: Book[] }[] = [];
             for (let bookContributor of contributor.bookContributors) {
                 let data = await bookController.getAllBooksOfBookContributor(bookContributor.id);
                 if (data.length) {
-                    bookRolesBooks = [
-                        ...bookRolesBooks,
+                    internalBookRolesBooks = [
+                        ...internalBookRolesBooks,
                         {
                             bookRole: bookContributor.bookRole,
                             books: data,
@@ -28,6 +28,7 @@
                     ];
                 }
             }
+            bookRolesBooks = internalBookRolesBooks;
         } catch (error) {
             console.error(error);
             alert(error);

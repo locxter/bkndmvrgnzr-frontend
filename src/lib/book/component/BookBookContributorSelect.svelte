@@ -44,4 +44,12 @@
         {/if}
     </button>
 </BookContributorList>
-<p>{book.bookContributors.length} contributors selected</p>
+<p>
+    {book.bookContributors.length}
+    {#if book.bookContributors.length === 1}
+        contributor
+    {:else}
+        contributors
+    {/if}
+    selected
+</p>
