@@ -8,6 +8,7 @@
     import type { Movie } from '../db/movie';
 
     export let movie: Movie;
+    export let query: string = '';
     export let movieContributorController: MovieContributorController;
 
     let movieContributors: MovieContributor[] = [];
@@ -34,7 +35,7 @@
     }
 </script>
 
-<MovieContributorSearch bind:movieContributors {movieContributorController} />
+<MovieContributorSearch bind:movieContributors bind:query {movieContributorController} />
 <MovieContributorList {movieContributors} let:movieContributor>
     <button class="select-button" on:click={() => toggleMovieContributor(movieContributor)}>
         {#if movie.movieContributors.map((it) => it.id.value).includes(movieContributor.id.value)}

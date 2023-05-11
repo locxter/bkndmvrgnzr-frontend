@@ -7,8 +7,8 @@
 This repository includes the frontend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at [CEWE](https://www.cewe.de/). It has the following features:
 
 - [x] Keep track of all your books and movies
-- [ ] Import information from reputable online providers
-- [x] Find movies and books by genres, artists, year of publication and more
+- [x] Import information from reputable online providers
+- [x] Find movies and books by genres, contributors, year of publication and more
 - [x] Allow different users to selectively interact with the database via permissions
 
 ## Dependencies

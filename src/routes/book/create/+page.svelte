@@ -4,6 +4,7 @@
     import BookCreate from '$lib/book/component/BookCreate.svelte';
     import { Book } from '$lib/book/db/book';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
+    import { BookImportController } from '$lib/bookimport/api/book-import-controller';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
@@ -12,6 +13,7 @@
     import Navigation from '../../../components/Navigation.svelte';
 
     $: bookController = new BookController($globalServerAddress, $globalJwt);
+    $: bookImportController = new BookImportController($globalServerAddress, $globalJwt);
     $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
     $: genreController = new GenreController($globalServerAddress, $globalJwt);
     $: bookContributorController = new BookContributorController($globalServerAddress, $globalJwt);
@@ -38,7 +40,13 @@
 </Header>
 <main>
     <h2>Create book</h2>
-    <BookCreate bind:book {publishingHouseController} {genreController} {bookContributorController} />
+    <BookCreate
+        bind:book
+        {bookImportController}
+        {publishingHouseController}
+        {genreController}
+        {bookContributorController}
+    />
     <p>
         <button on:click={createBook}>Create book</button>
     </p>

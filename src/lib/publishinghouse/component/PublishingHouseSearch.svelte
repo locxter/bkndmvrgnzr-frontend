@@ -2,10 +2,11 @@
     import type { PublishingHouseController } from '../api/publishing-house-controller';
     import type { PublishingHouse } from '../db/publishing-house';
 
-    export let publishingHouseController: PublishingHouseController;
     export let publishingHouses: PublishingHouse[];
+    export let query: string = '';
+    export let publishingHouseController: PublishingHouseController;
 
-    let query: string;
+    $: showDetails = query && query.trim() ? true : false;
 
     async function search() {
         try {
@@ -21,7 +22,7 @@
     }
 </script>
 
-<details>
+<details bind:open={showDetails}>
     <summary>Search</summary>
     <p><input id="query" type="text" placeholder="Query" bind:value={query} /></p>
     <p><button on:click={search}>Search</button></p>

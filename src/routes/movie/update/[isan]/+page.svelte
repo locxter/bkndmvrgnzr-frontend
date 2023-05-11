@@ -7,6 +7,7 @@
     import { Isan } from '$lib/movie/db/isan';
     import type { Movie } from '$lib/movie/db/movie';
     import { MovieContributorController } from '$lib/moviecontributor/api/movie-contributor-controller';
+    import { MovieImportController } from '$lib/movieimport/api/movie-import-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
     import { onMount } from 'svelte';
     import Footer from '../../../../components/Footer.svelte';
@@ -14,6 +15,7 @@
     import Navigation from '../../../../components/Navigation.svelte';
 
     $: movieController = new MovieController($globalServerAddress, $globalJwt);
+    $: movieImportController = new MovieImportController($globalServerAddress, $globalJwt);
     $: genreController = new GenreController($globalServerAddress, $globalJwt);
     $: movieContributorController = new MovieContributorController($globalServerAddress, $globalJwt);
     let movie: Movie;
@@ -60,7 +62,7 @@
 <main>
     {#if movie}
         <h2>Update movie</h2>
-        <MovieUpdate bind:movie {genreController} {movieContributorController} />
+        <MovieUpdate bind:movie {movieImportController} {genreController} {movieContributorController} />
         <p>
             <button on:click={updateMovie}>Update movie</button>
         </p>

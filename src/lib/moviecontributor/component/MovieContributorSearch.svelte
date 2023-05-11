@@ -3,9 +3,10 @@
     import type { MovieContributor } from '../db/movie-contributor';
 
     export let movieContributorController: MovieContributorController;
+    export let query: string = '';
     export let movieContributors: MovieContributor[];
 
-    let query: string;
+    $: showDetails = query && query.trim() ? true : false;
 
     async function search() {
         try {
@@ -21,7 +22,7 @@
     }
 </script>
 
-<details>
+<details bind:open={showDetails}>
     <summary>Search</summary>
     <p><input id="query" type="text" placeholder="Query" bind:value={query} /></p>
     <p><button on:click={search}>Search</button></p>

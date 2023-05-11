@@ -6,6 +6,7 @@
     import type { Book } from '$lib/book/db/book';
     import { Isbn } from '$lib/book/db/isbn';
     import { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
+    import { BookImportController } from '$lib/bookimport/api/book-import-controller';
     import { GenreController } from '$lib/genre/api/genre-controller';
     import { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
     import { globalJwt, globalServerAddress } from '$lib/stores';
@@ -15,6 +16,7 @@
     import Navigation from '../../../../components/Navigation.svelte';
 
     $: bookController = new BookController($globalServerAddress, $globalJwt);
+    $: bookImportController = new BookImportController($globalServerAddress, $globalJwt);
     $: publishingHouseController = new PublishingHouseController($globalServerAddress, $globalJwt);
     $: genreController = new GenreController($globalServerAddress, $globalJwt);
     $: bookContributorController = new BookContributorController($globalServerAddress, $globalJwt);
@@ -62,7 +64,13 @@
 <main>
     {#if book}
         <h2>Update book</h2>
-        <BookUpdate bind:book {publishingHouseController} {genreController} {bookContributorController} />
+        <BookUpdate
+            bind:book
+            {bookImportController}
+            {publishingHouseController}
+            {genreController}
+            {bookContributorController}
+        />
         <p>
             <button on:click={updateBook}>Update book</button>
         </p>

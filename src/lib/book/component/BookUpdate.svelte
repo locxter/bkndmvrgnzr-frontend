@@ -1,5 +1,8 @@
 <script lang="ts">
     import type { BookContributorController } from '$lib/bookcontributor/api/book-contributor-controller';
+    import type { BookImportController } from '$lib/bookimport/api/book-import-controller';
+    import { BookImportResponseDto } from '$lib/bookimport/api/book-import-response-dto';
+    import BookImport from '$lib/bookimport/component/BookImport.svelte';
     import type { GenreController } from '$lib/genre/api/genre-controller';
     import type { PublishingHouseController } from '$lib/publishinghouse/api/publishing-house-controller';
     import type { Book } from '../db/book';
@@ -8,11 +11,15 @@
     import BookPublishingHouseSelect from './BookPublishingHouseSelect.svelte';
 
     export let book: Book;
+    export let bookImportController: BookImportController;
     export let publishingHouseController: PublishingHouseController;
     export let genreController: GenreController;
     export let bookContributorController: BookContributorController;
+
+    let bookImportResponse = new BookImportResponseDto();
 </script>
 
+<BookImport bind:book bind:bookImportResponse {bookImportController} />
 <p>
     Title*:
     <br />
@@ -39,9 +46,9 @@
     <input type="number" min="0" placeholder="Pages" bind:value={book.pages} />
 </p>
 <p>Publishing house*:</p>
-<BookPublishingHouseSelect bind:book {publishingHouseController} />
+<BookPublishingHouseSelect bind:book bind:query={bookImportResponse.publishingHouseName} {publishingHouseController} />
 <p>Genres:</p>
 <BookGenreSelect bind:book {genreController} />
 <p>Contributors:</p>
-<BookBookContributorSelect bind:book {bookContributorController} />
+<BookBookContributorSelect bind:book bind:query={bookImportResponse.authorLastName} {bookContributorController} />
 <p>* Required</p>

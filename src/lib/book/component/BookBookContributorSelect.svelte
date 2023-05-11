@@ -8,6 +8,7 @@
     import type { Book } from '../db/book';
 
     export let book: Book;
+    export let query: string = '';
     export let bookContributorController: BookContributorController;
 
     let bookContributors: BookContributor[] = [];
@@ -34,7 +35,7 @@
     }
 </script>
 
-<BookContributorSearch bind:bookContributors {bookContributorController} />
+<BookContributorSearch bind:bookContributors bind:query {bookContributorController} />
 <BookContributorList {bookContributors} let:bookContributor>
     <button class="select-button" on:click={() => toggleBookContributor(bookContributor)}>
         {#if book.bookContributors.map((it) => it.id.value).includes(bookContributor.id.value)}

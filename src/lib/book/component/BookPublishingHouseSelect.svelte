@@ -8,6 +8,7 @@
     import type { Book } from '../db/book';
 
     export let book: Book;
+    export let query: string = '';
     export let publishingHouseController: PublishingHouseController;
 
     let publishingHouses: PublishingHouse[] = [];
@@ -30,7 +31,7 @@
     }
 </script>
 
-<PublishingHouseSearch bind:publishingHouses {publishingHouseController} />
+<PublishingHouseSearch bind:publishingHouses bind:query {publishingHouseController} />
 <PublishingHouseList {publishingHouses} let:publishingHouse>
     <button class="select-button" on:click={() => togglePublishingHouse(publishingHouse)}>
         {#if book.publishingHouse.id.value === publishingHouse.id.value}
