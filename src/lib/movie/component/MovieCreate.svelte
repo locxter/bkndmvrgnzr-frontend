@@ -15,6 +15,11 @@
     export let movieContributorController: MovieContributorController;
 
     let movieImportResponse = new MovieImportResponseDto();
+
+    $: directorFullName =
+        movieImportResponse.directorFirstName && movieImportResponse.directorLastName
+            ? movieImportResponse.directorFirstName + ' ' + movieImportResponse.directorLastName
+            : '';
 </script>
 
 <p>
@@ -52,9 +57,5 @@
 <p>Genres:</p>
 <MovieGenreSelect bind:movie {genreController} />
 <p>Contributors:</p>
-<MovieMovieContributorSelect
-    bind:movie
-    bind:query={movieImportResponse.directorLastName}
-    {movieContributorController}
-/>
+<MovieMovieContributorSelect bind:movie query={directorFullName} {movieContributorController} />
 <p>* Required</p>

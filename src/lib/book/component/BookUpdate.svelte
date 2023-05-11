@@ -17,6 +17,11 @@
     export let bookContributorController: BookContributorController;
 
     let bookImportResponse = new BookImportResponseDto();
+
+    $: authorFullName =
+        bookImportResponse.authorFirstName && bookImportResponse.authorLastName
+            ? bookImportResponse.authorFirstName + ' ' + bookImportResponse.authorLastName
+            : '';
 </script>
 
 <BookImport bind:book bind:bookImportResponse {bookImportController} />
@@ -46,9 +51,9 @@
     <input type="number" min="0" placeholder="Pages" bind:value={book.pages} />
 </p>
 <p>Publishing house*:</p>
-<BookPublishingHouseSelect bind:book bind:query={bookImportResponse.publishingHouseName} {publishingHouseController} />
+<BookPublishingHouseSelect bind:book query={bookImportResponse.publishingHouseName} {publishingHouseController} />
 <p>Genres:</p>
 <BookGenreSelect bind:book {genreController} />
 <p>Contributors:</p>
-<BookBookContributorSelect bind:book bind:query={bookImportResponse.authorLastName} {bookContributorController} />
+<BookBookContributorSelect bind:book query={authorFullName} {bookContributorController} />
 <p>* Required</p>

@@ -6,7 +6,11 @@
     export let query: string = '';
     export let bookContributors: BookContributor[];
 
-    $: showDetails = query && query.trim() ? true : false;
+    let showDetails = false;
+    
+    $: if (query && query.trim()) {
+        showDetails = true;
+    }
 
     async function search() {
         try {
