@@ -2,6 +2,8 @@
 
 ## Overview
 
+![Overview image](overview.png)
+
 This repository includes the frontend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at [CEWE](https://www.cewe.de/). It has the following features:
 
 - [x] Keep track of all your books and movies
